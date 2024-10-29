@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# application.properties 파일 무시 설정
+application.properties

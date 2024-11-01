@@ -10,6 +10,7 @@ import com.fortune.eyesee.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AdminService {
@@ -19,13 +20,29 @@ public class AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // 회원가입 메서드
+    @Transactional
     public Admin registerAdmin(AdminSignupRequestDTO adminSignupRequestDTO) {
+        if (adminSignupRequestDTO.getAdminEmail() == null ||
+                adminSignupRequestDTO.getPassword() == null ||
+                adminSignupRequestDTO.getPasswordConfirm() == null) {
+            throw new BaseException(BaseResponseCode.INVALID_INPUT); // 잘못된 입력 예외 처리
+        }
+
         if (adminRepository.findByAdminEmail(adminSignupRequestDTO.getAdminEmail()).isPresent()) {
             throw new BaseException(BaseResponseCode.ALREADY_EXIST_USER); // 이메일 중복 예외 처리
         }
+
         if (!adminSignupRequestDTO.getPassword().equals(adminSignupRequestDTO.getPasswordConfirm())) {
             throw new BaseException(BaseResponseCode.NOT_EQUAL_PASSWORD); // 비밀번호 불일치 예외 처리
+        }
+
+        if (adminSignupRequestDTO.getPassword().length() < 8) {
+            throw new BaseException(BaseResponseCode.WEAK_PASSWORD); // 비밀번호 강도 예외 처리
+        }
+
+        String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+        if (!adminSignupRequestDTO.getAdminEmail().matches(emailPattern)) {
+            throw new BaseException(BaseResponseCode.INVALID_EMAIL_FORMAT); // 잘못된 이메일 형식 예외 처리
         }
 
         Admin admin = new Admin();

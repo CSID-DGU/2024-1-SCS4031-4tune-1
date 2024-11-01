@@ -26,12 +26,15 @@ public enum BaseResponseCode {
     UNSUPPORTED_TOKEN("GL008", HttpStatus.BAD_REQUEST, "지원하지 않는 토큰입니다."),
     TOKEN_ERROR("GL009", HttpStatus.BAD_REQUEST, "토큰에 문제가 발생했습니다."),
     MALFORMED_TOKEN("GL010", HttpStatus.BAD_REQUEST, "토큰의 구조가 잘못되었습니다."),
+    INVALID_INPUT("GL011", HttpStatus.BAD_REQUEST, "입력이 잘못되었습니다."),
 
     // User Errors
     ALREADY_EXIST_USER("U0001", HttpStatus.CONFLICT, "이미 존재하는 사용자입니다"),
     WRONG_PASSWORD("U0002", HttpStatus.BAD_REQUEST, "비밀번호가 틀렸습니다."),
     NOT_FOUND_USER("U0003", HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_EQUAL_PASSWORD("U0004", HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    WEAK_PASSWORD("U0005", HttpStatus.BAD_REQUEST, "비밀번호는 8자 이상이어야 합니다."),
+    INVALID_EMAIL_FORMAT("U0006", HttpStatus.BAD_REQUEST, "이메일 형식이 잘못되었습니다."),
 
     // 기타 추가 오류 코드 ...
 

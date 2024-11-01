@@ -26,6 +26,8 @@ public enum BaseResponseCode {
     UNSUPPORTED_TOKEN("GL008", HttpStatus.BAD_REQUEST, "지원하지 않는 토큰입니다."),
     TOKEN_ERROR("GL009", HttpStatus.BAD_REQUEST, "토큰에 문제가 발생했습니다."),
     MALFORMED_TOKEN("GL010", HttpStatus.BAD_REQUEST, "토큰의 구조가 잘못되었습니다."),
+    UNAUTHORIZED("GL011", HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."),
+    INVALID_STATUS("GL012", HttpStatus.BAD_REQUEST, "유효하지 않은 상태 값입니다."),
 
     // User Errors
     ALREADY_EXIST_USER("U0001", HttpStatus.CONFLICT, "이미 존재하는 사용자입니다"),

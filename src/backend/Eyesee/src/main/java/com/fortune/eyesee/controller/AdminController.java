@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admins")
 public class AdminController {
     @Autowired
     private AdminService adminService;
@@ -28,7 +28,7 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<AdminLoginResponseDTO>> loginAdmin(@RequestBody AdminLoginRequestDTO adminLoginRequestDTO, HttpSession session) {
         AdminLoginResponseDTO adminResponse = adminService.loginAdmin(adminLoginRequestDTO);
-        session.setAttribute("admin", adminResponse); // 세션에 필요한 정보 저장
+        session.setAttribute("adminId", adminResponse.getAdminId()); // 관리자 ID만 저장
 
         // AdminResponseDTO와 "로그인 성공" 메시지를 포함하여 응답
         return ResponseEntity.ok(new BaseResponse<>(adminResponse, "로그인 성공"));

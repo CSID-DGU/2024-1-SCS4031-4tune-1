@@ -1,5 +1,7 @@
 package com.fortune.eyesee.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fortune.eyesee.enums.ExamStatus;
 import lombok.Data;
 
 import jakarta.persistence.*;
@@ -17,7 +19,10 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer examId;
 
-    private Integer adminId;                // 관리자 ID
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adminId", nullable = false)
+    private Admin admin;
+
     private String examName;                // 시험명
     private String examSemester;            // 학기
     private Integer examStudentNumber;      // 학생 수
@@ -27,7 +32,13 @@ public class Exam {
     private Integer examDuration;           // 진행 시간
     private Integer examQuestionNumber;     // 질문 수
     private Integer examTotalScore;         // 총점
-    private String examStatus;              // 시험 상태
+
+    @Enumerated(EnumType.STRING)
+    private ExamStatus examStatus;          // 시험 상태
+
     private String examRandomCode;          // 랜덤 코드
     private String examNotice;              // 공지사항
+
+    @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
+    private Session session; // 1:1 관계 설정
 }

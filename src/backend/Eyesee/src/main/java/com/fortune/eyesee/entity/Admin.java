@@ -1,8 +1,11 @@
 package com.fortune.eyesee.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Admin")
@@ -21,4 +24,8 @@ public class Admin {
 
     @Column(nullable = false, length = 100)
     private String adminName;
+
+    @OneToMany(mappedBy = "admin")
+    @JsonManagedReference
+    private List<Exam> exams; // 관리자가 관리하는 시험 목록
 }

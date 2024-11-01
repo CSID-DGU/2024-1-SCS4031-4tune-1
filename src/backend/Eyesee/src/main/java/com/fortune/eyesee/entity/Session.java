@@ -12,6 +12,9 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer sessionId; // 자동 증가
 
-    private Integer examId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_id", nullable = false) // exam_id를 외래 키로 설정
+    private Exam exam; // Exam과 1:1 관계
+
     private String sessionReport;
 }

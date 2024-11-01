@@ -15,7 +15,7 @@ public class BaseResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    // 성공 응답 (데이터 포함)
+    // 데이터가 포함된 성공 응답 생성자
     public BaseResponse(T data) {
         this.statusCode = BaseResponseCode.SUCCESS.getStatus().value();
         this.code = BaseResponseCode.SUCCESS.getCode();
@@ -23,12 +23,17 @@ public class BaseResponse<T> {
         this.data = data;
     }
 
-    // 메시지 커스텀 성공 응답 (데이터 없음)
-    public BaseResponse(String customMessage) {
+    // 메시지 커스텀 성공 응답 생성자 (data 없음)
+    private BaseResponse(String customMessage) {
         this.statusCode = BaseResponseCode.SUCCESS.getStatus().value();
         this.code = BaseResponseCode.SUCCESS.getCode();
-        this.message = customMessage; // 커스텀 메시지 사용
+        this.message = customMessage;
         this.data = null;
+    }
+
+    // 메시지만 포함한 성공 응답을 위한 정적 팩토리 메서드
+    public static <T> BaseResponse<T> success(String customMessage) {
+        return new BaseResponse<>(customMessage);
     }
 
     // 실패 응답 (BaseResponseCode 사용)

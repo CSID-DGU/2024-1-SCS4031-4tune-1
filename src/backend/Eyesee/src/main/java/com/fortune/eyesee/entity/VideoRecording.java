@@ -5,6 +5,7 @@ import lombok.Data;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -15,9 +16,15 @@ public class VideoRecording {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer videoId;
 
-    private Integer sessionId;              // 세션 ID
-    private Integer userId;                 // 사용자 ID
-    private LocalDate examDate;             // 시험 날짜
-    private LocalTime examStartTime;        // 시험 시작 시간
-    private String filePath;                // 파일 경로
+    @Column(nullable = false)
+    private Integer userId;
+
+    @Column(nullable = false)
+    private LocalDateTime startTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime;
+
+    @Column(length = 255)
+    private String filePath;
 }

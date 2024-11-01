@@ -14,11 +14,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
+    @Column(name = "sessionID", nullable = false)
+    private int sessionID; // 세션 ID (int 타입)
+
     @Column(nullable = false)
-    private String studentNumber;
+    private String userNum;
 
     private String department;
     private String userName;
     private Integer seatNum; // 좌석 번호
+
+
 
 }

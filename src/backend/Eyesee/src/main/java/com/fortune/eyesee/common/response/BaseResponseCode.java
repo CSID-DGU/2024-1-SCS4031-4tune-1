@@ -35,6 +35,10 @@ public enum BaseResponseCode {
     NOT_FOUND_USER("U0003", HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_EQUAL_PASSWORD("U0004", HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
+    // Exam Errors
+    NOT_FOUND_EXAM("E0001", HttpStatus.NOT_FOUND, "시험을 찾을 수 없습니다."),
+    NOT_FOUND_EXAM_CODE("E0002", HttpStatus.NOT_FOUND, "시험 코드를 찾을 수 없습니다."),
+
     // 기타 추가 오류 코드 ...
 
     ;

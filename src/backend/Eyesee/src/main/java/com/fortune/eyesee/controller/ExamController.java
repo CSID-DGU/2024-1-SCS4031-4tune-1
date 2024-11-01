@@ -3,14 +3,14 @@ package com.fortune.eyesee.controller;
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponse;
 import com.fortune.eyesee.common.response.BaseResponseCode;
+import com.fortune.eyesee.dto.ExamCodeRequestDTO;
 import com.fortune.eyesee.dto.ExamResponseDTO;
 import com.fortune.eyesee.enums.ExamStatus;
 import com.fortune.eyesee.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -54,5 +54,27 @@ public class ExamController {
 
         List<ExamResponseDTO> examList = examService.getExamsByStatus(adminId, examStatus);
         return ResponseEntity.ok(new BaseResponse<>(examList));
+    }
+
+    // ExamCode로 특정 Exam 조회 (POST 요청)
+    @PostMapping("/{examId}/code")
+    public ResponseEntity<BaseResponse<ExamResponseDTO>> getExamByCode(@PathVariable Integer examId, @RequestBody ExamCodeRequestDTO examCodeRequestDTO, HttpSession session) {
+        // examId가 존재하는지 확인
+        if (!examService.existsById(examId)) {
+            throw new BaseException(BaseResponseCode.NOT_FOUND_EXAM);
+        }
+
+        // examCode로 시험 정보 조회
+        ExamResponseDTO examResponseDTO = examService.getExamByCode(examCodeRequestDTO.getExamCode());
+
+        // examId 비교
+        if (!examResponseDTO.getExamId().equals(examId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(),
+                            BaseResponseCode.NOT_FOUND_EXAM.getCode(),
+                            "제공된 examId와 조회된 시험의 examId가 일치하지 않습니다."));
+        }
+
+        return ResponseEntity.ok(new BaseResponse<>(examResponseDTO));
     }
 }

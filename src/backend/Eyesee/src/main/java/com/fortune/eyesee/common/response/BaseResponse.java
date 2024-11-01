@@ -15,7 +15,7 @@ public class BaseResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    // 데이터가 포함된 성공 응답 생성자
+    // 데이터 포함 성공 응답 생성자
     public BaseResponse(T data) {
         this.statusCode = BaseResponseCode.SUCCESS.getStatus().value();
         this.code = BaseResponseCode.SUCCESS.getCode();
@@ -23,7 +23,15 @@ public class BaseResponse<T> {
         this.data = data;
     }
 
-    // 메시지 커스텀 성공 응답 생성자 (data 없음)
+    // 데이터와 커스텀 메시지 포함 성공 응답 생성자
+    public BaseResponse(T data, String customMessage) {
+        this.statusCode = BaseResponseCode.SUCCESS.getStatus().value();
+        this.code = BaseResponseCode.SUCCESS.getCode();
+        this.message = customMessage;
+        this.data = data;
+    }
+
+    // 메시지만 포함한 성공 응답 생성자 (data 없음)
     private BaseResponse(String customMessage) {
         this.statusCode = BaseResponseCode.SUCCESS.getStatus().value();
         this.code = BaseResponseCode.SUCCESS.getCode();

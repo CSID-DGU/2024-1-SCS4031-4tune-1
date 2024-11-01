@@ -3,7 +3,7 @@ package com.fortune.eyesee.dto;
 import lombok.Data;
 
 @Data
-public class AdminSignupDTO {
+public class AdminSignupRequestDTO {
     private String adminEmail;
     private String password;
     private String passwordConfirm;

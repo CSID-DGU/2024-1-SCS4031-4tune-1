@@ -1,8 +1,9 @@
 package com.fortune.eyesee.controller;
 
-import com.fortune.eyesee.dto.AdminLoginDTO;
-import com.fortune.eyesee.dto.AdminSignupDTO;
-import com.fortune.eyesee.entity.Admin;
+import com.fortune.eyesee.common.response.BaseResponse;
+import com.fortune.eyesee.dto.AdminLoginRequestDTO;
+import com.fortune.eyesee.dto.AdminLoginResponseDTO;
+import com.fortune.eyesee.dto.AdminSignupRequestDTO;
 import com.fortune.eyesee.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,23 +19,25 @@ public class AdminController {
 
     // 회원가입 API
     @PostMapping("/signup")
-    public ResponseEntity<String> registerAdmin(@RequestBody AdminSignupDTO adminSignupDTO) {
-        adminService.registerAdmin(adminSignupDTO);
-        return ResponseEntity.ok("회원가입 성공");
+    public ResponseEntity<BaseResponse<String>> registerAdmin(@RequestBody AdminSignupRequestDTO adminSignupRequestDTO) {
+        adminService.registerAdmin(adminSignupRequestDTO);
+        return ResponseEntity.ok(BaseResponse.success("회원가입 성공"));
     }
 
-    // 로그인 API
+    // 로그인 성공 시, AdminResponseDTO 정보와 함께 메시지를 포함하여 응답
     @PostMapping("/login")
-    public ResponseEntity<String> loginAdmin(@RequestBody AdminLoginDTO adminLoginDTO, HttpSession session) {
-        Admin admin = adminService.loginAdmin(adminLoginDTO);
-        session.setAttribute("admin", admin); // 세션에 로그인 정보 저장
-        return ResponseEntity.ok("로그인 성공");
+    public ResponseEntity<BaseResponse<AdminLoginResponseDTO>> loginAdmin(@RequestBody AdminLoginRequestDTO adminLoginRequestDTO, HttpSession session) {
+        AdminLoginResponseDTO adminResponse = adminService.loginAdmin(adminLoginRequestDTO);
+        session.setAttribute("admin", adminResponse); // 세션에 필요한 정보 저장
+
+        // AdminResponseDTO와 "로그인 성공" 메시지를 포함하여 응답
+        return ResponseEntity.ok(new BaseResponse<>(adminResponse, "로그인 성공"));
     }
 
     // 로그아웃 API
     @PostMapping("/logout")
-    public ResponseEntity<String> logoutAdmin(HttpSession session) {
+    public ResponseEntity<BaseResponse<String>> logoutAdmin(HttpSession session) {
         session.invalidate(); // 세션 무효화
-        return ResponseEntity.ok("로그아웃 성공");
+        return ResponseEntity.ok(BaseResponse.success("로그아웃 성공"));
     }
 }

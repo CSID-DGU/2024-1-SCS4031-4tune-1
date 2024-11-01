@@ -1,7 +1,10 @@
 package com.fortune.eyesee.service;
 
-import com.fortune.eyesee.dto.AdminLoginDTO;
-import com.fortune.eyesee.dto.AdminSignupDTO;
+import com.fortune.eyesee.common.exception.BaseException;
+import com.fortune.eyesee.common.response.BaseResponseCode;
+import com.fortune.eyesee.dto.AdminLoginRequestDTO;
+import com.fortune.eyesee.dto.AdminLoginResponseDTO;
+import com.fortune.eyesee.dto.AdminSignupRequestDTO;
 import com.fortune.eyesee.entity.Admin;
 import com.fortune.eyesee.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +20,31 @@ public class AdminService {
     private PasswordEncoder passwordEncoder;
 
     // 회원가입 메서드
-    public Admin registerAdmin(AdminSignupDTO adminSignupDTO) {
-        if (adminRepository.findByAdminEmail(adminSignupDTO.getAdminEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+    public Admin registerAdmin(AdminSignupRequestDTO adminSignupRequestDTO) {
+        if (adminRepository.findByAdminEmail(adminSignupRequestDTO.getAdminEmail()).isPresent()) {
+            throw new BaseException(BaseResponseCode.ALREADY_EXIST_USER); // 이메일 중복 예외 처리
         }
-        if (!adminSignupDTO.getPassword().equals(adminSignupDTO.getPasswordConfirm())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        if (!adminSignupRequestDTO.getPassword().equals(adminSignupRequestDTO.getPasswordConfirm())) {
+            throw new BaseException(BaseResponseCode.NOT_EQUAL_PASSWORD); // 비밀번호 불일치 예외 처리
         }
 
         Admin admin = new Admin();
-        admin.setAdminEmail(adminSignupDTO.getAdminEmail());
-        admin.setPassword(passwordEncoder.encode(adminSignupDTO.getPassword()));
-        admin.setAdminName(adminSignupDTO.getAdminName());
+        admin.setAdminEmail(adminSignupRequestDTO.getAdminEmail());
+        admin.setPassword(passwordEncoder.encode(adminSignupRequestDTO.getPassword()));
+        admin.setAdminName(adminSignupRequestDTO.getAdminName());
         return adminRepository.save(admin);
     }
 
-    // 로그인 메서드
-    public Admin loginAdmin(AdminLoginDTO adminLoginDTO) {
-        Admin admin = adminRepository.findByAdminEmail(adminLoginDTO.getAdminEmail())
-                .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다."));
+    // 로그인 메서드 AdminResponseDTO 변환
+    public AdminLoginResponseDTO loginAdmin(AdminLoginRequestDTO adminLoginRequestDTO) {
+        Admin admin = adminRepository.findByAdminEmail(adminLoginRequestDTO.getAdminEmail())
+                .orElseThrow(() -> new BaseException(BaseResponseCode.NOT_FOUND_USER));
 
-        if (!passwordEncoder.matches(adminLoginDTO.getPassword(), admin.getPassword())) {
-            throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+        if (!passwordEncoder.matches(adminLoginRequestDTO.getPassword(), admin.getPassword())) {
+            throw new BaseException(BaseResponseCode.WRONG_PASSWORD);
         }
-        return admin;
+
+        // 필요한 정보만 포함하는 DTO로 변환
+        return new AdminLoginResponseDTO(admin.getAdminId(), admin.getAdminEmail(), admin.getAdminName());
     }
 }

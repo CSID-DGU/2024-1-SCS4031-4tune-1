@@ -13,7 +13,7 @@ public class Session {
     private Integer sessionId; // 자동 증가
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id", nullable = false) // exam_id를 외래 키로 설정
+    @JoinColumn(name = "examId", nullable = false) // exam_id를 외래 키로 설정
     private Exam exam; // Exam과 1:1 관계
 
     private String sessionReport;

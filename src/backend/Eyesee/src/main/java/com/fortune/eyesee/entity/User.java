@@ -14,8 +14,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(name = "sessionID", nullable = false)
-    private int sessionID; // 세션 ID (int 타입)
+    @Column(name = "sessionId", nullable = false)
+    private int sessionId; // 세션 ID (int 타입)
 
     @Column(nullable = false)
     private String userNum;

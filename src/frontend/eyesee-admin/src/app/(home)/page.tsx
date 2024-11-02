@@ -1,5 +1,3 @@
-// import Logo from ;
-
 import HomeNav from "@/components/home/HomeNav";
 
 const HomePage = () => {

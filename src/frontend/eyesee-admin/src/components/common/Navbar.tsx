@@ -16,7 +16,9 @@ const Navbar = ({ bgColr }: NavbarProps) => {
   };
 
   return (
-    <div className={`${bgColr} flex h-32 items-center justify-between px-12`}>
+    <div
+      className={`${bgColr} flex w-screen h-32 items-center justify-between px-12`}
+    >
       <div>
         <Logo />
       </div>

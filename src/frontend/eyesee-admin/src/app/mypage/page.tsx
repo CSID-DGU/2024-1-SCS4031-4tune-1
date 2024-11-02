@@ -7,14 +7,16 @@ import React from "react";
 
 const MyPage = () => {
   return (
-    <div>
+    <div className="w-screen h-screen flex flex-col items-center">
       <Navbar bgColr="bg-[#0E1D3C]" />
-      <Header title="나의 시험 조회" />
-      <section className="flex gap-6">
-        <BeforeSection />
-        <InProgressSection />
-        <DoneSection />
-      </section>
+      <div className="w-[1100px] flex flex-col justify-center pt-20 pb-14">
+        <Header title="나의 시험 조회" />
+        <section className="flex gap-6 w-full justify-between mt-10">
+          <BeforeSection />
+          <InProgressSection />
+          <DoneSection />
+        </section>
+      </div>
     </div>
   );
 };

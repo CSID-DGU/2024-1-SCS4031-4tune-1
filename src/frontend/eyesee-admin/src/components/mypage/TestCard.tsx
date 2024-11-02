@@ -39,7 +39,7 @@ const TestCard = ({ test, type }: TestCardProps) => {
     <div
       className={`${
         type === testState.BEFORE ? "bg-blueGradient" : "bg-redGradient"
-      } px-8 py-4 rounded-[20px] w-[290px]`}
+      } px-8 py-4 rounded-[20px] w-[320px]`}
     >
       <div className="flex flex-col py-5 gap-4">
         <div className="flex justify-between items-center">
@@ -53,7 +53,7 @@ const TestCard = ({ test, type }: TestCardProps) => {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-white">시험 코드 :</span>
-          <button className="bg-opaqueWhite rounded-md px-3 py-1 tracking-[0.2rem] text-[#000] text-lg font-semibold">
+          <button className="bg-opaqueWhite rounded-md px-2 py-1 tracking-[0.2rem] text-[#000] text-lg font-semibold">
             {test.examRandomCode}
           </button>
         </div>

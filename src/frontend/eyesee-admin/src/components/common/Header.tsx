@@ -6,7 +6,7 @@ type HeaderProps = {
 
 const Header = ({ title }: HeaderProps) => {
   return (
-    <div className="border border-[##0E1D3C] px-5 text-[#0E1D3C] text-2xl font-semibold">
+    <div className="border-l-4 border-[#0E1D3C] px-5 text-[#0E1D3C] text-2xl font-semibold">
       {title}
     </div>
   );

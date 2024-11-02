@@ -24,5 +24,4 @@ public class ExamResponseDTO {
     private String examNotice;
 
     private Integer sessionId; // Session의 ID
-    private String examRandomCode; // 추가 examRandomCode
 }

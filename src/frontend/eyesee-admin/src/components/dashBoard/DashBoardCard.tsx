@@ -6,11 +6,16 @@ import { useParams, useRouter } from "next/navigation";
 
 type DashBoardCardProps = {
   user: user;
+  exam: {
+    name: string;
+    duration: number;
+  };
 };
 
-const DashBoardCard = ({ user }: DashBoardCardProps) => {
+const DashBoardCard = ({ user, exam }: DashBoardCardProps) => {
   const router = useRouter();
   const { examId } = useParams();
+
   const handleClick = () => {
     router.push(`/dashboard/${examId}/${user.userId}`);
   };

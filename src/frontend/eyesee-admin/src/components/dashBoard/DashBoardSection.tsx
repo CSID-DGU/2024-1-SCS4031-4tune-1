@@ -8,6 +8,7 @@ import DashBoardCard from "./DashBoardCard";
 import { useState } from "react";
 import TableSetModal from "./TableSetModal";
 import TestCodeModal from "./TestCodeModal";
+import TestInfo from "./TestInfo";
 
 type DashBoardSectionProps = {
   sesstionData: testSesstion;
@@ -38,17 +39,14 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
         <TestCodeModal setCodeModalOpen={setCodeModalOpen} code={"12345"} />
       )}
       <div className="grow bg-[#0E1D3C] text-white p-10">
-        <div>
-          <p className="text-[20px] font-bold">{sesstionData.examName}</p>
-          <p className="text-[18px] font-bold">
-            🕐 {sesstionData.examDuration}
-          </p>
-        </div>
-        <div className="w-full flex justify-end items-center gap-5 mb-5">
+        <TestInfo
+          examDuration={sesstionData.examDuration}
+          examName={sesstionData.examName}
+        >
           <GridIcon onClick={() => setTableModalOpen(true)} />
           <PeopleIcon onClick={() => setCodeModalOpen(true)} />
           <RowMoreIcon />
-        </div>
+        </TestInfo>
         <div
           className="grid gap-5 justify-center items-center"
           style={{
@@ -57,7 +55,14 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
         >
           {sesstionData.user.map((user) => (
             <div key={user.userId} className="flex justify-center">
-              <DashBoardCard key={user.userId} user={user} />
+              <DashBoardCard
+                key={user.userId}
+                user={user}
+                exam={{
+                  name: sesstionData.examName,
+                  duration: sesstionData.examDuration,
+                }}
+              />
             </div>
           ))}
         </div>

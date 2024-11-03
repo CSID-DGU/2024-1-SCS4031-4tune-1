@@ -23,7 +23,7 @@ const CheatingVideo = ({
       <video
         src={cheatingVideo.filepath}
         controls
-        className="w-full h-auto rounded-b-lg"
+        className="w-full max-h-[62vh] rounded-b-lg"
       ></video>
     </div>
   );

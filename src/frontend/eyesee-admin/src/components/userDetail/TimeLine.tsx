@@ -1,12 +1,14 @@
 import CircleIcon from "@/assets/icons/Circle.svg";
 import { timeLineType } from "@/types/timeLine";
 import { useParams, useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 
 type TimeLineProps = {
   timeLineData: timeLineType;
+  setVideoNum: Dispatch<SetStateAction<number>>;
 };
 
-const TimeLine = ({ timeLineData }: TimeLineProps) => {
+const TimeLine = ({ timeLineData, setVideoNum }: TimeLineProps) => {
   const router = useRouter();
   const { examId } = useParams();
 
@@ -15,7 +17,7 @@ const TimeLine = ({ timeLineData }: TimeLineProps) => {
   };
 
   return (
-    <div className="py-8 px-2.5 w-[342px]">
+    <div className="py-8 px-2.5 w-[342px] bg-white">
       <div className="text-[#0E1D3C] text-[20px] font-bold mb-12">
         <span onClick={handleClick} className="pl-3 pr-5">
           〈
@@ -26,7 +28,8 @@ const TimeLine = ({ timeLineData }: TimeLineProps) => {
         {timeLineData.cheatingStatistics.map((cheating, index) => (
           <div
             key={cheating.cheatingStatisticsId}
-            className="absolute left-0 flex items-center gap-10"
+            onClick={() => setVideoNum(index)}
+            className="absolute left-0 flex items-center gap-10 cursor-pointer"
             style={{ left: -9, top: `${index * 30}%` }}
           >
             <CircleIcon />

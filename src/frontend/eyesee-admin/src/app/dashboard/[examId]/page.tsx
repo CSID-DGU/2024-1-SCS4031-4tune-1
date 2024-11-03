@@ -7,7 +7,7 @@ const DashBoardPage = () => {
   const sessionData = testSesstionData;
 
   return (
-    <div className="flex h-screen w-screen bg-[##0E1D3C]">
+    <div className="flex min-h-screen w-screen bg-[##0E1D3C]">
       <UserSection sessionData={sessionData} />
       <DashBoardSection sesstionData={sessionData} />
     </div>

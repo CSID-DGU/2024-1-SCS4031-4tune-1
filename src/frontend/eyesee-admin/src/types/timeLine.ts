@@ -51,19 +51,22 @@ export const dummyTimeLineData: timeLineType = {
       videoId: 1,
       startTime: "2023-11-02T10:20:00",
       endTime: "2023-11-02T10:22:00",
-      filepath: "/videos/cheating_1.mp4",
+      filepath:
+        "https://videos.pexels.com/video-files/4769538/4769538-uhd_2732_1440_25fps.mp4",
     },
     {
       videoId: 2,
       startTime: "2023-11-02T10:25:00",
       endTime: "2023-11-02T10:27:00",
-      filepath: "/videos/cheating_2.mp4",
+      filepath:
+        "https://videos.pexels.com/video-files/8196796/8196796-hd_1920_1080_25fps.mp4",
     },
     {
       videoId: 3,
       startTime: "2023-11-02T10:30:00",
       endTime: "2023-11-02T10:31:00",
-      filepath: "/videos/cheating_3.mp4",
+      filepath:
+        "https://videos.pexels.com/video-files/4778714/4778714-uhd_2732_1440_25fps.mp4",
     },
   ],
 };

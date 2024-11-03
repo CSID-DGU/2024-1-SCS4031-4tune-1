@@ -11,9 +11,9 @@ const UserDetailPage = () => {
   const [vidieoNum, setVideoNum] = useState(0);
 
   return (
-    <div className="flex w-screen h-screen">
-      <TimeLine timeLineData={userDetailData} />
-      <div className="grow bg-[#0E1D3C] text-white p-10">
+    <div className="flex w-screen h-screen bg-[#0E1D3C]">
+      <TimeLine timeLineData={userDetailData} setVideoNum={setVideoNum} />
+      <div className="grow text-white p-10">
         <TestInfo examName="융합캡스톤디자인 중간시험" examDuration={120} />
         <div>
           <CheatingVideo
@@ -27,12 +27,12 @@ const UserDetailPage = () => {
           />
           <div className="flex gap-5 py-5">
             {userDetailData.cheatingVideos.map((video, index) => (
-              <div key={index} className="h-28 rounded-sm overflow-hidden">
-                <img
-                  className="object-contain w-full h-full"
-                  src="https://images.pexels.com/photos/3808060/pexels-photo-3808060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  alt="image"
-                />
+              <div
+                key={index}
+                onClick={() => setVideoNum(index)}
+                className="h-28 max-w-48 rounded-sm overflow-hidden"
+              >
+                <video src={video.filepath} />
               </div>
             ))}
           </div>

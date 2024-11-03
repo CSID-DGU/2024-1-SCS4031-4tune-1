@@ -17,10 +17,10 @@ const Navbar = ({ bgColr }: NavbarProps) => {
 
   return (
     <div
-      className={`${bgColr} flex w-screen h-32 items-center justify-between px-12`}
+      className={`${bgColr} flex w-screen h-[12vh] items-center justify-between px-12`}
     >
       <div>
-        <Logo />
+        <Logo onClick={() => handleNavigation("/")} />
       </div>
       <div className="flex justify-between gap-16">
         <button className="text-2xl text-white">About us</button>

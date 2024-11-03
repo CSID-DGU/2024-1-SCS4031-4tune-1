@@ -8,7 +8,7 @@ type UserSectionProps = {
 
 const UserSection = ({ sessionData }: UserSectionProps) => {
   return (
-    <div className="py-8 px-2.5">
+    <div className="w-[342px] py-8 px-2.5">
       <div className="text-[#999] text-[20px] font-bold mb-12">
         <span className="pl-3 pr-5">〈</span>
         {sessionData.examName}

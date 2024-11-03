@@ -2,23 +2,28 @@ import { user } from "@/types/user";
 import OpenIcon from "@/assets/icons/OpenIcon.svg";
 import CaoutionIcon from "@/assets/icons/CautionIcon.svg";
 import React from "react";
+import { useParams, useRouter } from "next/navigation";
 
 type DashBoardCardProps = {
   user: user;
 };
 
 const DashBoardCard = ({ user }: DashBoardCardProps) => {
+  const router = useRouter();
+  const { examId } = useParams();
+  const handleClick = () => {
+    router.push(`/dashboard/${examId}/${user.userId}`);
+  };
+
   return (
     <div
-      className={`relative w-[180px] h-[115px] rounded-md flex flex-col justify-center items-center ${
-        user.cheatingCount == 0
-          ? // 부정행위 0회 감지
-            "bg-[#16A34A]"
-          : user.cheatingCount > 2
-          ? // 부정행위 1회 감지
-            "bg-[#EAB308]"
-          : // 부정행위 2회 이상 감지
-            "bg-[#EF4444]"
+      onClick={handleClick}
+      className={`relative w-[180px] h-[115px] rounded-md flex flex-col justify-center items-center cursor-pointer ${
+        user.cheatingCount === 0
+          ? "bg-[#16A34A]" // 부정행위 0회 감지
+          : user.cheatingCount === 1
+          ? "bg-[#EAB308]" // 부정행위 1회 감지
+          : "bg-[#EF4444]" // 부정행위 2회 이상 감지
       }`}
     >
       <div className="absolute top-3 right-3">

@@ -56,7 +56,7 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
           }}
         >
           {sesstionData.user.map((user) => (
-            <div className="flex justify-center">
+            <div key={user.userId} className="flex justify-center">
               <DashBoardCard key={user.userId} user={user} />
             </div>
           ))}

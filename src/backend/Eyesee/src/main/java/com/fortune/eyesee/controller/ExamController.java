@@ -24,39 +24,71 @@ public class ExamController {
     @Autowired
     private ExamService examService;
 
+//    // "before" 상태의 Exam 리스트 조회
+//    @GetMapping("/before")
+//    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getBeforeExams(HttpSession session) {
+//        return getExamsByStatus("BEFORE", session);
+//    }
+//
+//    // "in-progress" 상태의 Exam 리스트 조회
+//    @GetMapping("/in-progress")
+//    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getInProgressExams(HttpSession session) {
+//        return getExamsByStatus("IN_PROGRESS", session);
+//    }
+//
+//    // "done" 상태의 Exam 리스트 조회
+//    @GetMapping("/done")
+//    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getDoneExams(HttpSession session) {
+//        return getExamsByStatus("DONE", session);
+//    }
+
+    // 공통 메서드: 상태별 Exam 조회
+//    private ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getExamsByStatus(String status, HttpSession session) {
+//        Integer adminId = (Integer) session.getAttribute("adminId");
+//        if (adminId == null) {
+//            throw new BaseException(BaseResponseCode.UNAUTHORIZED);
+//        }
+//
+//        ExamStatus examStatus = ExamStatus.fromString(status);
+//        if (examStatus == null) {
+//            throw new BaseException(BaseResponseCode.INVALID_STATUS);
+//        }
+//
+//        List<ExamResponseDTO> examList = examService.getExamsByStatus(adminId, examStatus);
+//        return ResponseEntity.ok(new BaseResponse<>(examList));
+//    }
+
     // "before" 상태의 Exam 리스트 조회
     @GetMapping("/before")
-    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getBeforeExams(HttpSession session) {
-        return getExamsByStatus("BEFORE", session);
+    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getBeforeExams() {
+        return getExamsByStatus("BEFORE");
     }
 
     // "in-progress" 상태의 Exam 리스트 조회
     @GetMapping("/in-progress")
-    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getInProgressExams(HttpSession session) {
-        return getExamsByStatus("IN_PROGRESS", session);
+    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getInProgressExams() {
+        return getExamsByStatus("IN_PROGRESS");
     }
 
     // "done" 상태의 Exam 리스트 조회
     @GetMapping("/done")
-    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getDoneExams(HttpSession session) {
-        return getExamsByStatus("DONE", session);
+    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getDoneExams() {
+        return getExamsByStatus("DONE");
     }
 
-    // 공통 메서드: 상태별 Exam 조회
-    private ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getExamsByStatus(String status, HttpSession session) {
-        Integer adminId = (Integer) session.getAttribute("adminId");
-        if (adminId == null) {
-            throw new BaseException(BaseResponseCode.UNAUTHORIZED);
-        }
-
+    // 공통 메서드: 상태별 Exam 조회 (세션 검증 없이)
+    private ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getExamsByStatus(String status) {
         ExamStatus examStatus = ExamStatus.fromString(status);
         if (examStatus == null) {
             throw new BaseException(BaseResponseCode.INVALID_STATUS);
         }
 
-        List<ExamResponseDTO> examList = examService.getExamsByStatus(adminId, examStatus);
+        // adminId를 사용하지 않는 조회 방식으로 수정
+        List<ExamResponseDTO> examList = examService.getExamsByStatus(null, examStatus);
         return ResponseEntity.ok(new BaseResponse<>(examList));
     }
+
+
 
     // ExamCode로 특정 Exam 조회 (POST 요청)
     @PostMapping("/{examId}/code")

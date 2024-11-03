@@ -1,7 +1,15 @@
+import UserSection from "@/components/dashBoard/UserSection";
+import { testSesstionData } from "@/types/user";
 import React from "react";
 
 const DashBoardPage = () => {
-  return <div>DashBoardPage</div>;
+  const sessionData = testSesstionData;
+
+  return (
+    <div>
+      <UserSection users={sessionData.user} />
+    </div>
+  );
 };
 
 export default DashBoardPage;

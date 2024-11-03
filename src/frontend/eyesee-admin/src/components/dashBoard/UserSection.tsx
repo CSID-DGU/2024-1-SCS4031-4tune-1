@@ -17,7 +17,7 @@ const UserSection = ({ sessionData }: UserSectionProps) => {
         <div className="pb-2">
           전체 응시자 ({sessionData.examStudentNumber})
         </div>
-        <div className="bg-[rgba(9,38,102,0.10)] w-fit rounded-xl">
+        <div className="bg-[rgba(9,38,102,0.10)] w-fit rounded-xl h-[80vh] overflow-scroll">
           {sessionData.user.map((user) => (
             <UserCard user={user} />
           ))}

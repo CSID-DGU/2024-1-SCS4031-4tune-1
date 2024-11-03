@@ -3,6 +3,7 @@ import GridIcon from "@/assets/icons/GridIcon.svg";
 import CloseIcon from "@/assets/icons/CloseIcon.svg";
 
 type TableSetModalProps = {
+  examStudentNumber: number;
   row: number;
   column: number;
   setRow: Dispatch<SetStateAction<number>>;
@@ -11,18 +12,27 @@ type TableSetModalProps = {
 };
 
 const TableSetModal = ({
+  examStudentNumber,
   row,
   column,
   setRow,
   setColumn,
   setTableModalOpen,
 }: TableSetModalProps) => {
+  // row를 설정하면 column이 자동 계산
   const handleRowChange = (newRow: number) => {
-    setRow(newRow);
+    if (newRow > 0) {
+      setRow(newRow);
+      setColumn(Math.ceil(examStudentNumber / newRow));
+    }
   };
 
-  const handleColumnChange = (newCol: number) => {
-    setColumn(newCol);
+  // column을 설정하면 row가 자동 계산
+  const handleColumnChange = (newColumn: number) => {
+    if (newColumn > 0) {
+      setColumn(newColumn);
+      setRow(Math.ceil(examStudentNumber / newColumn));
+    }
   };
 
   return (

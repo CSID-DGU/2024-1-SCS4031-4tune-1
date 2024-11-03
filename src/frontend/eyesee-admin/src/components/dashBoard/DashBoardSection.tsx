@@ -19,18 +19,6 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
     Math.ceil(sesstionData.examStudentNumber / row)
   );
 
-  // row를 설정하면 column이 자동 계산
-  const handleRowChange = (newRow: number) => {
-    setRow(newRow);
-    setColumn(Math.ceil(sesstionData.examStudentNumber / newRow));
-  };
-
-  // column을 설정하면 row가 자동 계산
-  const handleColumnChange = (newColumn: number) => {
-    setColumn(newColumn);
-    setRow(Math.ceil(sesstionData.examStudentNumber / newColumn));
-  };
-
   const [tableModalOpen, setTableModalOpen] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
 
@@ -38,6 +26,7 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
     <>
       {tableModalOpen && (
         <TableSetModal
+          examStudentNumber={sesstionData.examStudentNumber}
           row={row}
           column={column}
           setColumn={setColumn}
@@ -55,19 +44,21 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
             🕐 {sesstionData.examDuration}
           </p>
         </div>
-        <div className="w-full flex justify-end items-center gap-5">
+        <div className="w-full flex justify-end items-center gap-5 mb-5">
           <GridIcon onClick={() => setTableModalOpen(true)} />
           <PeopleIcon onClick={() => setCodeModalOpen(true)} />
           <RowMoreIcon />
         </div>
         <div
-          className="grid gap-5"
+          className="grid gap-5 justify-center items-center"
           style={{
             gridTemplateColumns: `repeat(${column}, minmax(0, 1fr))`,
           }}
         >
           {sesstionData.user.map((user) => (
-            <DashBoardCard key={user.userId} user={user} />
+            <div className="flex justify-center">
+              <DashBoardCard key={user.userId} user={user} />
+            </div>
           ))}
         </div>
       </div>

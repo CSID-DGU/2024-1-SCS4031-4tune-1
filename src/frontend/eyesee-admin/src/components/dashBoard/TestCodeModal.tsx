@@ -6,7 +6,17 @@ type TestCodeModalProps = {
   setCodeModalOpen: Dispatch<SetStateAction<boolean>>;
   code: string;
 };
+
 const TestCodeModal = ({ setCodeModalOpen, code }: TestCodeModalProps) => {
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      alert("시험 코드가 복사되었습니다!");
+    } catch (error) {
+      console.error("복사 실패:", error);
+    }
+  };
+
   return (
     <div className="w-screen h-screen fixed bg-[rgba(25,26,30,0.6)] z-50 flex justify-center items-center">
       <div className="relative w-[420px] flex flex-col gap-4 pt-24 pb-12 bg-[#0E1D3C]">
@@ -20,10 +30,13 @@ const TestCodeModal = ({ setCodeModalOpen, code }: TestCodeModalProps) => {
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="text-2xl text-white">시험코드</div>
           <div className="flex gap-4">
-            <div className="text-2xl bg-white rounded-sm px-4">1294209</div>
-            <div className="text-[20px] px-4 bg-[#16A34A] text-white rounded-sm">
+            <div className="text-2xl bg-white rounded-sm px-4">{code}</div>
+            <button
+              onClick={handleCopy}
+              className="text-[20px] px-4 bg-[#16A34A] text-white rounded-sm"
+            >
               복사
-            </div>
+            </button>
           </div>
         </div>
       </div>

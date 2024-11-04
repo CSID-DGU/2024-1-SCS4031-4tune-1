@@ -19,4 +19,8 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     // 랜덤 코드와 adminId로 Exam 조회
     Exam findByExamRandomCode(String examRandomCode);
+
+
+    // adminId 없이 상태로만 Exam 조회
+    List<Exam> findByExamStatus(ExamStatus examStatus);
 }

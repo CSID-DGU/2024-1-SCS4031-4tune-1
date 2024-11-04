@@ -5,7 +5,6 @@ import numpy as np
 from PIL import ImageFont, ImageDraw, Image
 import math
 
-
 def draw_text_korean(image, text, position, font_size=30, font_color=(0, 0, 255)):
     # OpenCV 이미지를 PIL 이미지로 변환
     image_pil = Image.fromarray(image)
@@ -23,24 +22,23 @@ def draw_text_korean(image, text, position, font_size=30, font_color=(0, 0, 255)
     image = np.array(image_pil)
     return image
 
-
 def calculate_head_pose(landmarks, image_shape):
     # 3D 모델 포인트 설정
     model_points = np.array([
-        (0.0, 0.0, 0.0),  # 코 끝
-        (0.0, -330.0, -65.0),  # 턱 끝
-        (-225.0, 170.0, -135.0),  # 왼쪽 눈 좌측 끝
-        (225.0, 170.0, -135.0),  # 오른쪽 눈 우측 끝
-        (-150.0, -150.0, -125.0),  # 입 좌측 끝
-        (150.0, -150.0, -125.0)  # 입 우측 끝
+        (0.0, 0.0, 0.0),             # 코 끝
+        (0.0, -330.0, -65.0),        # 턱 끝
+        (-225.0, 170.0, -135.0),     # 왼쪽 눈 좌측 끝
+        (225.0, 170.0, -135.0),      # 오른쪽 눈 우측 끝
+        (-150.0, -150.0, -125.0),    # 입 좌측 끝
+        (150.0, -150.0, -125.0)      # 입 우측 끝
     ])
 
     image_points = np.array([
-        (landmarks[1][0], landmarks[1][1]),  # 코 끝
+        (landmarks[1][0], landmarks[1][1]),    # 코 끝
         (landmarks[152][0], landmarks[152][1]),  # 턱 끝
-        (landmarks[33][0], landmarks[33][1]),  # 왼쪽 눈 좌측 끝
+        (landmarks[33][0], landmarks[33][1]),   # 왼쪽 눈 좌측 끝
         (landmarks[263][0], landmarks[263][1]),  # 오른쪽 눈 우측 끝
-        (landmarks[61][0], landmarks[61][1]),  # 입 좌측 끝
+        (landmarks[61][0], landmarks[61][1]),   # 입 좌측 끝
         (landmarks[291][0], landmarks[291][1])  # 입 우측 끝
     ], dtype='double')
 
@@ -67,7 +65,6 @@ def calculate_head_pose(landmarks, image_shape):
 
     return pitch, yaw, roll
 
-
 def get_landmarks(face_landmarks, image_shape):
     h, w = image_shape[:2]
     landmarks = {}
@@ -76,14 +73,12 @@ def get_landmarks(face_landmarks, image_shape):
         landmarks[idx] = (x, y)
     return landmarks
 
-
 def get_gaze_position(landmarks):
     # 눈 중심 계산
     left_eye = landmarks[468]
     right_eye = landmarks[473]
     gaze_point = ((left_eye[0] + right_eye[0]) // 2, (left_eye[1] + right_eye[1]) // 2)
     return gaze_point
-
 
 def calculate_eye_position(landmarks):
     # 왼쪽 눈의 랜드마크 인덱스
@@ -101,8 +96,8 @@ def calculate_eye_position(landmarks):
 
 def recognize_hand_gesture(hand_landmarks):
     # 손가락의 각 관절 랜드마크 인덱스
-    finger_tips = [8, 12, 16, 20]
-    finger_pips = [6, 10, 14, 18]
+    finger_tips = [4, 8, 12, 16, 20]    # 엄지, 검지, 중지, 약지, 새끼 손가락 끝
+    finger_pips = [2, 6, 10, 14, 18]    # 각 손가락의 PIP 관절
 
     finger_states = []
 
@@ -110,13 +105,14 @@ def recognize_hand_gesture(hand_landmarks):
         tip_y = hand_landmarks.landmark[tip].y
         pip_y = hand_landmarks.landmark[pip].y
 
+        # 손바닥이 위를 향한다고 가정 (
         if tip_y < pip_y:
             finger_states.append(1)  # 손가락이 펴져 있음
         else:
             finger_states.append(0)  # 손가락이 접혀 있음
 
     # 모든 손가락이 펴져 있는 경우 'palm'
-    if sum(finger_states) == 4:
+    if sum(finger_states) == 5:
         return 'palm'
 
     # 모든 손가락이 접혀 있는 경우 'fist'

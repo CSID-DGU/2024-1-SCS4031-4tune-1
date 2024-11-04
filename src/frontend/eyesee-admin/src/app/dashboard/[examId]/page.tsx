@@ -12,8 +12,7 @@ const DashBoardPage = () => {
 
   useEffect(() => {
     if (data) {
-      setSessionData(data);
-      console.log(data);
+      setSessionData(data.data);
     }
   }, [data]);
 

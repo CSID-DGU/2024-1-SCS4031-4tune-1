@@ -1,12 +1,11 @@
-import { testType } from "@/types/test";
 import { api } from ".";
-import { testSesstion } from "@/types/user";
 import { timeLineType } from "@/types/timeLine";
+import { RESTYPE } from "@/types/common";
 
 export const getUserDetail = async (
-  examId: number,
-  userId: number
-): Promise<timeLineType> => {
+  examId: string,
+  userId: string
+): Promise<RESTYPE<timeLineType>> => {
   const response = await api.get(`/exams/${examId}/sessions/${userId}`);
   return response.data;
 };

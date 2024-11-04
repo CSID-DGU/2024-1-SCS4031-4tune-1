@@ -15,9 +15,9 @@ type DashBoardSectionProps = {
 };
 
 const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
-  const [row, setRow] = useState(5);
-  const [column, setColumn] = useState(
-    Math.ceil(sesstionData.examStudentNumber / row)
+  const [column, setColumn] = useState(5);
+  const [row, setRow] = useState(
+    Math.ceil(sesstionData.examStudentNumber / column)
   );
 
   const [tableModalOpen, setTableModalOpen] = useState(false);

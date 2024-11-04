@@ -34,9 +34,10 @@ const TimeLine = ({ timeLineData, setVideoNum }: TimeLineProps) => {
           >
             <CircleIcon />
             <div className="text-xl text-[#000]">
-              <div>{cheating.DetectedTime.slice(-8)}</div>
+              <div>{cheating.detectedTime}</div>
+              {/* <div>{cheating.DetectedTime.slice(-8)}</div> */}
               <div>
-                {cheating.cheatingType} {cheating.cheatingCount}회 감지
+                {cheating.cheatingTypeName} {cheating.cheatingCount}회 감지
               </div>
             </div>
           </div>

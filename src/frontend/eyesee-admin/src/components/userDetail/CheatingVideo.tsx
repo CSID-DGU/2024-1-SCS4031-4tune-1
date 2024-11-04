@@ -15,7 +15,8 @@ const CheatingVideo = ({
   return (
     <div className="text-white">
       <div className="bg-[rgba(58,64,97,0.7)] text-xl px-6 py-4 rounded-t-lg flex justify-between items-center">
-        ⏳ {cheatingVideo.startTime} ~ {cheatingVideo.endTime}
+        ⏳ {cheatingVideo.startTime.slice(11)} ~{" "}
+        {cheatingVideo.endTime.slice(11)}
         <button className="bg-[#EF4444] px-3 py-2 flex justify-center items-center rounded-lg text-base">
           {cheatingType} {cheatingCounts}회
         </button>

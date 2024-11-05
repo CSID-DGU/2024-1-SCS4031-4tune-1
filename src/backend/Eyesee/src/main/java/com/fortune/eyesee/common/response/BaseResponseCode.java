@@ -42,13 +42,10 @@ public enum BaseResponseCode {
     // Exam Errors
     NOT_FOUND_EXAM("E0001", HttpStatus.NOT_FOUND, "시험을 찾을 수 없습니다."),
     NOT_FOUND_EXAM_CODE("E0002", HttpStatus.NOT_FOUND, "시험 코드를 찾을 수 없습니다."),
-
-    // Exam Errors
-    EXAM_NOT_FOUND("E0001", HttpStatus.NOT_FOUND, "시험을 찾을 수 없습니다."),
-    SESSION_NOT_FOUND("E0002", HttpStatus.NOT_FOUND, "세션을 찾을 수 없습니다."),
-    EXAM_ALREADY_EXISTS("E0003", HttpStatus.CONFLICT, "이미 존재하는 시험입니다."),
-    INVALID_EXAM_STATUS("E0004", HttpStatus.BAD_REQUEST, "유효하지 않은 시험 상태입니다."),
-    EXAM_ACCESS_DENIED("E0005", HttpStatus.FORBIDDEN, "시험에 접근할 권한이 없습니다."),
+    NOT_FOUND_SESSION("E0003", HttpStatus.NOT_FOUND, "세션을 찾을 수 없습니다."),
+    EXAM_ALREADY_EXISTS("E0004", HttpStatus.CONFLICT, "이미 존재하는 시험입니다."),
+    INVALID_EXAM_STATUS("E0005", HttpStatus.BAD_REQUEST, "유효하지 않은 시험 상태입니다."),
+    EXAM_ACCESS_DENIED("E0006", HttpStatus.FORBIDDEN, "시험에 접근할 권한이 없습니다."),
 
     // 기타 추가 오류 코드 ...
 

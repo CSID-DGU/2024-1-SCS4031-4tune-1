@@ -2,6 +2,7 @@ package com.fortune.eyesee.service;
 
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponseCode;
+import com.fortune.eyesee.dto.ExamRequestDTO;
 import com.fortune.eyesee.dto.ExamResponseDTO;
 import com.fortune.eyesee.dto.UserDetailResponseDTO;
 import com.fortune.eyesee.dto.UserListResponseDTO;
@@ -10,6 +11,8 @@ import com.fortune.eyesee.enums.ExamStatus;
 import com.fortune.eyesee.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.RandomStringUtils;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ public class ExamService {
     private final VideoRecordingRepository videoRecordingRepository;
     private final DetectedCheatingRepository detectedCheatingRepository;
     private final CheatingTypeRepository cheatingTypeRepository;
+    private final AdminRepository adminRepository;
 
     @Autowired
     public ExamService(ExamRepository examRepository,
@@ -34,7 +38,8 @@ public class ExamService {
                        CheatingStatisticsRepository cheatingStatisticsRepository,
                        VideoRecordingRepository videoRecordingRepository,
                        DetectedCheatingRepository detectedCheatingRepository,
-                       CheatingTypeRepository cheatingTypeRepository) {
+                       CheatingTypeRepository cheatingTypeRepository,
+                       AdminRepository adminRepository) {
         this.examRepository = examRepository;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
@@ -42,6 +47,57 @@ public class ExamService {
         this.videoRecordingRepository = videoRecordingRepository;
         this.detectedCheatingRepository = detectedCheatingRepository;
         this.cheatingTypeRepository = cheatingTypeRepository;
+        this.adminRepository = adminRepository;
+    }
+
+
+    // 시험 등록 메서드
+    public ExamResponseDTO registerExam(Integer adminId, ExamRequestDTO examRequestDTO) {
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> new BaseException(BaseResponseCode.UNAUTHORIZED));
+
+        // 10자리 랜덤 영숫자 코드 생성
+        String examRandomCode = RandomStringUtils.randomAlphanumeric(10);
+
+        // Exam 생성
+        Exam exam = new Exam();
+        exam.setAdmin(admin);
+        exam.setExamName(examRequestDTO.getExamName());
+        exam.setExamSemester(examRequestDTO.getExamSemester());
+        exam.setExamStudentNumber(examRequestDTO.getExamStudentNumber());
+        exam.setExamLocation(examRequestDTO.getExamLocation());
+        exam.setExamDate(examRequestDTO.getExamDate());
+        exam.setExamStartTime(examRequestDTO.getExamStartTime());
+        exam.setExamDuration(examRequestDTO.getExamDuration());
+        exam.setExamQuestionNumber(examRequestDTO.getExamQuestionNumber());
+        exam.setExamTotalScore(examRequestDTO.getExamTotalScore());
+        exam.setExamNotice(examRequestDTO.getExamNotice());
+        exam.setExamStatus(ExamStatus.BEFORE);
+        exam.setExamRandomCode(examRandomCode);
+
+        // Exam 저장 후 ID 생성
+        examRepository.save(exam);
+
+        // ExamId를 사용해 Session 생성 및 설정
+        Session session = new Session();
+        session.setSessionId(exam.getExamId()); // ExamId와 동일하게 설정
+        session.setExam(exam);
+        sessionRepository.save(session);
+
+        return new ExamResponseDTO(
+                exam.getExamId(),
+                exam.getExamName(),
+                exam.getExamSemester(),
+                exam.getExamStudentNumber(),
+                exam.getExamLocation(),
+                exam.getExamDate(),
+                exam.getExamStartTime(),
+                exam.getExamDuration(),
+                exam.getExamStatus(),
+                exam.getExamNotice(),
+                session.getSessionId(),
+                exam.getExamRandomCode()
+        );
     }
 
     // 특정 시험 ID로 존재 여부 확인
@@ -135,7 +191,7 @@ public class ExamService {
     // 특정 Exam ID로 사용자 리스트 조회
     public UserListResponseDTO getUserListByExamId(Integer examId) {
         Exam exam = examRepository.findById(examId)
-                .orElseThrow(() -> new IllegalArgumentException("시험을 찾을 수 없습니다"));
+                .orElseThrow(() -> new BaseException(BaseResponseCode.NOT_FOUND_EXAM));
 
         List<UserListResponseDTO.UserInfo> users = new ArrayList<>();
         List<Session> sessions = sessionRepository.findByExam_ExamId(examId); // 수정된 부분
@@ -164,12 +220,11 @@ public class ExamService {
         );
     }
 
-
     // 특정 Exam ID와 User ID로 User 상세 정보 조회
     public UserDetailResponseDTO getUserDetailByExamIdAndUserId(Integer examId, Integer userId) {
-        List<Session> sessions = sessionRepository.findByExam_ExamId(examId); // 수정된 부분
+        List<Session> sessions = sessionRepository.findByExam_ExamId(examId);
         if (sessions.isEmpty()) {
-            throw new IllegalArgumentException("시험을 찾을 수 없거나 세션이 없습니다");
+            throw new BaseException(BaseResponseCode.NOT_FOUND_SESSION);
         }
 
         Optional<User> userOpt = sessions.stream()
@@ -178,8 +233,7 @@ public class ExamService {
                 .map(Optional::get)
                 .findFirst();
 
-        User user = userOpt.orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
-
+        User user = userOpt.orElseThrow(() -> new BaseException(BaseResponseCode.NOT_FOUND_USER));
 
         List<UserDetailResponseDTO.CheatingStatistic> cheatingStatistics = cheatingStatisticsRepository.findByUserId(userId).stream()
                 .map(stat -> {
@@ -216,4 +270,5 @@ public class ExamService {
                 cheatingVideos
         );
     }
+
 }

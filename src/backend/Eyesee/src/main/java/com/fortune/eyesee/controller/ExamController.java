@@ -3,10 +3,7 @@ package com.fortune.eyesee.controller;
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponse;
 import com.fortune.eyesee.common.response.BaseResponseCode;
-import com.fortune.eyesee.dto.ExamCodeRequestDTO;
-import com.fortune.eyesee.dto.ExamResponseDTO;
-import com.fortune.eyesee.dto.UserDetailResponseDTO;
-import com.fortune.eyesee.dto.UserListResponseDTO;
+import com.fortune.eyesee.dto.*;
 import com.fortune.eyesee.enums.ExamStatus;
 import com.fortune.eyesee.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exams")
@@ -57,6 +57,35 @@ public class ExamController {
 //        List<ExamResponseDTO> examList = examService.getExamsByStatus(adminId, examStatus);
 //        return ResponseEntity.ok(new BaseResponse<>(examList));
 //    }
+
+    // 시험 등록
+//    @PostMapping
+//    public ResponseEntity<BaseResponse<ExamResponseDTO>> registerExam(@RequestBody ExamRequestDTO examRequestDTO, HttpSession session) {
+//        Integer adminId = (Integer) session.getAttribute("adminId");
+//        if (adminId == null) {
+//            // 로그인되지 않은 경우 예외처리
+//            throw new BaseException(BaseResponseCode.UNAUTHORIZED);
+//        }
+//
+//        // 시험 생성 및 랜덤 코드 생성
+//        ExamResponseDTO response = examService.registerExam(adminId, examRequestDTO);
+//        return ResponseEntity.ok(new BaseResponse<>(response, "시험 등록에 성공했습니다."));
+//    }
+    @PostMapping
+    public ResponseEntity<BaseResponse<Map<String, String>>> registerExam(@RequestBody ExamRequestDTO examRequestDTO, HttpSession session) {
+        Integer adminId = (Integer) session.getAttribute("adminId");
+        if (adminId == null) {
+            throw new BaseException(BaseResponseCode.UNAUTHORIZED);
+        }
+
+        ExamResponseDTO response = examService.registerExam(adminId, examRequestDTO);
+
+        // examRandomCode만 포함된 응답 생성
+        Map<String, String> responseData = new HashMap<>();
+        responseData.put("examRandomCode", response.getExamRandomCode());
+
+        return ResponseEntity.ok(new BaseResponse<>(responseData, "시험 등록에 성공했습니다."));
+    }
 
     // "before" 상태의 Exam 리스트 조회
     @GetMapping("/before")

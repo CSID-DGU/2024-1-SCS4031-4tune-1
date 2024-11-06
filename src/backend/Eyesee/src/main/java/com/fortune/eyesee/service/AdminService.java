@@ -5,55 +5,72 @@ import com.fortune.eyesee.common.response.BaseResponseCode;
 import com.fortune.eyesee.dto.AdminLoginRequestDTO;
 import com.fortune.eyesee.dto.AdminLoginResponseDTO;
 import com.fortune.eyesee.dto.AdminSignupRequestDTO;
+import com.fortune.eyesee.dto.TokenResponseDTO;
 import com.fortune.eyesee.entity.Admin;
 import com.fortune.eyesee.repository.AdminRepository;
+import com.fortune.eyesee.utils.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 public class AdminService {
+
     @Autowired
     private AdminRepository adminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Transactional
-    public Admin registerAdmin(AdminSignupRequestDTO adminSignupRequestDTO) {
+    public TokenResponseDTO registerAndLogin(AdminSignupRequestDTO adminSignupRequestDTO) {
+        // 입력값 검증
         if (adminSignupRequestDTO.getAdminEmail() == null ||
                 adminSignupRequestDTO.getPassword() == null ||
                 adminSignupRequestDTO.getPasswordConfirm() == null) {
-            throw new BaseException(BaseResponseCode.INVALID_INPUT); // 잘못된 입력 예외 처리
+            throw new BaseException(BaseResponseCode.INVALID_INPUT);
         }
 
         if (adminRepository.findByAdminEmail(adminSignupRequestDTO.getAdminEmail()).isPresent()) {
-            throw new BaseException(BaseResponseCode.ALREADY_EXIST_USER); // 이메일 중복 예외 처리
+            throw new BaseException(BaseResponseCode.ALREADY_EXIST_USER);
         }
 
         if (!adminSignupRequestDTO.getPassword().equals(adminSignupRequestDTO.getPasswordConfirm())) {
-            throw new BaseException(BaseResponseCode.NOT_EQUAL_PASSWORD); // 비밀번호 불일치 예외 처리
+            throw new BaseException(BaseResponseCode.NOT_EQUAL_PASSWORD);
         }
 
         if (adminSignupRequestDTO.getPassword().length() < 8) {
-            throw new BaseException(BaseResponseCode.WEAK_PASSWORD); // 비밀번호 강도 예외 처리
+            throw new BaseException(BaseResponseCode.WEAK_PASSWORD);
         }
 
         String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
         if (!adminSignupRequestDTO.getAdminEmail().matches(emailPattern)) {
-            throw new BaseException(BaseResponseCode.INVALID_EMAIL_FORMAT); // 잘못된 이메일 형식 예외 처리
+            throw new BaseException(BaseResponseCode.INVALID_EMAIL_FORMAT);
         }
 
+        // 회원가입 처리
         Admin admin = new Admin();
         admin.setAdminEmail(adminSignupRequestDTO.getAdminEmail());
         admin.setPassword(passwordEncoder.encode(adminSignupRequestDTO.getPassword()));
         admin.setAdminName(adminSignupRequestDTO.getAdminName());
-        return adminRepository.save(admin);
+        adminRepository.save(admin);
+
+        // Access Token 및 Refresh Token 생성
+        String accessToken = jwtUtil.generateToken(admin.getAdminId());
+        String refreshToken = jwtUtil.generateRefreshToken(admin.getAdminId());
+
+        return new TokenResponseDTO(accessToken, refreshToken);
+
     }
 
-    // 로그인 메서드 AdminResponseDTO 변환
-    public AdminLoginResponseDTO loginAdmin(AdminLoginRequestDTO adminLoginRequestDTO) {
+    // 로그인 메서드
+    public TokenResponseDTO loginAdmin(AdminLoginRequestDTO adminLoginRequestDTO) {
         Admin admin = adminRepository.findByAdminEmail(adminLoginRequestDTO.getAdminEmail())
                 .orElseThrow(() -> new BaseException(BaseResponseCode.NOT_FOUND_USER));
 
@@ -61,7 +78,10 @@ public class AdminService {
             throw new BaseException(BaseResponseCode.WRONG_PASSWORD);
         }
 
-        // 필요한 정보만 포함하는 DTO로 변환
-        return new AdminLoginResponseDTO(admin.getAdminId(), admin.getAdminEmail(), admin.getAdminName());
+        // 로그인 성공 시 JWT 토큰 반환
+        String accessToken = jwtUtil.generateToken(admin.getAdminId());
+        String refreshToken = jwtUtil.generateRefreshToken(admin.getAdminId());
+
+        return new TokenResponseDTO(accessToken, refreshToken);
     }
 }

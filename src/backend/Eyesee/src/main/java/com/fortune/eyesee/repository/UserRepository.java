@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // Session과 UserId로 특정 사용자 검색하는 메소드
     Optional<User> findBySessionAndUserId(Session session, Integer userId);
+
+    Optional<User> findBySessionAndUserNum(Session session, Integer userNum);
 }

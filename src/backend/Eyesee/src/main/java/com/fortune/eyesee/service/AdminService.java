@@ -3,7 +3,6 @@ package com.fortune.eyesee.service;
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponseCode;
 import com.fortune.eyesee.dto.AdminLoginRequestDTO;
-import com.fortune.eyesee.dto.AdminLoginResponseDTO;
 import com.fortune.eyesee.dto.AdminSignupRequestDTO;
 import com.fortune.eyesee.dto.TokenResponseDTO;
 import com.fortune.eyesee.entity.Admin;

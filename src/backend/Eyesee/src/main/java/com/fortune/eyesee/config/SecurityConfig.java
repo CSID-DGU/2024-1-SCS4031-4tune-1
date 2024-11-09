@@ -35,7 +35,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // CSRF 비활성화
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // CORS 설정 추가
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/api/admins/signup", "/api/admins/login").permitAll()  // 인증 불필요 경로
+                        .requestMatchers(
+                                "/api/admins/signup",
+                                "/api/admins/login",
+                                "/api/exams/*/code",
+                                "/api/sessions/join"
+                        ).permitAll()  // 인증 불필요 경로
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 사용 안 함 (JWT 사용)

@@ -37,6 +37,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+    // JavaCV 의존성 추가
+    implementation "org.bytedeco:javacv-platform:1.5.10"
 }
 
 tasks.named('test') {

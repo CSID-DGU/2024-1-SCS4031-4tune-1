@@ -38,8 +38,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/admins/signup",
                                 "/api/admins/login",
-                                "/api/exams/*/code",
-                                "/api/sessions/join"
+                                "/api/sessions/join",
+                                "/api/sessions/student"
                         ).permitAll()  // 인증 불필요 경로
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )

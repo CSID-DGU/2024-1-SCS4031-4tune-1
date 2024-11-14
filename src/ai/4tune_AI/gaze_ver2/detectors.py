@@ -1,5 +1,3 @@
-# detectors.py
-
 import time
 import cv2
 from constants import *

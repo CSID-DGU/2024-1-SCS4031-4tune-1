@@ -56,7 +56,6 @@ function createInstance(type: string) {
  * 이 함수는 기본 URL만 설정된 Axios 인스턴스를 생성합니다.
  * 인증 토큰이 필요하지 않은 API 요청(예: 로그인, 회원가입 등)에 사용됩니다.
  */
-// Todo: .env 파일에서 환경변수로 api 주소를 가져오고 있지만, 서버 주소가 나오면 env 파일 없이도 사용 가능하게 수정해야 함.
 function createInstanceWithoutAuth() {
   const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_KEY,

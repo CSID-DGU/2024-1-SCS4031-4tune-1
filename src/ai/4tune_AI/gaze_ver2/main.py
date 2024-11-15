@@ -1,5 +1,3 @@
-# main.py
-
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 import mediapipe as mp

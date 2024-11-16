@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="9fb130f4-ff3a-4d08-b9af-31d0460f5b1f" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" afterDir="false" />
     </list>
@@ -22,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="ai/feature/initial-setup" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,7 +44,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ai/feature/initial-setup&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ai/feature/api__update&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -57,6 +58,10 @@
       <recent name="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
       <recent name="$PROJECT_DIR$/src/ai/4tune_AI" />
       <recent name="$PROJECT_DIR$/src/ai" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/ai" />
+      <recent name="C:\Users\pride\Desktop\2024-2-SCS4031-4tune-1\src\ai\4tune_AI" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
@@ -76,6 +81,8 @@
       <workItem from="1731154427257" duration="600000" />
       <workItem from="1731384196719" duration="1206000" />
       <workItem from="1731564970150" duration="258000" />
+      <workItem from="1731733805063" duration="95000" />
+      <workItem from="1731733911980" duration="2014000" />
     </task>
     <servers />
   </component>

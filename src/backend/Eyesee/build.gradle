@@ -30,10 +30,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    // 랜덤 코드 생성
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
     // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'  // JSON 파싱을 위해 jackson을 사용
+
+    // JavaCV 의존성 추가
+    implementation "org.bytedeco:javacv-platform:1.5.10"
+
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'

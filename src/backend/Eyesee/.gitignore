@@ -38,3 +38,10 @@ out/
 
 # application.properties 파일 무시 설정
 application.properties
+
+# 가상 환경 설정 파일 무시 설정
+/venv/
+
+# yolo 파일 무시 설정
+yolov5.pt
+/__pycache__/

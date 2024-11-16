@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 "/api/sessions/join",
                                 "/api/sessions/student"
                         ).permitAll()  // 인증 불필요 경로
-                        .anyRequest().authenticated()  // 나머지 요청은 인증 필요
+                        .anyRequest().permitAll()  // 나머지 요청은 인증 필요
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 사용 안 함 (JWT 사용)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);  // JWT 인증 필터 추가

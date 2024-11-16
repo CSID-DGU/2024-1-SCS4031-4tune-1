@@ -4,6 +4,8 @@ import lombok.Data;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -18,5 +20,5 @@ public class DetectedCheating {
     private Integer sessionId;               // 세션 ID
     private Integer cheatingTypeId;          // 부정행위 종류 ID
     private String videoId;
-    private LocalTime detectedTime;         // 탐지된 시간
+    private LocalDateTime detectedTime;         // 탐지된 시간
 }

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CheatingTypeRepository extends JpaRepository<CheatingType, Integer> {
-    Optional<CheatingType> findByCheatingTypeId(Integer cheatingTypeId);
+    Optional<CheatingType> findByCheatingTypeName(String cheatingTypeName);
 }

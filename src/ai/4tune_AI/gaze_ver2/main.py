@@ -6,6 +6,11 @@ from fastapi import FastAPI, UploadFile, File, Form
 from pydantic import BaseModel
 from detectors import *
 from starlette.responses import JSONResponse
+from collections import defaultdict, deque
+import time
+import asyncio
+import numpy as np
+import cv2
 
 app = FastAPI()
 
@@ -30,16 +35,22 @@ hands = mp_hands.Hands(
 # 객체 탐지 모델 로드 (YOLOv5l)
 model = torch.hub.load('ultralytics/yolov5', 'yolov5l')
 
+# 유저별 이미지 저장소
+user_images = defaultdict(deque)
+
+# 이미지 저장 기간 (초)
+IMAGE_RETENTION_TIME = 5  # 최근 5초간의 이미지를 저장
+
 # 부정행위 관련 변수 초기화
-start_times = {
+start_times = defaultdict(lambda: {
     'look_around': None,
     'face_absence': None,
     'head_turn': None,
     'hand_gesture': None,
     'eye_movement': None,
     'repeated_gaze': None
-}
-cheating_flags = {
+})
+cheating_flags = defaultdict(lambda: {
     'look_around': False,
     'repeated_gaze': False,
     'object': False,
@@ -49,8 +60,8 @@ cheating_flags = {
     'head_turn_long': False,
     'head_turn_repeat': False,
     'eye_movement': False
-}
-cheating_counts = {
+})
+cheating_counts = defaultdict(lambda: {
     'look_around': 0,
     'repeated_gaze': 0,
     'object': 0,
@@ -60,14 +71,14 @@ cheating_counts = {
     'head_turn_long': 0,
     'head_turn_repeat': 0,
     'eye_movement': 0
-}
+})
 
-gaze_history = []
-face_absence_history = []
-head_turn_history = []
+gaze_history = defaultdict(list)
+face_absence_history = defaultdict(list)
+head_turn_history = defaultdict(list)
 
-# 부정행위 메시지를 저장할 리스트
-cheating_messages = []
+# 부정행위 메시지를 저장할 딕셔너리
+cheating_messages = defaultdict(list)
 
 class CheatingResult(BaseModel):
     user_id: str
@@ -75,12 +86,52 @@ class CheatingResult(BaseModel):
     timestamp: str
 
 @app.post("/process_video")
-async def process_video(user_id: str = Form(...), file: UploadFile = File(...)):
-    # 비디오 파일 읽기
-    video_bytes = await file.read()
-    np_arr = np.frombuffer(video_bytes, np.uint8)
-    image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+async def process_image(user_id: str = Form(...), file: UploadFile = File(...)):
+    # 이미지 데이터 읽기
+    image_bytes = await file.read()
+    timestamp = time.time()
+    image_np = np.frombuffer(image_bytes, np.uint8)
+    image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
 
+    # 유저별 이미지 저장
+    user_images[user_id].append((image_bytes, timestamp))
+
+    # 오래된 이미지 삭제
+    remove_old_images(user_id)
+
+    # 부정행위 탐지를 비동기적으로 처리하고 결과를 기다림
+    result = await process_user_images(user_id)
+
+    # 현재 시간
+    current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+
+    # 결과 반환
+    response = {
+        'user_id': user_id,
+        'cheating_counts': result,
+        'timestamp': current_time
+    }
+
+    return JSONResponse(content=response)
+
+def remove_old_images(user_id):
+    current_time = time.time()
+    while user_images[user_id] and current_time - user_images[user_id][0][1] > IMAGE_RETENTION_TIME:
+        user_images[user_id].popleft()
+
+async def process_user_images(user_id):
+    images_with_timestamps = list(user_images[user_id])
+
+    # 이미지 처리 및 부정행위 탐지
+    for image_data, timestamp in images_with_timestamps:
+        image_np = np.frombuffer(image_data, np.uint8)
+        image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+        await process_frame(user_id, image, timestamp)
+
+    # 유저의 부정행위 카운트 반환
+    return cheating_counts[user_id]
+
+async def process_frame(user_id, image, frame_timestamp):
     # 이미지 복사 (객체 탐지용)
     image_for_detection = image.copy()
 
@@ -107,7 +158,7 @@ async def process_video(user_id: str = Form(...), file: UploadFile = File(...)):
     image_rgb.flags.writeable = True
 
     # 얼굴 부정행위 감지 (자리 이탈)
-    detect_face_absence(face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages)
+    detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages)
 
     if face_mesh_results.multi_face_landmarks:
         face_landmarks = face_mesh_results.multi_face_landmarks[0]
@@ -117,14 +168,14 @@ async def process_video(user_id: str = Form(...), file: UploadFile = File(...)):
         pitch, yaw, roll = calculate_head_pose(landmarks, image.shape)
 
         # 주변 응시 감지
-        detect_look_around(pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
+        detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
 
         # 고개 돌림 감지
-        detect_head_turn(pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history, cheating_messages)
+        detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history, cheating_messages)
 
         # 눈동자 움직임 감지
         eye_center = calculate_eye_position(landmarks)
-        detect_eye_movement(eye_center, image.shape, start_times, cheating_flags, cheating_counts, cheating_messages)
+        detect_eye_movement(user_id, eye_center, image.shape, start_times, cheating_flags, cheating_counts, cheating_messages)
 
         # 시선 위치 추정
         gaze_point = get_gaze_position(landmarks)
@@ -135,22 +186,22 @@ async def process_video(user_id: str = Form(...), file: UploadFile = File(...)):
         grid_position = (grid_row, grid_col)
 
         # 동일 위치 반복 응시 감지
-        detect_repeated_gaze(grid_position, gaze_history, start_times, cheating_flags, cheating_counts, cheating_messages, pitch)
+        detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts, cheating_messages, pitch)
 
     else:
         # 얼굴 랜드마크가 검출되지 않는 경우
-        start_times['look_around'] = None
-        cheating_flags['look_around'] = False
-        start_times['head_turn'] = None
-        cheating_flags['head_turn_long'] = False
+        start_times[user_id]['look_around'] = None
+        cheating_flags[user_id]['look_around'] = False
+        start_times[user_id]['head_turn'] = None
+        cheating_flags[user_id]['head_turn_long'] = False
 
     # 손동작 감지
     if hands_results.multi_hand_landmarks:
         hand_landmarks_list = hands_results.multi_hand_landmarks
-        detect_hand_gestures(hand_landmarks_list, start_times, cheating_flags, cheating_counts, cheating_messages)
+        detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts, cheating_messages)
     else:
-        start_times['hand_gesture'] = None
-        cheating_flags['hand_gesture'] = False
+        start_times[user_id]['hand_gesture'] = None
+        cheating_flags[user_id]['hand_gesture'] = False
 
     # 객체 탐지 결과 처리
     detections = []
@@ -161,19 +212,7 @@ async def process_video(user_id: str = Form(...), file: UploadFile = File(...)):
             detections.append({'name': name, 'bbox': (x1, y1, x2, y2), 'conf': float(conf)})
 
     # 부정행위 물체 감지
-    detect_object_presence(detections, cheating_flags, cheating_counts, cheating_messages, image)
-
-    # 현재 시간
-    current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-
-    # 결과 반환
-    result = {
-        'user_id': user_id,
-        'cheating_counts': cheating_counts,
-        'timestamp': current_time
-    }
-
-    return JSONResponse(content=result)
+    detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image)
 
 # FastAPI 실행 (개발용)
 # uvicorn main:app --host 0.0.0.0 --port 8000

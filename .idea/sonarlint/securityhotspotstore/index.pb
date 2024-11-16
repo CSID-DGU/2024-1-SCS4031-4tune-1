@@ -11,3 +11,7 @@ Q
 !src/ai/4tune_AI/gaze_ver2/main.py,9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080
 V
 &src/ai/4tune_AI/gaze_ver2/constants.py,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+T
+$src/ai/4tune_AI/gaze_ver2/.gitignore,e/f/ef66cab10dc3ade72c6fdf7330fd8e3a44248bcd
+A
+src/ai/.gitignore,7/d/7d01d549631efecd842a47b2109686b0dadda929

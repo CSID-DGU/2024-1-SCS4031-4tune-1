@@ -88,30 +88,6 @@ public class ExamController {
         return ResponseEntity.ok(new BaseResponse<>(examList));
     }
 
-
-
-    // ExamCode로 특정 Exam 조회 (POST 요청)
-    @PostMapping("/{examId}/code")
-    public ResponseEntity<BaseResponse<ExamResponseDTO>> getExamByCode(@PathVariable Integer examId, @RequestBody ExamCodeRequestDTO examCodeRequestDTO, HttpSession session) {
-        // examId가 존재하는지 확인
-        if (!examService.existsById(examId)) {
-            throw new BaseException(BaseResponseCode.NOT_FOUND_EXAM);
-        }
-
-        // examCode로 시험 정보 조회
-        ExamResponseDTO examResponseDTO = examService.getExamByCode(examCodeRequestDTO.getExamCode());
-
-        // examId 비교
-        if (!examResponseDTO.getExamId().equals(examId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(),
-                            BaseResponseCode.NOT_FOUND_EXAM.getCode(),
-                            "제공된 examId와 조회된 시험의 examId가 일치하지 않습니다."));
-        }
-
-        return ResponseEntity.ok(new BaseResponse<>(examResponseDTO));
-    }
-
     // 특정 시험 ID에 해당하는 세션 내 모든 학생들의 리스트를 조회
     @GetMapping("/{examId}/sessions")
     public ResponseEntity<BaseResponse<UserListResponseDTO>> getUserListByExamId(@PathVariable Integer examId) {

@@ -50,6 +50,9 @@ public enum BaseResponseCode {
     INVALID_EXAM_STATUS("E0004", HttpStatus.BAD_REQUEST, "유효하지 않은 시험 상태입니다."),
     EXAM_ACCESS_DENIED("E0005", HttpStatus.FORBIDDEN, "시험에 접근할 권한이 없습니다."),
 
+    // Session Errors
+    NOT_FOUND_SESSION("E0006", HttpStatus.NOT_FOUND, "세션을 찾을 수 없습니다."),
+
     // 기타 추가 오류 코드 ...
 
     ;

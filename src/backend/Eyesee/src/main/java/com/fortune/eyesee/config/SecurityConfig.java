@@ -1,9 +1,16 @@
 package com.fortune.eyesee.config;
 
+import com.fortune.eyesee.security.JwtAuthenticationFilter;
+import com.fortune.eyesee.utils.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
@@ -13,18 +20,31 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
-                .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (필요시 활성화 가능)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/admin/signup", "/api/admin/login").permitAll() // 회원가입, 로그인은 인증 필요 없음
-                        .anyRequest().permitAll() // 나머지 요청도 인증 필요 없음
+                .csrf(csrf -> csrf.disable())  // CSRF 비활성화
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // CORS 설정 추가
+                .authorizeRequests(auth -> auth
+                        .requestMatchers(
+                                "/api/admins/signup",
+                                "/api/admins/login",
+                                "/api/sessions/join",
+                                "/api/sessions/student"
+                        ).permitAll()  // 인증 불필요 경로
+                        .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
-                .formLogin(form -> form.disable()); // 기본 로그인 폼 비활성화
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 사용 안 함 (JWT 사용)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);  // JWT 인증 필터 추가
 
         return http.build();
     }
@@ -32,10 +52,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://example.com", "http://localhost:3000")); // 허용할 도메인 설정
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
-        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
-        configuration.setAllowCredentials(true); // 인증 정보 포함 여부
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://eyesee-admin.vercel.app"));  // 허용할 도메인 설정
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드
+        configuration.setAllowedHeaders(List.of("*"));  // 모든 헤더 허용
+        configuration.setAllowCredentials(true);  // 인증 정보 포함 여부
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -6,6 +6,24 @@ import { api } from "@/apis";
 const RealTimeVideoPage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const socketRef = useRef<WebSocket | null>(null);
+
+  // WebSocket 연결 설정
+  const setupWebSocket = () => {
+    // TODO: 웹소캣 서버
+    const socket = new WebSocket("ws://");
+    socket.onopen = () => {
+      console.log("WebSocket 연결 성공");
+    };
+    socket.onerror = (error) => {
+      console.error("WebSocket 오류:", error);
+    };
+    socket.onclose = () => {
+      console.log("WebSocket 연결 종료");
+    };
+
+    socketRef.current = socket;
+  };
 
   // 비디오 스트림 가져오기
   const startStreaming = async () => {
@@ -22,9 +40,30 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // Canvas를 사용해 비디오 프레임을 JPEG로 캡처하고 서버에 전송
-  const captureAndSendFrame = async () => {
-    if (canvasRef.current && videoRef.current) {
+  // 시작 시점에 API 호출
+  const callStartRecordingApi = async () => {
+    // JSON 데이터 생성
+    const examData = {
+      userId: 123, // 사용자 ID
+      sessionId: 456, // 세션 ID
+      startTime: new Date().toISOString(), // 부정행위 발생 시간
+    };
+
+    try {
+      const response = await api.post("/video-recording/start", examData);
+      console.log("시작 API 호출 성공:", response.data);
+    } catch (error) {
+      console.error("시작 API 호출 실패:", error);
+    }
+  };
+
+  // Canvas를 사용해 비디오 프레임을 WebSocket으로 전송
+  const captureAndSendFrame = () => {
+    if (
+      canvasRef.current &&
+      videoRef.current &&
+      socketRef.current?.readyState === WebSocket.OPEN
+    ) {
       const canvas = canvasRef.current;
       const video = videoRef.current;
 
@@ -39,10 +78,22 @@ const RealTimeVideoPage = () => {
 
         // 캡처된 Canvas를 JPEG Blob으로 변환
         canvas.toBlob(
-          async (blob) => {
-            if (blob) {
-              // JPEG 이미지를 서버로 전송
-              await sendImageToServer(blob);
+          (blob) => {
+            if (blob && socketRef.current) {
+              // 임의 코드(필요시 사용)
+              const payload = {
+                userId: 123,
+                sessionId: 456,
+                time: new Date().toISOString(),
+              };
+
+              const message = {
+                metadata: payload,
+                image: blob,
+              };
+
+              socketRef.current.send(JSON.stringify(message));
+              console.log("이미지 및 메타데이터 전송");
             }
           },
           "image/jpeg",
@@ -52,41 +103,24 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // Blob 데이터를 서버에 전송하는 함수 (Axios 사용)
-  const sendImageToServer = async (blob: Blob) => {
-    const formData = new FormData();
-
-    // JSON 데이터 생성
-    const cheatingData = {
-      userId: 123, // 사용자 ID
-      sessionId: 456, // 세션 ID
-      cheatingTypeId: 789, // 부정행위 유형 ID
-      detectedTime: new Date().toISOString(), // 부정행위 발생 시간
-    };
-
-    // FormData에 이미지 및 JSON 추가
-    formData.append("image", blob, "frame.jpg");
-    formData.append("data", JSON.stringify(cheatingData)); // JSON 데이터 추가
-
-    try {
-      const response = await api.post("/video-recording/start", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("이미지 전송 성공:", response.data);
-    } catch (error) {
-      console.error("이미지 전송 실패:", error);
-    }
-  };
-
-  // 비디오 스트리밍 시작 및 일정 간격으로 프레임 캡처
+  // 초기화 작업: WebSocket 연결, 비디오 스트리밍 시작, 시작 API 호출
   useEffect(() => {
     const initialize = async () => {
+      await callStartRecordingApi(); // 시작 API 호출
+      setupWebSocket();
       await startStreaming();
+
       // 0.5초에 한 번씩 프레임 캡처 및 전송
       const captureInterval = setInterval(captureAndSendFrame, 500);
-      return () => clearInterval(captureInterval);
+
+      return () => {
+        clearInterval(captureInterval);
+
+        // WebSocket 연결 종료
+        if (socketRef.current) {
+          socketRef.current.close();
+        }
+      };
     };
 
     initialize();
@@ -99,7 +133,7 @@ const RealTimeVideoPage = () => {
         autoPlay
         playsInline
         className="w-screen h-screen object-cover border border-gray-300"
-        style={{ transform: "scaleX(-1)" }}
+        style={{ transform: "scaleX(-1)" }} // 좌우 반전
       />
       <canvas ref={canvasRef} style={{ display: "none" }} />
     </div>

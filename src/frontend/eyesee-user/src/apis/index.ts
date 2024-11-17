@@ -13,7 +13,7 @@ import axios, { AxiosInstance } from "axios";
  * 클라이언트 사이드에서만 토큰을 추가하며, 서버 사이드 렌더링 시에는 토큰을 추가하지 않습니다.
  */
 
-function setInterceptors(instance: AxiosInstance, type: string) {
+function setInterceptors(instance: AxiosInstance) {
   instance.interceptors.request.use(
     (config) => {
       if (typeof window !== "undefined" && config.headers) {
@@ -39,11 +39,11 @@ function setInterceptors(instance: AxiosInstance, type: string) {
  * 이 함수는 기본 URL이 설정된 Axios 인스턴스를 생성하고,
  * setInterceptors 함수를 통해 인증 토큰을 자동으로 추가하는 인터셉터를 설정합니다.
  */
-function createInstance(type: string) {
+function createInstance() {
   const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_KEY,
   });
-  return setInterceptors(instance, type);
+  return setInterceptors(instance);
 }
 
 /**
@@ -67,7 +67,7 @@ function createInstanceWithoutAuth() {
  * 인증이 필요한 API 요청에 사용할 Axios 인스턴스
  * @const {AxiosInstance}
  */
-export const api = createInstance("server");
+export const api = createInstance();
 
 /**
  * 인증이 필요하지 않은 API 요청에 사용할 Axios 인스턴스

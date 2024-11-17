@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 
 const RealTimeVideoPage = () => {
@@ -11,9 +13,11 @@ const RealTimeVideoPage = () => {
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        console.log("비디오 스트림 시작");
       }
     } catch (error) {
       console.error("비디오 스트림 가져오기 오류:", error);
+      alert("카메라 권한을 허용해주세요.");
     }
   };
 
@@ -33,12 +37,16 @@ const RealTimeVideoPage = () => {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
         // 캡처된 Canvas를 JPEG Blob으로 변환
-        canvas.toBlob(async (blob) => {
-          if (blob) {
-            // JPEG 이미지를 서버로 전송
-            await sendImageToServer(blob);
-          }
-        }, "image/jpeg");
+        canvas.toBlob(
+          async (blob) => {
+            if (blob) {
+              // JPEG 이미지를 서버로 전송
+              await sendImageToServer(blob);
+            }
+          },
+          "image/jpeg",
+          0.7
+        ); // 품질 70%
       }
     }
   };
@@ -46,10 +54,20 @@ const RealTimeVideoPage = () => {
   // Blob 데이터를 서버에 전송하는 함수
   const sendImageToServer = async (blob: Blob) => {
     const formData = new FormData();
+
+    // JSON 데이터 생성
+    const cheatingData = {
+      sessionId: 456, // 세션 ID
+      userId: 123, // 사용자 ID
+      startTime: new Date().toISOString(), // 부정행위 발생 시간
+    };
+
+    // FormData에 이미지 및 JSON 추가
     formData.append("image", blob, "frame.jpg");
+    formData.append("data", JSON.stringify(cheatingData)); // JSON 데이터 추가
 
     try {
-      const response = await fetch("/api/upload-image", {
+      const response = await fetch("/video-recording/start", {
         method: "POST",
         body: formData,
       });
@@ -64,17 +82,25 @@ const RealTimeVideoPage = () => {
 
   // 비디오 스트리밍 시작 및 일정 간격으로 프레임 캡처
   useEffect(() => {
-    startStreaming();
+    const initialize = async () => {
+      await startStreaming();
+      // 0.5초에 한 번씩 프레임 캡처 및 전송
+      const captureInterval = setInterval(captureAndSendFrame, 500);
+      return () => clearInterval(captureInterval);
+    };
 
-    // 0.1초에 한 번씩 프레임 캡처 및 전송
-    const captureInterval = setInterval(captureAndSendFrame, 100);
-    return () => clearInterval(captureInterval);
+    initialize();
   }, []);
 
   return (
-    <div>
-      <h1>실시간 JPEG 이미지 전송</h1>
-      <video ref={videoRef} autoPlay playsInline style={{ display: "none" }} />
+    <div className="flex flex-col items-center justify-center h-screen">
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        className="w-screen h-screen object-cover border border-gray-300"
+        style={{ transform: "scaleX(-1)" }}
+      />
       <canvas ref={canvasRef} style={{ display: "none" }} />
     </div>
   );

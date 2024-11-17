@@ -5,9 +5,15 @@ type NextButtonProps = {
   action?: string;
   isAvailable: boolean;
   title: string;
+  noArrow?: boolean;
 };
 
-const NextButton = ({ action, isAvailable, title }: NextButtonProps) => {
+const NextButton = ({
+  action,
+  isAvailable,
+  title,
+  noArrow,
+}: NextButtonProps) => {
   const route = useRouter();
   const handleClick = () => {
     if (action) {
@@ -22,7 +28,7 @@ const NextButton = ({ action, isAvailable, title }: NextButtonProps) => {
       }`}
     >
       <div>{title}</div>
-      <div>→</div>
+      {!noArrow && <div>→</div>}
     </div>
   );
 };

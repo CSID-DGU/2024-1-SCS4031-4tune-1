@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <>
-      {pathname !== "/" && (
+      {pathname !== "/" && pathname !== "/exam-room" && (
         <div className="px-[6vw] py-[2vh] flex justify-between items-center bg-[#0E1D3C]">
           <LogoIcon />
           <MenuIcon />

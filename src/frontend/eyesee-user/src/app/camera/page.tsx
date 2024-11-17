@@ -36,7 +36,7 @@ const CameraPage = () => {
           ref={videoRef}
           autoPlay
           playsInline
-          className="w-[90vw] h-[60vh] border border-gray-300 rounded"
+          className="w-[90vw] h-[60vh] object-cover border border-gray-300 rounded"
           style={{ transform: "scaleX(-1)" }} // 좌우 반전
         />
         <div className="text-sm text-gray-600">

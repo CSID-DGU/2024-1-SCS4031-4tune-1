@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { api } from "@/apis";
 
 const RealTimeVideoPage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -51,15 +52,16 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // Blob 데이터를 서버에 전송하는 함수
+  // Blob 데이터를 서버에 전송하는 함수 (Axios 사용)
   const sendImageToServer = async (blob: Blob) => {
     const formData = new FormData();
 
     // JSON 데이터 생성
     const cheatingData = {
-      sessionId: 456, // 세션 ID
       userId: 123, // 사용자 ID
-      startTime: new Date().toISOString(), // 부정행위 발생 시간
+      sessionId: 456, // 세션 ID
+      cheatingTypeId: 789, // 부정행위 유형 ID
+      detectedTime: new Date().toISOString(), // 부정행위 발생 시간
     };
 
     // FormData에 이미지 및 JSON 추가
@@ -67,14 +69,12 @@ const RealTimeVideoPage = () => {
     formData.append("data", JSON.stringify(cheatingData)); // JSON 데이터 추가
 
     try {
-      const response = await fetch("/video-recording/start", {
-        method: "POST",
-        body: formData,
+      const response = await api.post("/video-recording/start", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      if (!response.ok) {
-        throw new Error("이미지 전송 오류");
-      }
-      console.log("이미지 전송 성공");
+      console.log("이미지 전송 성공:", response.data);
     } catch (error) {
       console.error("이미지 전송 실패:", error);
     }

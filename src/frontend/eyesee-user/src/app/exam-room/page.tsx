@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { api } from "@/apis";
+import NextButton from "@/components/common/NextButton";
 
 const RealTimeVideoPage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -136,6 +137,14 @@ const RealTimeVideoPage = () => {
         style={{ transform: "scaleX(-1)" }} // 좌우 반전
       />
       <canvas ref={canvasRef} style={{ display: "none" }} />
+      <div className="fixed bottom-6 right-6">
+        <NextButton
+          action="/"
+          title="시험 종료"
+          isAvailable={true}
+          noArrow={true}
+        />
+      </div>
     </div>
   );
 };

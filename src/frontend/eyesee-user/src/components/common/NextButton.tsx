@@ -23,7 +23,7 @@ const NextButton = ({
   return (
     <div
       onClick={handleClick}
-      className={`flex justify-between items-center gap-14 text-white text-[14px] tracking-[4.2px] px-4 py-3 ${
+      className={`z-50 flex justify-between items-center gap-14 text-white text-[14px] tracking-[4.2px] px-4 py-3 ${
         isAvailable ? "bg-[rgb(14,29,60,0.8)]" : "bg-[rgb(146,146,146,0.8)]"
       }`}
     >

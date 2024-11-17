@@ -5,7 +5,7 @@ import SubHeader from "@/components/common/SubHeader";
 import InputTestCode from "@/components/enterTestCode/InputTestCode";
 import React, { useEffect, useState } from "react";
 
-const enterPage = () => {
+const EnterPage = () => {
   const [code, setCode] = useState("");
   const [isAvailable, setIsAvailable] = useState(false);
 
@@ -32,4 +32,4 @@ const enterPage = () => {
   );
 };
 
-export default enterPage;
+export default EnterPage;

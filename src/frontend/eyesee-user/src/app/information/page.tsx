@@ -7,7 +7,7 @@ import { Information } from "@/types/information";
 import { informationValidation } from "@/utils/validation";
 import { useEffect, useState } from "react";
 
-const page = () => {
+const InformationPage = () => {
   const [isAvailable, setIsAvailable] = useState(false);
   const [information, setInformation] = useState<Information>({
     name: "",
@@ -38,4 +38,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default InformationPage;

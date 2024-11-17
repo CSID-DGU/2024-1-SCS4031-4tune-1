@@ -37,6 +37,7 @@ const CameraPage = () => {
           autoPlay
           playsInline
           className="w-[90vw] h-[60vh] border border-gray-300 rounded"
+          style={{ transform: "scaleX(-1)" }} // 좌우 반전
         />
         <div className="text-sm text-gray-600">
           카메라가 정상적으로 작동하고 있는지 확인하세요.

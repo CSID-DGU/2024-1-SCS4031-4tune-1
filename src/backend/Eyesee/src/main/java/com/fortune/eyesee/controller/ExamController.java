@@ -3,19 +3,20 @@ package com.fortune.eyesee.controller;
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponse;
 import com.fortune.eyesee.common.response.BaseResponseCode;
-import com.fortune.eyesee.dto.ExamCodeRequestDTO;
-import com.fortune.eyesee.dto.ExamResponseDTO;
-import com.fortune.eyesee.dto.UserDetailResponseDTO;
-import com.fortune.eyesee.dto.UserListResponseDTO;
+import com.fortune.eyesee.dto.*;
 import com.fortune.eyesee.enums.ExamStatus;
 import com.fortune.eyesee.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exams")
@@ -86,6 +87,21 @@ public class ExamController {
         // adminId를 사용하지 않는 조회 방식으로 수정
         List<ExamResponseDTO> examList = examService.getExamsByStatus(null, examStatus);
         return ResponseEntity.ok(new BaseResponse<>(examList));
+    }
+
+    @PostMapping
+    public ResponseEntity<BaseResponse<Map<String, String>>> registerExam(@RequestBody ExamRequestDTO examRequestDTO ) {
+
+        // SecurityContextHolder에서 adminId를 가져옴
+        Integer adminId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        ExamResponseDTO examResponseDTO = examService.registerExam(adminId, examRequestDTO);
+
+        // examRandomCode만 포함된 응답 생성
+        Map<String, String> response = new HashMap<>();
+        response.put("examRandomCode", examResponseDTO.getExamRandomCode());
+
+        return ResponseEntity.ok(new BaseResponse<>(response, "시험 등록에 성공했습니다."));
     }
 
     // 특정 시험 ID에 해당하는 세션 내 모든 학생들의 리스트를 조회

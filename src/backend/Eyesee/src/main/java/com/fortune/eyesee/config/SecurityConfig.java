@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/api/admins/signup",
                                 "/api/admins/login",
                                 "/api/sessions/join",
-                                "/api/sessions/student"
+                                "/api/sessions/student",
+                                "/api/cheatings"
                         ).permitAll()  // 인증 불필요 경로
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
@@ -52,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://eyesee-admin.vercel.app"));  // 허용할 도메인 설정
+        configuration.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:8000", "https://eyesee-admin.vercel.app","https://eyesee-user.vercel.app"));  // 허용할 도메인 설정
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드
         configuration.setAllowedHeaders(List.of("*"));  // 모든 헤더 허용
         configuration.setAllowCredentials(true);  // 인증 정보 포함 여부

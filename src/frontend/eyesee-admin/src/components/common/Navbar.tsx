@@ -6,9 +6,10 @@ import Profile from "@/assets/icons/Profile.svg";
 
 type NavbarProps = {
   bgColr: string;
+  hasMenu?: boolean;
 };
 
-const Navbar = ({ bgColr }: NavbarProps) => {
+const Navbar = ({ bgColr, hasMenu }: NavbarProps) => {
   const router = useRouter();
 
   const handleNavigation = (path: string) => {
@@ -23,14 +24,18 @@ const Navbar = ({ bgColr }: NavbarProps) => {
         <Logo onClick={() => handleNavigation("/")} />
       </div>
       <div className="flex justify-between gap-16">
-        <button className="text-2xl text-white">About us</button>
-        <Profile />
-        {/* <button
+        {hasMenu && (
+          <>
+            <button className="text-2xl text-white">About us</button>
+            <Profile />
+            {/* <button
           onClick={() => handleNavigation("/signin")}
           className="text-2xl"
         >
           Sign in
         </button> */}
+          </>
+        )}
       </div>
     </div>
   );

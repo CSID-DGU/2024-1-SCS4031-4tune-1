@@ -1,4 +1,4 @@
-import { api } from ".";
+import { api, apiWithoutAuth } from ".";
 import { testSesstion } from "@/types/user";
 import { RESTYPE } from "@/types/common";
 

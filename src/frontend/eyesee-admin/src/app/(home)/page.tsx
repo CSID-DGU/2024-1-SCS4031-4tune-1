@@ -4,7 +4,7 @@ import HomeContents from "@/components/home/HomeContents";
 const HomePage = () => {
   return (
     <div className="bg-bgGradient w-screen h-screen flex flex-col justify-between">
-      <Navbar bgColr="bg-[#141412]" />
+      <Navbar bgColr="bg-[#141412]" hasMenu={true} />
       <HomeContents />
     </div>
   );

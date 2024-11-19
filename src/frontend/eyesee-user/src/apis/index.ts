@@ -54,7 +54,6 @@ function createInstance() {
  *
  * @description
  * 이 함수는 기본 URL만 설정된 Axios 인스턴스를 생성합니다.
- * 인증 토큰이 필요하지 않은 API 요청(예: 로그인, 회원가입 등)에 사용됩니다.
  */
 function createInstanceWithoutAuth() {
   const instance = axios.create({

@@ -4,16 +4,20 @@ import { userInformation } from "@/apis/userInformation";
 import NextButton from "@/components/common/NextButton";
 import SubHeader from "@/components/common/SubHeader";
 import InformationSection from "@/components/information/InformationSection";
+import { useExamStore } from "@/store/useExamStore";
 import { UserInfoRequest } from "@/types/exam";
+import { setAccessToken, setRefreshToken } from "@/utils/auth";
 import { informationValidation } from "@/utils/validation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const InformationPage = () => {
   const router = useRouter();
+  const { exam } = useExamStore();
   const [isAvailable, setIsAvailable] = useState(false);
   const [information, setInformation] = useState<UserInfoRequest>({
-    examCode: "",
+    // TODO: 서버 데이터 타입 통일 필요
+    examCode: exam.examRandomCode,
     name: "",
     department: "",
     userNum: 0,
@@ -25,6 +29,8 @@ const InformationPage = () => {
     try {
       const response = await userInformation(information); // API 호출
       console.log("응답 데이터:", response); // 성공 시 데이터 처리
+      setAccessToken(response.data.access_token);
+      setRefreshToken(response.data.refresh_token);
       router.push("/camera");
     } catch (error) {
       console.error("수험 정보 입력 실패:", error); // 실패 시 에러 처리

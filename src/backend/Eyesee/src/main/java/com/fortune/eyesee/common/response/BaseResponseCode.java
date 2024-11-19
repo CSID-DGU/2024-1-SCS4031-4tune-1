@@ -53,6 +53,9 @@ public enum BaseResponseCode {
     // Session Errors
     NOT_FOUND_SESSION("E0006", HttpStatus.NOT_FOUND, "세션을 찾을 수 없습니다."),
 
+    // Cheating Errors
+    NOT_FOUND_CHEATING_TYPE("C0001", HttpStatus.NOT_FOUND, "부정행위 타입을 찾을 수 없습니다."),
+
     // 기타 추가 오류 코드 ...
 
     ;

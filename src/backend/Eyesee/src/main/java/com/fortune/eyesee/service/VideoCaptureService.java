@@ -1,181 +1,86 @@
 package com.fortune.eyesee.service;
 
-import com.fortune.eyesee.repository.DetectedCheatingRepository;
-import com.fortune.eyesee.utils.S3Uploader;
-import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.FrameGrabber;
-import org.bytedeco.javacv.Java2DFrameConverter;
-import org.bytedeco.javacv.OpenCVFrameConverter;
+import org.bytedeco.opencv.global.opencv_imgcodecs;
+import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static org.bytedeco.opencv.global.opencv_core.flip;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class VideoCaptureService {
 
-    private final AIHttpService aiHttpService;
-    private final S3Uploader s3Uploader;
-    private final CheatingValidationService cheatingValidationService;
-    private final DetectedCheatingRepository detectedCheatingRepository;
-    private final Deque<FrameData> frameBuffer = new ArrayDeque<>();
-    private final int bufferSize = 300;
-    private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     @Autowired
-    private CheatingTypeMappingService cheatingTypeMappingService;
+    private AIHttpService aiHttpService;
+    @Autowired
+    private CheatingService cheatingService;
 
-    public VideoCaptureService(AIHttpService aiHttpService, S3Uploader s3Uploader,
-                               CheatingValidationService cheatingValidationService,
-                               DetectedCheatingRepository detectedCheatingRepository) {
-        this.aiHttpService = aiHttpService;
-        this.s3Uploader = s3Uploader;
-        this.cheatingValidationService = cheatingValidationService;
-        this.detectedCheatingRepository = detectedCheatingRepository;
-    }
+    private final Deque<Mat> frameBuffer = new ConcurrentLinkedDeque<>();
+    private static final int BUFFER_SIZE = 500; // 최대 프레임 버퍼 크기 (적절히 축소)
+    private static final int FRAME_DROP_INTERVAL = 1; // 프레임 드롭 간격
+    private final ExecutorService frameProcessingExecutor = Executors.newFixedThreadPool(4); // 병렬 스레드
 
-    public void startCapture(Integer userId, Integer sessionId) {
-        try (FrameGrabber grabber = FrameGrabber.createDefault(0)) {
-            grabber.start();
-            OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
+    private int frameCounter = 0; // 프레임 카운터
 
-            while (true) {
-                Frame frame = grabber.grab();
-                if (frame != null) {
-                    Mat mat = converter.convert(frame);
-                    if (mat != null) {
-                        Mat flippedMat = new Mat();
-                        flip(mat, flippedMat, 1);
+    /**
+     * WebRTC 데이터를 처리하고 AI 서버 호출
+     */
+    public void processWebRTCData(Integer userId, Integer sessionId, byte[] frameData) {
+        frameCounter++;
 
-                        synchronized (frameBuffer) {
-                            if (frameBuffer.size() >= bufferSize) {
-                                frameBuffer.pollFirst();
-                            }
-                            frameBuffer.addLast(new FrameData(flippedMat.clone(), LocalDateTime.now()));
-                        }
-
-                        File tempFile = saveImageToTempFile(flippedMat);
-
-                        CheatingResult result = aiHttpService.detectCheating(userId, tempFile);
-                        if (result != null) {
-                            processCheatingResult(userId, sessionId, result);
-                        }
-
-                        tempFile.delete();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        // 프레임 드롭: FRAME_DROP_INTERVAL에 해당하지 않으면 무시
+        if (frameCounter % FRAME_DROP_INTERVAL != 0) {
+            return;
         }
-    }
 
-    private void processCheatingResult(Integer userId, Integer sessionId, CheatingResult result) {
-        if (result != null && result.getCheatingCounts() != null && !result.getCheatingCounts().isEmpty()) {
-            // 부정행위 발생 시점 파싱
-            LocalDateTime cheatingTimestamp = LocalDateTime.parse(result.getTimestamp(), TIMESTAMP_FORMATTER);
-
-            // 부정행위 유형 확인 및 처리
-            result.getCheatingCounts().forEach((cheatingTypeName, currentCount) -> {
-                try {
-                    // 부정행위 유형 ID 매핑
-                    Integer cheatingTypeId = cheatingTypeMappingService.getCheatingTypeId(cheatingTypeName);
-
-                    // 기존 부정행위 횟수 조회
-                    Integer previousCount = cheatingValidationService.getExistingCheatingCount(
-                            userId, sessionId, cheatingTypeId
-                    );
-
-                    // 새로운 부정행위인지 확인
-                    if (currentCount > (previousCount != null ? previousCount : 0)) {
-                        // 새로운 부정행위 발생 -> 데이터 저장
-                        cheatingValidationService.saveNewCheatingRecord(
-                                userId, sessionId, cheatingTypeId, cheatingTimestamp
-                        );
-
-                        // 비디오 저장
-                        saveClipToS3(cheatingTimestamp);
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.err.println("Unknown cheating type: " + cheatingTypeName);
-                }
-            });
-        }
-    }
-
-    private File saveImageToTempFile(Mat mat) throws Exception {
-        OpenCVFrameConverter.ToMat matConverter = new OpenCVFrameConverter.ToMat();
-        Frame frame = matConverter.convert(mat);
-
-        Java2DFrameConverter java2DConverter = new Java2DFrameConverter();
-        BufferedImage bufferedImage = java2DConverter.convert(frame);
-
-        BufferedImage downsampledImage = resizeImage(bufferedImage, 640, 360);
-
-        String tempFileName = "temp-" + UUID.randomUUID() + ".jpg";
-        File tempFile = new File(System.getProperty("java.io.tmpdir"), tempFileName);
-
-        ImageIO.write(downsampledImage, "jpg", tempFile);
-
-        return tempFile;
-    }
-
-    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
-        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, originalImage.getType());
-        Graphics2D graphics = resizedImage.createGraphics();
-        graphics.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-        graphics.dispose();
-        return resizedImage;
-    }
-
-    private String saveClipToS3(LocalDateTime cheatingTimestamp) {
-        synchronized (frameBuffer) {
+        // 스레드를 통해 처리
+        frameProcessingExecutor.submit(() -> {
             try {
-                LocalDateTime startTime = cheatingTimestamp.minusSeconds(15);
-                LocalDateTime endTime = cheatingTimestamp.plusSeconds(15);
+                // 프레임 변환 및 크기 조정
+                Mat frameMat = convertToMatAndResize(frameData, 320, 180);
 
-                Deque<Mat> clipFrames = new ArrayDeque<>();
-                for (FrameData frameData : frameBuffer) {
-                    if (!frameData.getTimestamp().isBefore(startTime) && !frameData.getTimestamp().isAfter(endTime)) {
-                        clipFrames.add(frameData.getFrame());
+                // 프레임 버퍼에 추가
+                synchronized (frameBuffer) {
+                    if (frameBuffer.size() >= BUFFER_SIZE) {
+                        frameBuffer.pollFirst(); // 오래된 프레임 제거
                     }
+                    frameBuffer.addLast(frameMat);
                 }
 
-                String filePath = "detected_clip_" + cheatingTimestamp.toString().replace(":", "-") + ".mp4";
-                s3Uploader.uploadVideo(clipFrames, filePath);
-                System.out.println("Clip saved to S3: " + filePath);
-                return filePath;
+                // AI 서버 호출
+                CheatingResult result = aiHttpService.processWebRTCData(userId, sessionId, frameData);
+                if (result != null) {
+                    cheatingService.processCheatingResult(userId, sessionId, result, frameBuffer);
+                }
             } catch (Exception e) {
+                System.err.println("Error processing WebRTC data: " + e.getMessage());
                 e.printStackTrace();
-                return null;
             }
-        }
+        });
     }
 
-    private static class FrameData {
-        private final Mat frame;
-        private final LocalDateTime timestamp;
+    /**
+     * byte[] 데이터를 Mat로 변환하고 크기 조정
+     */
+    private Mat convertToMatAndResize(byte[] data, int targetWidth, int targetHeight) {
+        // byte[] 데이터를 Mat으로 변환
+        Mat encodedMat = new Mat(data.length, 1, org.bytedeco.opencv.global.opencv_core.CV_8UC1);
+        encodedMat.data().put(data);
 
-        public FrameData(Mat frame, LocalDateTime timestamp) {
-            this.frame = frame;
-            this.timestamp = timestamp;
+        // 디코딩하여 실제 Mat 생성
+        Mat decodedMat = opencv_imgcodecs.imdecode(encodedMat, opencv_imgcodecs.IMREAD_COLOR);
+        if (decodedMat == null || decodedMat.empty()) {
+            throw new IllegalArgumentException("Failed to decode image data into Mat.");
         }
 
-        public Mat getFrame() {
-            return frame;
-        }
+        // 크기 조정
+        Mat resizedMat = new Mat();
+        opencv_imgproc.resize(decodedMat, resizedMat, new org.bytedeco.opencv.opencv_core.Size(targetWidth, targetHeight));
 
-        public LocalDateTime getTimestamp() {
-            return timestamp;
-        }
+        return resizedMat;
     }
 }

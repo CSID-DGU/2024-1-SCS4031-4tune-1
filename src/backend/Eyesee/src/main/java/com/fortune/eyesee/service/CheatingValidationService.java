@@ -24,15 +24,15 @@ public class CheatingValidationService {
     }
 
     /**
-     * 새로운 부정행위 기록을 저장
+     * 새로운 부정행위 기록 저장
      */
     public void saveNewCheatingRecord(Integer userId, Integer sessionId, Integer cheatingTypeId, LocalDateTime detectedTime) {
-        DetectedCheating newCheating = new DetectedCheating();
-        newCheating.setUserId(userId);
-        newCheating.setSessionId(sessionId);
-        newCheating.setCheatingTypeId(cheatingTypeId);
-        newCheating.setDetectedTime(detectedTime);
+        DetectedCheating cheatingRecord = new DetectedCheating();
+        cheatingRecord.setUserId(userId);
+        cheatingRecord.setSessionId(sessionId);
+        cheatingRecord.setCheatingTypeId(cheatingTypeId);
+        cheatingRecord.setDetectedTime(detectedTime);
 
-        detectedCheatingRepository.save(newCheating);
+        detectedCheatingRepository.save(cheatingRecord);
     }
 }

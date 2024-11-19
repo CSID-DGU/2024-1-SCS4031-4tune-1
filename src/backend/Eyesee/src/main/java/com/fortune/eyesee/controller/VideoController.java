@@ -13,9 +13,4 @@ public class VideoController {
     private VideoCaptureService videoCaptureService;
 
 
-    @GetMapping("/start-video")
-    public String startVideoCapture(@RequestParam Integer userId, @RequestParam Integer sessionId) {
-        new Thread(() -> videoCaptureService.startCapture(userId, sessionId)).start();
-        return "Video capture started for userId: " + userId;
-    }
 }

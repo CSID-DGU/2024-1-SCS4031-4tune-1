@@ -1,3 +1,5 @@
+"use client";
+
 import { Agreements } from "@/types/agreements";
 import { Dispatch, SetStateAction } from "react";
 

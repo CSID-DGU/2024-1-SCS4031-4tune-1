@@ -8,12 +8,14 @@ import Step4 from "@/components/add-exam/Step4";
 import SubHeader from "@/components/add-exam/SubHeader";
 import NextButton from "@/components/common/NextButton";
 import { useAddExam } from "@/hooks/api/useExam";
+import { useTestCodeStore } from "@/store/useTestCodeStore";
 import { ExamRequest, initialExamData } from "@/types/exam";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const AddExamPage = () => {
   const router = useRouter();
+  const { examRandomCode } = useTestCodeStore();
   const [step, setStep] = useState(1);
   const [examData, setExamData] = useState<ExamRequest>(initialExamData);
 
@@ -59,7 +61,7 @@ const AddExamPage = () => {
           {step === 3 && (
             <Step3 examData={examData} setExamData={setExamData} />
           )}
-          {step === 4 && <Step4 code="2e1431" />}
+          {step === 4 && <Step4 code={examRandomCode} />}
         </div>
       </div>
       <NextButton title={step !== 4 ? "NEXT" : "HOME"} onClick={handleSubmit} />

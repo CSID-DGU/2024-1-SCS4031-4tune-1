@@ -1,10 +1,15 @@
 import { addExam } from "@/apis/exam";
+import { useTestCodeStore } from "@/store/useTestCodeStore";
+import { RESTYPE } from "@/types/common";
+import { ExamResponse } from "@/types/exam";
 import { useMutation } from "@tanstack/react-query";
 
 export const useAddExam = (onSuccess: void) => {
+  const { setExamRandomCode } = useTestCodeStore();
   return useMutation({
     mutationFn: addExam,
-    onSuccess: () => {
+    onSuccess: (data: RESTYPE<ExamResponse>) => {
+      setExamRandomCode(data.data.examRandomCode);
       onSuccess;
     },
     onError: () => {

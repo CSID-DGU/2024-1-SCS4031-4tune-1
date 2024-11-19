@@ -15,6 +15,10 @@ export const useSignup = () => {
         setRefreshToken(data.data.refresh_token);
         router.push("/signin");
       }
+      // TODO: 에러 처리
+      else if (data.message) {
+        alert(data.message);
+      }
     },
     onError: () => {
       router.push("/signup");

@@ -15,7 +15,7 @@ const HomeContents = () => {
       <Description />
       <div className="flex justify-center items-center gap-20">
         <button
-          onClick={() => handleNavigation("/addExam")}
+          onClick={() => handleNavigation("/add-exam")}
           className="flex justify-center items-center w-[18rem] h-20 rounded-lg bg-[rgb(237,237,237,0.8)] text-2xl text-[#0E1D3C]"
         >
           시험 등록하기

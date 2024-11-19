@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAccessToken, getAccessToken } from "@/utils/auth";
+import { getAccessToken } from "@/utils/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 

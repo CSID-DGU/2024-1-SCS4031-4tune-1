@@ -1,5 +1,4 @@
 
-Špython:S2208"GImport only needed names or import the module and then use its members.(ŸĞ¯öúÿÿÿÿJ$047d2aab-b979-4d18-bb5c-389b954bc56b
-npython:S1481^")Remove the unused local variable "image".(ÈØ°€8¡İè›³2J$209c0b6e-fedd-4ccb-ac51-f8aa63110160
-|python:S1172†"7Remove the unused function parameter "frame_timestamp".(òµñ8Ê¯Ù›³2J$181edc72-5420-43bd-9800-9abcd6a4bf64
-wpython:S1481¨"2Replace the unused local variable "roll" with "_".(³©›8Ê¯Ù›³2J$224b481b-d162-43c7-9d87-02e0738c410e
+kpython:S2208"GImport only needed names or import the module and then use its members.(ŸĞ¯öúÿÿÿÿ8èó†´2
+Vpython:S1172°"7Remove the unused function parameter "frame_timestamp".(òµñ8èó†´2
+Qpython:S1481ä"2Replace the unused local variable "roll" with "_".(³©›8éó†´2

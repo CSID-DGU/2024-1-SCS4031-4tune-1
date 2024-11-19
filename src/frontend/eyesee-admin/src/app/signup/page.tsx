@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "@/components/common/Navbar";
-import SignupBox from "@/components/signup/SignupBox";
+import SignupInput from "@/components/signup/SignupInput";
 import { useSignup } from "@/hooks/api/useAuth";
 import { SignupRequest } from "@/types/auth";
 import { signupValidation } from "@/utils/validation";
@@ -29,7 +29,7 @@ const SignupPage = () => {
       <Navbar bgColr="bg-black" />
 
       {/* Signup Section */}
-      <SignupBox
+      <SignupInput
         signupData={signupData}
         setSignupData={setSignupData}
         onSubmit={handleSubmit}

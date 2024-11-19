@@ -4,12 +4,16 @@ import { Dispatch, SetStateAction } from "react";
 import EmailIcon from "@/assets/icons/EmailIcon.svg";
 import PasswordIcon from "@/assets/icons/PasswordIcon.svg";
 
-type SignupBoxProps = {
+type SignupInputProps = {
   signupData: SignupRequest;
   setSignupData: Dispatch<SetStateAction<SignupRequest>>;
   onSubmit: () => void;
 };
-const SignupBox = ({ signupData, setSignupData, onSubmit }: SignupBoxProps) => {
+const SignupInput = ({
+  signupData,
+  setSignupData,
+  onSubmit,
+}: SignupInputProps) => {
   const router = useRouter();
 
   return (
@@ -95,4 +99,4 @@ const SignupBox = ({ signupData, setSignupData, onSubmit }: SignupBoxProps) => {
   );
 };
 
-export default SignupBox;
+export default SignupInput;

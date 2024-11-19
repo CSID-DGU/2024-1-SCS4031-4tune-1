@@ -1,6 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 import mediapipe as mp
+import torch
 from fastapi import FastAPI, UploadFile, File, Form
 from pydantic import BaseModel
 from detectors import *
@@ -10,9 +11,6 @@ import time
 import asyncio
 import numpy as np
 import cv2
-
-# YOLOv8 임포트
-from ultralytics import YOLO
 
 app = FastAPI()
 
@@ -34,8 +32,8 @@ hands = mp_hands.Hands(
     min_tracking_confidence=0.5
 )
 
-# 객체 탐지 모델 로드 (YOLOv8l)
-model = YOLO('yolov8s.pt')  # YOLOv8 모델 로드
+# 객체 탐지 모델 로드 (YOLOv5l)
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
 # 유저별 이미지 저장소
 user_images = defaultdict(deque)
@@ -166,23 +164,16 @@ async def process_frame(user_id, image, frame_timestamp):
     # 이미지 쓰기 권한 재설정
     image_rgb.flags.writeable = True
 
-    # 객체 탐지 (YOLOv8 사용)
+    # 객체 탐지
     object_results = model(image_for_detection)
 
     # 객체 탐지 결과 처리
     detections = []
-
-    # YOLOv8 모델 결과 처리
-    for result in object_results:
-        boxes = result.boxes
-        for box in boxes:
-            conf = box.conf[0].item()
-            cls = int(box.cls[0].item())
-            name = model.names[cls]
-            x1, y1, x2, y2 = box.xyxy[0].int().tolist()
-
-            if conf >= 0.6:  # 신뢰도 임계값 조정
-                detections.append({'name': name, 'bbox': (x1, y1, x2, y2), 'conf': conf})
+    for *box, conf, cls in object_results.xyxy[0]:
+        if conf >= 0.6:  # 신뢰도 임계값 조정
+            name = object_results.names[int(cls)]
+            x1, y1, x2, y2 = map(int, box)
+            detections.append({'name': name, 'bbox': (x1, y1, x2, y2), 'conf': float(conf)})
 
     # 부정행위 물체 감지
     detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image)

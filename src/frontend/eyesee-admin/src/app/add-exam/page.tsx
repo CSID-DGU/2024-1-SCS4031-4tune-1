@@ -7,7 +7,8 @@ import Step3 from "@/components/add-exam/Step3";
 import Step4 from "@/components/add-exam/Step4";
 import SubHeader from "@/components/add-exam/SubHeader";
 import NextButton from "@/components/common/NextButton";
-import { ExamRequest, initialExamData } from "@/types/postExam";
+import { useAddExam } from "@/hooks/api/useExam";
+import { ExamRequest, initialExamData } from "@/types/exam";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -16,8 +17,13 @@ const AddExamPage = () => {
   const [step, setStep] = useState(1);
   const [examData, setExamData] = useState<ExamRequest>(initialExamData);
 
+  const { mutate } = useAddExam();
+
   const handleSubmit = () => {
-    if (step === 4) {
+    if (step === 3) {
+      mutate(examData);
+      setStep(step + 1);
+    } else if (step === 4) {
       router.push("/");
     } else setStep(step + 1);
     console.log(

@@ -23,3 +23,7 @@ export const initialExamData = {
   examTotalScore: 0,
   examNotice: "",
 };
+
+export type ExamResponse = {
+  examRandomCode: string;
+};

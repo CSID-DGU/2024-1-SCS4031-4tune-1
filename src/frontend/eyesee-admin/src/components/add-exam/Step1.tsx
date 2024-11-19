@@ -1,4 +1,4 @@
-import { ExamRequest } from "@/types/postExam";
+import { ExamRequest } from "@/types/exam";
 import { Dispatch, SetStateAction } from "react";
 
 type Step1Props = {

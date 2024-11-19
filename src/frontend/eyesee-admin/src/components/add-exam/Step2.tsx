@@ -1,4 +1,4 @@
-import { ExamRequest } from "@/types/postExam";
+import { ExamRequest } from "@/types/exam";
 import CTAIcon from "@/assets/icons/CTAIcon.svg";
 import { Dispatch, SetStateAction, useState } from "react";
 import CheatingSetting from "./CheatingSetting";

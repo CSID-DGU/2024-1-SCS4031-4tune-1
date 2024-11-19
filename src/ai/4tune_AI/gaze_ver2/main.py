@@ -1,7 +1,8 @@
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 import mediapipe as mp
-from fastapi import FastAPI, UploadFile, File, Form
+import torch
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 from detectors import *
 from starlette.responses import JSONResponse
@@ -10,9 +11,7 @@ import time
 import asyncio
 import numpy as np
 import cv2
-
-# YOLOv8 임포트
-from ultralytics import YOLO
+import base64
 
 app = FastAPI()
 
@@ -34,8 +33,9 @@ hands = mp_hands.Hands(
     min_tracking_confidence=0.5
 )
 
-# 객체 탐지 모델 로드 (YOLOv8l)
-model = YOLO('yolov8s.pt')  # YOLOv8 모델 로드
+# 객체 탐지 모델 로드 (YOLOv8)
+from ultralytics import YOLO
+model = YOLO('yolov8l.pt')  # YOLOv8 모델 로드
 
 # 유저별 이미지 저장소
 user_images = defaultdict(deque)
@@ -87,44 +87,74 @@ class CheatingResult(BaseModel):
     cheating_counts: dict
     timestamp: str
 
-@app.post("/process_video")
-async def process_video(user_id: str = Form(...), uploaded_file: UploadFile = File(...)):
-    # 이미지 데이터 읽기
-    image_bytes = await uploaded_file.read()
-    timestamp = time.time()
+# WebSocket 연결 관리
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: dict[str, WebSocket] = {}
 
-    # 이미지가 비어 있는지 확인
-    if not image_bytes:
-        return JSONResponse(content={"error": "파일이 비어 있습니다."}, status_code=400)
+    async def connect(self, user_id: str, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections[user_id] = websocket
 
-    # 이미지 디코딩
-    image_np = np.frombuffer(image_bytes, np.uint8)
-    image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+    def disconnect(self, user_id: str):
+        if user_id in self.active_connections:
+            del self.active_connections[user_id]
 
-    # 이미지 디코딩 성공 여부 확인
-    if image is None:
-        return JSONResponse(content={"error": "이미지 디코딩에 실패했습니다."}, status_code=400)
+    async def send_message(self, user_id: str, message: dict):
+        websocket = self.active_connections.get(user_id)
+        if websocket:
+            await websocket.send_json(message)
 
-    # 유저별 이미지 저장
-    user_images[user_id].append((image_bytes, timestamp))
+manager = ConnectionManager()
 
-    # 오래된 이미지 삭제
-    remove_old_images(user_id)
+@app.websocket("/ws/{user_id}")
+async def websocket_endpoint(websocket: WebSocket, user_id: str):
+    await manager.connect(user_id, websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            # data는 Base64로 인코딩된 이미지 데이터라고 가정합니다.
+            image_bytes = base64.b64decode(data)
+            timestamp = time.time()
 
-    # 부정행위 탐지를 비동기적으로 처리하고 결과를 기다림
-    result = await process_user_images(user_id)
+            # 이미지가 비어 있는지 확인
+            if not image_bytes:
+                await websocket.send_json({"error": "파일이 비어 있습니다."})
+                continue
 
-    # 현재 시간
-    current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            # 이미지 디코딩
+            image_np = np.frombuffer(image_bytes, np.uint8)
+            image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
 
-    # 결과 반환
-    response = {
-        'user_id': user_id,
-        'cheating_counts': result,
-        'timestamp': current_time
-    }
+            # 이미지 디코딩 성공 여부 확인
+            if image is None:
+                await websocket.send_json({"error": "이미지 디코딩에 실패했습니다."})
+                continue
 
-    return JSONResponse(content=response)
+            # 유저별 이미지 저장
+            user_images[user_id].append((image_bytes, timestamp))
+
+            # 오래된 이미지 삭제
+            remove_old_images(user_id)
+
+            # 부정행위 탐지를 비동기적으로 처리하고 결과를 기다림
+            result = await process_user_images(user_id)
+
+            # 현재 시간
+            current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+
+            # 결과 생성
+            response = {
+                'user_id': user_id,
+                'cheating_counts': result,
+                'timestamp': current_time
+            }
+
+            # 결과 전송
+            await manager.send_message(user_id, response)
+
+    except WebSocketDisconnect:
+        manager.disconnect(user_id)
 
 def remove_old_images(user_id):
     current_time = time.time()
@@ -232,6 +262,3 @@ async def process_frame(user_id, image, frame_timestamp):
     else:
         start_times[user_id]['hand_gesture'] = None
         cheating_flags[user_id]['hand_gesture'] = False
-
-# FastAPI 실행 (개발용)
-# uvicorn main:app --host 0.0.0.0 --port 8000

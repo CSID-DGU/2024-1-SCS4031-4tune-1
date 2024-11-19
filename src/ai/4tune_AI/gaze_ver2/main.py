@@ -35,7 +35,7 @@ hands = mp_hands.Hands(
 )
 
 # 객체 탐지 모델 로드 (YOLOv8l)
-model = YOLO('yolov8s.pt')  # YOLOv8 모델 로드
+model = YOLO('yolo11s.pt')  # YOLOv8 모델 로드
 
 # 유저별 이미지 저장소
 user_images = defaultdict(deque)

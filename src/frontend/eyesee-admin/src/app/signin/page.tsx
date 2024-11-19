@@ -21,7 +21,7 @@ const SigninPage = () => {
   return (
     <div className="bg-bgGradient w-screen min-h-screen flex flex-col items-center">
       {/* Navbar */}
-      <Navbar bgColr="bg-black" />
+      <Navbar bgColr="bg-black" hasMenu={false} />
       <SigninInput
         signinData={signinData}
         setSigninData={setSigninData}

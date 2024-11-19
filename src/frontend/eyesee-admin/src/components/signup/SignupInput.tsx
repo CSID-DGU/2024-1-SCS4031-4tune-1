@@ -17,7 +17,7 @@ const SignupInput = ({
   const router = useRouter();
 
   return (
-    <div className="relative bg-[rgba(255,255,255,0.3)] px-[10vw] rounded-2xl w-[80vw] h-[80vh] flex flex-col justify-center items-center">
+    <div className="relative bg-[rgba(255,255,255,0.3)] px-[10vw] rounded-2xl w-[60vw] h-[80vh] flex flex-col justify-center items-center">
       <button
         onClick={() => router.push("/signin")}
         className="absolute top-8 right-10 text-xl text-[#d1d1d1] cursor-pointer"

@@ -25,7 +25,7 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.6.3)
       '@types/node':
-        specifier: ^20
+        specifier: ^20.17.5
         version: 20.17.5
       '@types/react':
         specifier: ^18

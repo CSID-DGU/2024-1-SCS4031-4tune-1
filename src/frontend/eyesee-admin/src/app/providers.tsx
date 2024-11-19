@@ -1,6 +1,6 @@
 "use client";
 
-import { getAccessToken } from "@/utils/auth";
+import { deleteAccessToken, getAccessToken } from "@/utils/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 
@@ -33,6 +33,7 @@ type ProvidersProps = {
 
 export default function Providers({ children }: ProvidersProps) {
   const queryClient = getQueryClient();
+  // TODO: 테스트코드 삭제
   console.log(getAccessToken());
 
   return (

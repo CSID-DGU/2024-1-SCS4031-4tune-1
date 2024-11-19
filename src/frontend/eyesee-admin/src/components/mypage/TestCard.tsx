@@ -20,7 +20,7 @@ const TestCard = ({ test, type }: TestCardProps) => {
     if (type === testState.BEFORE) {
       return {
         icon: <EditIcon />,
-        path: `/editExam/${test.examId}`,
+        path: `/edit-exam/${test.examId}`,
         label: "Edit",
       };
     } else {

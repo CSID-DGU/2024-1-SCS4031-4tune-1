@@ -4,11 +4,13 @@ import DashBoardSection from "@/components/dashBoard/DashBoardSection";
 import UserSection from "@/components/dashBoard/UserSection";
 import { useDashboardData } from "@/hooks/api/useDashboard";
 import { testSesstion } from "@/types/user";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashBoardPage = () => {
+  const { examId } = useParams();
   const [sessionData, setSessionData] = useState<testSesstion>();
-  const { data } = useDashboardData(1);
+  const { data } = useDashboardData(Number(examId));
 
   useEffect(() => {
     if (data) {

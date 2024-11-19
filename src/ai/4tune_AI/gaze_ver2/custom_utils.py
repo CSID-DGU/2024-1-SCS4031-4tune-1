@@ -1,24 +1,6 @@
 import cv2
 import numpy as np
-from PIL import ImageFont, ImageDraw, Image
 import math
-
-def draw_text_korean(image, text, position, font_size=30, font_color=(0, 0, 255)):
-    # OpenCV 이미지를 PIL 이미지로 변환
-    image_pil = Image.fromarray(image)
-    draw = ImageDraw.Draw(image_pil)
-
-    # 폰트 설정 (MacOS의 경우)
-    font = ImageFont.truetype('/Library/Fonts/AppleGothic.ttf', font_size)
-    # Windows의 경우
-    # font = ImageFont.truetype('C:/Windows/Fonts/malgun.ttf', font_size)
-
-    # 텍스트 그리기
-    draw.text(position, text, font=font, fill=font_color)
-
-    # PIL 이미지를 OpenCV 이미지로 변환
-    image = np.array(image_pil)
-    return image
 
 def calculate_head_pose(landmarks, image_shape):
     # 3D 모델 포인트 설정
@@ -91,7 +73,6 @@ def calculate_eye_position(landmarks):
 
     return eye_center
 
-
 def recognize_hand_gesture(hand_landmarks):
     # 손가락의 각 관절 랜드마크 인덱스
     finger_tips = [4, 8, 12, 16, 20]    # 엄지, 검지, 중지, 약지, 새끼 손가락 끝
@@ -103,7 +84,7 @@ def recognize_hand_gesture(hand_landmarks):
         tip_y = hand_landmarks.landmark[tip].y
         pip_y = hand_landmarks.landmark[pip].y
 
-        # 손바닥이 위를 향한다고 가정 (
+        # 손바닥이 위를 향한다고 가정
         if tip_y < pip_y:
             finger_states.append(1)  # 손가락이 펴져 있음
         else:

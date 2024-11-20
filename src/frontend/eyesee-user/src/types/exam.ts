@@ -14,7 +14,7 @@ export type ExamResponse = {
   examStatus: string;
   examNotice: string;
   sessionId: number;
-  examCode: string;
+  examRandomCode: string;
 };
 
 export const InitialExamResponse = {
@@ -29,7 +29,7 @@ export const InitialExamResponse = {
   examStatus: "INPROGRESS",
   examNotice: "notice!!!!!",
   sessionId: 1,
-  examCode: "d1213jfaj3",
+  examRandomCode: "d1213jfaj3",
 };
 
 export type UserInfoRequest = {

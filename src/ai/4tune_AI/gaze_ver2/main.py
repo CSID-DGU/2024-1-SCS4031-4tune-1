@@ -1,17 +1,16 @@
 import warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
 import mediapipe as mp
-import torch
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 from detectors import *
-from starlette.responses import JSONResponse
 from collections import defaultdict, deque
 import time
-import asyncio
 import numpy as np
 import cv2
 import base64
+from ultralytics import YOLO
+
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 app = FastAPI()
 
@@ -33,9 +32,7 @@ hands = mp_hands.Hands(
     min_tracking_confidence=0.5
 )
 
-# 객체 탐지 모델 로드 (YOLOv8)
-from ultralytics import YOLO
-model = YOLO('yolov8l.pt')  # YOLOv8 모델 로드
+model = YOLO('yolo11s.pt')  # YOLOv8 모델 로드
 
 # 유저별 이미지 저장소
 user_images = defaultdict(deque)

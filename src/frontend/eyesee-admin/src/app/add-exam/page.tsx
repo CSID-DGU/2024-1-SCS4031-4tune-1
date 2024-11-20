@@ -1,11 +1,11 @@
 "use client";
 
-import AddExamHeader from "@/components/add-exam/AddExamHeader";
-import Step1 from "@/components/add-exam/Step1";
-import Step2 from "@/components/add-exam/Step2";
-import Step3 from "@/components/add-exam/Step3";
-import Step4 from "@/components/add-exam/Step4";
-import SubHeader from "@/components/add-exam/SubHeader";
+import AddExamHeader from "@/components/addExam/AddExamHeader";
+import Step1 from "@/components/addExam/Step1";
+import Step2 from "@/components/addExam/Step2";
+import Step3 from "@/components/addExam/Step3";
+import Step4 from "@/components/addExam/Step4";
+import SubHeader from "@/components/addExam/SubHeader";
 import NextButton from "@/components/common/NextButton";
 import { useAddExam } from "@/hooks/api/useExam";
 import { useTestCodeStore } from "@/store/useTestCodeStore";

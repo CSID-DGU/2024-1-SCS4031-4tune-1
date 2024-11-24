@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fb130f4-ff3a-4d08-b9af-31d0460f5b1f" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/f/ef66cab10dc3ade72c6fdf7330fd8e3a44248bcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/f/ef66cab10dc3ade72c6fdf7330fd8e3a44248bcd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,20 +44,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "ai/feature/websocket__yolo11",
-    "last_opened_file_path": "/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ai/feature/multi__process&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
@@ -77,6 +88,8 @@
       <workItem from="1731564970150" duration="258000" />
       <workItem from="1731733805063" duration="95000" />
       <workItem from="1731733911980" duration="2014000" />
+      <workItem from="1732433389142" duration="664000" />
+      <workItem from="1732435469306" duration="6508000" />
     </task>
     <servers />
   </component>
@@ -85,5 +98,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$main.coverage" NAME="main 커버리지 결과" MODIFIED="1731994680825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
+    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$te.coverage" NAME="te 커버리지 결과" MODIFIED="1732438646027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze" />
   </component>
 </project>

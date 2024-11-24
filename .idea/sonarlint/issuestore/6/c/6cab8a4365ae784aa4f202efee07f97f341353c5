@@ -1,8 +1,9 @@
 
-…python:S2208"GImport only needed names or import the module and then use its members.(³Âá…J$1bbe99fb-dc32-4c43-856e-d0fd9e9543e9
-…python:S2208"GImport only needed names or import the module and then use its members.(íä‚ÓJ$316d88f3-c360-4b3d-8003-959ef17c7895
-spython:S3776"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(ÊËŠî8­ìÙ›³2
-Lpython:S1172<"-Remove the unused function parameter "image".(°¡ü˜8®ìÙ›³2
-xpython:S3776L"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(÷”¯…ÿÿÿÿÿ8®ìÙ›³2
-Rpython:S1172‡"-Remove the unused function parameter "pitch".(ƒ«Ýïúÿÿÿÿ8®ìÙ›³2
-ypython:S3776‡"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ƒ«Ýïúÿÿÿÿ8®ìÙ›³2
+zpython:S1066Á"/Merge this if statement with the enclosing one.(Úßì¯ÿÿÿÿÿ8ë¯Ëìµ2J$669c4dfb-56fb-4468-a892-496b5766cd2e
+Œpython:S2208"GImport only needed names or import the module and then use its members.(³Âá…8ÈŒÿëµ2J$3c1cb611-7086-4abb-a503-c127293caf0e
+Œpython:S2208"GImport only needed names or import the module and then use its members.(íä‚Ó8ŠÙÅìµ2J$214c778f-3b9c-475d-a7c3-cb00a6bcdab7
+™python:S3776'"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(ÊËŠî8ì¯Ëìµ2J$3aca76d4-1398-425a-a51a-b92d8e8a9f4b
+žpython:S3776y"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(÷”¯…ÿÿÿÿÿ8ì¯Ëìµ2J$28297ee2-9143-4145-8707-9acf404b19da
+Ÿpython:S3776¨"TRefactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.(…é€¬þÿÿÿÿ8ì¯Ëìµ2J$4952efd8-aaf1-4897-8c19-5bdbe81d2f00
+Ÿpython:S3776Ø"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ƒ«Ýïúÿÿÿÿ8ì¯Ëìµ2J$e24fba0d-845f-453e-a4cf-14e61958b6f1
+Ÿpython:S3776‰"TRefactor this function to reduce its Cognitive Complexity from 21 to the 15 allowed.(¥¦î«ÿÿÿÿÿ8ì¯Ëìµ2J$e8780c33-ef48-4416-814b-04490693d304

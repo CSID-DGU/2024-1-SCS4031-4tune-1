@@ -1,52 +1,66 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const VideoPage = () => {
-  const userId = 123; // Example: Replace with dynamic value
-  const sessionId = 456; // Example: Replace with dynamic value
+  const userId = 1; // 임의 값
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const websocketRef = useRef<WebSocket | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [isStreaming, setIsStreaming] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const streamRef = useRef<MediaStream | null>(null);
 
-  const CHUNK_SIZE = 8192;
-  const CAPTURE_INTERVAL = 1000;
+  const CAPTURE_INTERVAL = 1000; // 1초 간격으로 캡처
+  const MAX_BASE64_SIZE = 64 * 1024; // 64KB
 
-  const sendChunkedData = (buffer: ArrayBuffer, chunkSize: number) => {
-    let offset = 0;
-
-    while (offset < buffer.byteLength) {
-      const chunk = buffer.slice(offset, offset + chunkSize);
-      websocketRef.current?.send(chunk);
-      offset += chunkSize;
-    }
-  };
-
-  const initializeWebSocket = useCallback(() => {
-    websocketRef.current = new WebSocket("ws://localhost:8080/ws/video");
+  const initializeWebSocket = () => {
+    websocketRef.current = new WebSocket(
+      `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
+    );
+    // websocketRef.current = new WebSocket(`ws://localhost:8000/ws/${userId}`);
 
     websocketRef.current.onopen = () => {
       console.log("WebSocket connected");
-      websocketRef.current?.send(`INIT ${userId} ${sessionId}`);
+      setIsConnected(true);
+      websocketRef.current?.send(`INIT ${userId}`);
     };
 
-    websocketRef.current.onmessage = (event) => {
-      console.log("Received from server:", event.data);
+    websocketRef.current.onclose = () => {
+      console.log("WebSocket connection closed. Reconnecting...");
+      setIsConnected(false);
+      setTimeout(() => initializeWebSocket(), 3000);
     };
 
     websocketRef.current.onerror = (error) => {
       console.error("WebSocket error:", error);
     };
 
-    websocketRef.current.onclose = () => {
-      console.log("WebSocket connection closed. Reconnecting...");
-      setTimeout(() => initializeWebSocket(), 3000);
+    websocketRef.current.onmessage = (event) => {
+      console.log("Received from server:", event.data);
     };
-  }, [userId, sessionId]);
+  };
+
+  const sendBase64Data = async (canvas: HTMLCanvasElement) => {
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.3)
+    );
+
+    if (blob) {
+      const buffer = await blob.arrayBuffer();
+      const base64Data = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+
+      if (base64Data.length > MAX_BASE64_SIZE) {
+        console.warn("Data size exceeds maximum limit. Skipping...");
+        return;
+      }
+
+      console.log("Sending Base64 data size:", base64Data.length);
+      websocketRef.current?.send(base64Data);
+    }
+  };
 
   const startStreaming = () => {
     navigator.mediaDevices
@@ -61,15 +75,13 @@ const VideoPage = () => {
           const canvas = canvasRef.current;
           const ctx = canvas.getContext("2d");
 
-          const intervalId = setInterval(async () => {
+          const intervalId = setInterval(() => {
             if (ctx && videoRef.current) {
-              canvas.width = 640;
-              canvas.height = 360;
-
+              canvas.width = 320;
+              canvas.height = 180;
               ctx.save();
               ctx.translate(canvas.width, 0);
               ctx.scale(-1, 1);
-
               ctx.drawImage(
                 videoRef.current,
                 0,
@@ -77,23 +89,9 @@ const VideoPage = () => {
                 canvas.width,
                 canvas.height
               );
-
               ctx.restore();
 
-              const blob = await new Promise<Blob | null>((resolve) =>
-                canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.5)
-              );
-
-              if (blob) {
-                const buffer = await blob.arrayBuffer();
-                console.log("Sending binary data size:", buffer.byteLength);
-
-                if (buffer.byteLength > CHUNK_SIZE) {
-                  sendChunkedData(buffer, CHUNK_SIZE);
-                } else {
-                  websocketRef.current?.send(buffer);
-                }
-              }
+              sendBase64Data(canvas);
             }
           }, CAPTURE_INTERVAL);
 
@@ -129,10 +127,11 @@ const VideoPage = () => {
     return () => {
       websocketRef.current?.close();
     };
-  }, [initializeWebSocket]);
+  }, [userId]);
 
   return (
     <div>
+      <h3>{isConnected ? "WebSocket Connected" : "WebSocket Disconnected"}</h3>
       <div>
         <button
           onClick={isStreaming ? stopStreaming : startStreaming}

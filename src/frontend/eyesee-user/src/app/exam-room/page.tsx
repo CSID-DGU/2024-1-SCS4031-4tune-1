@@ -5,6 +5,8 @@ import { api } from "@/apis";
 import NextButton from "@/components/common/NextButton";
 
 const RealTimeVideoPage = () => {
+  const userId = 1; // 임의 값
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
@@ -12,7 +14,10 @@ const RealTimeVideoPage = () => {
   // WebSocket 연결 설정
   const setupWebSocket = () => {
     // TODO: 웹소캣 서버
-    const socket = new WebSocket("ws://localhost:8080/ws/video");
+    const socket = new WebSocket(
+      `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
+    );
+    // const socket = new WebSocket("ws://localhost:8080/ws/video");
     socket.onopen = () => {
       console.log("WebSocket 연결 성공");
     };

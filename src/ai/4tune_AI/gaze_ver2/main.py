@@ -210,6 +210,7 @@ async def process_frame(user_id, image, frame_timestamp):
             "messages": cheating_messages[user_id]
         }
         try:
+            await get_cheating_result(user_id)
             await manager.send_message(user_id, cheating_result)
             cheating_messages[user_id].clear()
             logging.debug(f"{user_id}: 부정행위 메시지 전송 및 초기화 완료")

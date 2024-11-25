@@ -2,10 +2,7 @@ package com.fortune.eyesee.service;
 
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponseCode;
-import com.fortune.eyesee.dto.ExamRequestDTO;
-import com.fortune.eyesee.dto.ExamResponseDTO;
-import com.fortune.eyesee.dto.UserDetailResponseDTO;
-import com.fortune.eyesee.dto.UserListResponseDTO;
+import com.fortune.eyesee.dto.*;
 import com.fortune.eyesee.entity.*;
 import com.fortune.eyesee.enums.ExamStatus;
 import com.fortune.eyesee.repository.*;
@@ -166,12 +163,12 @@ public class ExamService {
 
 
     // ExamCode로 시험 조회
-    public ExamResponseDTO getExamByCode(String examCode) {
+    public ExamInfoResponseDTO getExamByCode(String examCode) {
         Exam exam = examRepository.findByExamRandomCode(examCode);
         if (exam == null) {
             throw new BaseException(BaseResponseCode.NOT_FOUND_EXAM_CODE);
         }
-        return new ExamResponseDTO(
+        return new ExamInfoResponseDTO(
                 exam.getExamId(),
                 exam.getExamName(),
                 exam.getExamSemester(),
@@ -183,7 +180,10 @@ public class ExamService {
                 exam.getExamStatus(),
                 exam.getExamNotice(),
                 exam.getSession() != null ? exam.getSession().getSessionId() : null,
-                examCode
+                examCode,
+                exam.getAdmin().getAdminName(),
+                exam.getExamQuestionNumber(),
+                exam.getExamTotalScore()
         );
     }
 

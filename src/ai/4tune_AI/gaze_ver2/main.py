@@ -11,9 +11,11 @@ from concurrent.futures import ProcessPoolExecutor
 from detectors import *
 from custom_utils import *
 from constants import *
+import requests
+import aiohttp
 
 import logging
-
+BACKEND_API_URL = "https://43.203.23.202.nip.io/api/cheatings"
 # 로깅 설정
 logging.basicConfig(
     level=logging.WARNING,  # WARNING 이상 레벨의 로그만 표시
@@ -153,20 +155,27 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
         manager.disconnect(user_id)
 
 
-@app.get("/api/cheating/{user_id}", response_model=CheatingResult)
 async def get_cheating_result(user_id: str):
     if user_id not in cheating_counts or not any(count > 0 for count in cheating_counts[user_id].values()):
         raise HTTPException(status_code=404, detail="User not found or no cheating detected.")
 
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cheating_result = CheatingResult(
-        user_id=user_id,
-        cheating_counts=cheating_counts[user_id],
-        timestamp=current_time,
-        messages=cheating_messages[user_id]
+        userId=user_id,
+        cheatingCounts=cheating_counts[user_id],
+        timestamp=current_time
+        # messages=cheating_messages[user_id]
     )
-    logging.info(f"Cheating result retrieved for {user_id}: {cheating_result}")
-    return cheating_result
+    response = cheating_result
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(BACKEND_API_URL, json=response) as resp:
+                if resp.status == 200:
+                    logging.info(f"부정행위 결과 전송 성공: {response}")
+                else:
+                    logging.error(f"부정행위 결과 전송 실패: {response}")
+        except Exception as e:  # 요청 실패 시 로그 출력
+            logging.error(f"부정행위 결과 전송 중 오류 발생: {e}")
 
 
 async def process_frame(user_id, image, frame_timestamp):

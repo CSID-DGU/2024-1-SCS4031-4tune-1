@@ -2,6 +2,7 @@ package com.fortune.eyesee.service;
 
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponseCode;
+import com.fortune.eyesee.dto.TokenWithUserIdResponseDTO;
 import com.fortune.eyesee.dto.UserInfoRequestDTO;
 import com.fortune.eyesee.dto.TokenResponseDTO;
 import com.fortune.eyesee.entity.Session;
@@ -28,7 +29,7 @@ public class SessionService {
 
     // 세션에 학생을 등록하고 토큰을 발급
     @Transactional
-    public TokenResponseDTO addUserInfo(UserInfoRequestDTO requestDTO) {
+    public TokenWithUserIdResponseDTO addUserInfo(UserInfoRequestDTO requestDTO) {
         // 시험 세션 찾기
         Session session = sessionRepository.findByExamExamRandomCode(requestDTO.getExamCode())
                 .orElseThrow(() -> new BaseException(BaseResponseCode.NOT_FOUND_SESSION));
@@ -47,7 +48,7 @@ public class SessionService {
 
         // 세션 토큰 생성 및 반환
         String accessToken = jwtUtil.generateSessionToken(session.getSessionId(), user.getUserNum());
-        return new TokenResponseDTO(accessToken, null);  // Refresh Token은 필요 없으므로 null 설정
+        return new TokenWithUserIdResponseDTO(accessToken, null, user.getUserId());  // Refresh Token은 필요 없으므로 null 설정
     }
 
 }

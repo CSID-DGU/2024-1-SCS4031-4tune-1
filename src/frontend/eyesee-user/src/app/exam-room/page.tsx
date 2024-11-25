@@ -3,9 +3,10 @@
 import React, { useEffect, useRef } from "react";
 import { api } from "@/apis";
 import NextButton from "@/components/common/NextButton";
+import { useUserIdStore } from "@/store/useUserIdStore";
 
 const RealTimeVideoPage = () => {
-  const userId = 1; // 임의 값
+  const { userId } = useUserIdStore();
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -15,9 +16,10 @@ const RealTimeVideoPage = () => {
   const setupWebSocket = () => {
     // TODO: 웹소캣 서버
     const socket = new WebSocket(
-      `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
+      // "ws://43.201.224.93:8000/ws/1"
+      // `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
+      `ws://43.201.224.93:8000/ws/${userId}`
     );
-    // const socket = new WebSocket("ws://localhost:8080/ws/video");
     socket.onopen = () => {
       console.log("WebSocket 연결 성공");
     };
@@ -82,29 +84,14 @@ const RealTimeVideoPage = () => {
       if (context) {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // 캡처된 Canvas를 JPEG Blob으로 변환
-        canvas.toBlob(
-          (blob) => {
-            if (blob && socketRef.current) {
-              // 임의 코드(필요시 사용)
-              const payload = {
-                userId: 123,
-                sessionId: 456,
-                time: new Date().toISOString(),
-              };
+        // 캡처된 Canvas를 Base64로 변환
+        const base64Data = canvas.toDataURL("image/jpeg", 0.7); // 품질 70%
+        const base64String = base64Data.split(",")[1]; // "data:image/jpeg;base64," 부분 제거
 
-              const message = {
-                metadata: payload,
-                image: blob,
-              };
-
-              socketRef.current.send(JSON.stringify(message));
-              console.log("이미지 및 메타데이터 전송");
-            }
-          },
-          "image/jpeg",
-          0.7
-        ); // 품질 70%
+        if (socketRef.current) {
+          socketRef.current.send(base64String);
+          console.log("Base64 이미지 전송");
+        }
       }
     }
   };

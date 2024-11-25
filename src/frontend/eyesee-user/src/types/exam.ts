@@ -41,6 +41,7 @@ export type UserInfoRequest = {
 };
 
 export type UserInfoResponse = {
+  userId: number;
   access_token: string;
   refresh_token: string;
 };

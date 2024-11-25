@@ -5,6 +5,7 @@ import NextButton from "@/components/common/NextButton";
 import SubHeader from "@/components/common/SubHeader";
 import InformationSection from "@/components/information/InformationSection";
 import { useExamStore } from "@/store/useExamStore";
+import { useUserIdStore } from "@/store/useUserIdStore";
 import { UserInfoRequest } from "@/types/exam";
 import { setAccessToken, setRefreshToken } from "@/utils/auth";
 import { informationValidation } from "@/utils/validation";
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
 
 const InformationPage = () => {
   const router = useRouter();
+  const { setUserId } = useUserIdStore();
   const { exam } = useExamStore();
   const [isAvailable, setIsAvailable] = useState(false);
   const [information, setInformation] = useState<UserInfoRequest>({
@@ -31,6 +33,7 @@ const InformationPage = () => {
       console.log("응답 데이터:", response); // 성공 시 데이터 처리
       setAccessToken(response.data.access_token);
       setRefreshToken(response.data.refresh_token);
+      setUserId(response.data.userId);
       router.push("/camera");
     } catch (error) {
       console.error("수험 정보 입력 실패:", error); // 실패 시 에러 처리

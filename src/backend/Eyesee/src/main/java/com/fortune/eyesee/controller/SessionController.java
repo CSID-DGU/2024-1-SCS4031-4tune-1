@@ -33,9 +33,10 @@ public class SessionController {
 
     // 학생 정보 입력
     @PostMapping("/student")
-    public ResponseEntity<BaseResponse<TokenResponseDTO>> addUserInfo(@RequestBody UserInfoRequestDTO userInfoRequestDTO) {
-        TokenResponseDTO tokenResponseDTO = sessionService.addUserInfo(userInfoRequestDTO);
-        return ResponseEntity.ok(new BaseResponse<>(tokenResponseDTO, "사용자 정보 입력 성공"));
+    public ResponseEntity<BaseResponse<TokenWithUserIdResponseDTO>> addUserInfo(@RequestBody UserInfoRequestDTO userInfoRequestDTO) {
+        // 학생 정보 입력, 토큰 및 userId 반환
+        TokenWithUserIdResponseDTO tokenWithUserIdResponseDTO = sessionService.addUserInfo(userInfoRequestDTO);
+        return ResponseEntity.ok(new BaseResponse<>(tokenWithUserIdResponseDTO, "사용자 정보 입력 성공"));
 
     }
 }

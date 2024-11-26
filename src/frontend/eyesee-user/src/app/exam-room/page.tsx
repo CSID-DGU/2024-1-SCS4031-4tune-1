@@ -1,31 +1,37 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { api } from "@/apis";
+import React, { useEffect, useRef } from "react";
 import NextButton from "@/components/common/NextButton";
 import { useUserIdStore } from "@/store/useUserIdStore";
 import { useStore } from "@/store/useStore";
 
 const RealTimeVideoPage = () => {
-  const { userId } = useUserIdStore();
-
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
 
-  // WebSocket 연결 설정
+  const userId = useStore(useUserIdStore, (state) => state.userId);
+
   const setupWebSocket = () => {
-    // TODO: 웹소캣 서버
-    console.log(userId);
+    if (!userId) {
+      console.error(
+        "userId가 설정되지 않았습니다. WebSocket 연결을 중단합니다."
+      );
+      return;
+    }
+
     const socket = new WebSocket(
-      // `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
-      `wss://43.201.224.93.nip.io/ws/${userId}`
+      `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
+      // `${
+      //   process.env.NEXT_PUBLIC_WEBSOCKET_KEY || "wss://43.201.224.93:8000/ws"
+      // }/${userId}`
     );
+
     socket.onopen = () => {
-      console.log("WebSocket 연결 성공");
+      console.log(`WebSocket 연결 성공: ${userId}`);
     };
     socket.onerror = (error) => {
-      console.error("WebSocket 오류:", error);
+      console.error("WebSocket 오류 발생:", error);
     };
     socket.onclose = () => {
       console.log("WebSocket 연결 종료");
@@ -102,6 +108,12 @@ const RealTimeVideoPage = () => {
   useEffect(() => {
     const initialize = async () => {
       // await callStartRecordingApi(); // 시작 API 호출
+
+      if (!userId) {
+        console.error("userId가 설정되지 않았습니다. 초기화를 중단합니다.");
+        return;
+      }
+
       setupWebSocket();
       await startStreaming();
 
@@ -119,7 +131,7 @@ const RealTimeVideoPage = () => {
     };
 
     initialize();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">

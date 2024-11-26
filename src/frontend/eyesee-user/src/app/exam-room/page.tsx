@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { api } from "@/apis";
 import NextButton from "@/components/common/NextButton";
 import { useUserIdStore } from "@/store/useUserIdStore";
+import { useStore } from "@/store/useStore";
 
 const RealTimeVideoPage = () => {
   const { userId } = useUserIdStore();
@@ -15,10 +16,10 @@ const RealTimeVideoPage = () => {
   // WebSocket 연결 설정
   const setupWebSocket = () => {
     // TODO: 웹소캣 서버
+    console.log(userId);
     const socket = new WebSocket(
-      // "ws://43.201.224.93:8000/ws/1"
       // `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
-      `ws://43.201.224.93:8000/ws/${userId}`
+      `wss://43.201.224.93.nip.io/ws/${userId}`
     );
     socket.onopen = () => {
       console.log("WebSocket 연결 성공");
@@ -48,7 +49,8 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // 시작 시점에 API 호출
+  // 시작 시점에 API 호출 - 추후 추가 예정
+  /*
   const callStartRecordingApi = async () => {
     // JSON 데이터 생성
     const examData = {
@@ -64,7 +66,7 @@ const RealTimeVideoPage = () => {
       console.error("시작 API 호출 실패:", error);
     }
   };
-
+*/
   // Canvas를 사용해 비디오 프레임을 WebSocket으로 전송
   const captureAndSendFrame = () => {
     if (
@@ -99,7 +101,7 @@ const RealTimeVideoPage = () => {
   // 초기화 작업: WebSocket 연결, 비디오 스트리밍 시작, 시작 API 호출
   useEffect(() => {
     const initialize = async () => {
-      await callStartRecordingApi(); // 시작 API 호출
+      // await callStartRecordingApi(); // 시작 API 호출
       setupWebSocket();
       await startStreaming();
 

@@ -162,7 +162,7 @@ async def get_cheating_result(user_id: str):
         raise HTTPException(status_code=404, detail="User not found or no cheating detected.")
 
     # 현재 시간을 timestamp로 설정
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    current_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     # CheatingResult 객체 생성 (messages 필드는 비워두어도 됨)
     cheating_result = CheatingResult(

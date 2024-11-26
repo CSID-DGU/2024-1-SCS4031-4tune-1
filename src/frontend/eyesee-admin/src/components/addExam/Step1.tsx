@@ -1,5 +1,6 @@
 import { ExamRequest } from "@/types/exam";
 import { Dispatch, SetStateAction } from "react";
+import XIcon from "@/assets/icons/XIcon.svg";
 
 type Step1Props = {
   examData: ExamRequest;
@@ -17,7 +18,7 @@ const Step1 = ({ examData, setExamData }: Step1Props) => {
     "w-full mb-10 bg-[#f3f3f3] rounded-md border border-[#A0A0A0] py-5 px-8 text-black text-[20px]";
 
   return (
-    <div>
+    <div className="mb-24">
       {/* 강의명 */}
       <div>
         <label className="text-black text-[24px] mb-3 block">강의명</label>
@@ -46,7 +47,7 @@ const Step1 = ({ examData, setExamData }: Step1Props) => {
           <label className="text-black text-[24px] mb-3 block">수강 인원</label>
           <input
             type="number"
-            value={examData.examStudentNumber}
+            value={examData.examStudentNumber || ""}
             onChange={(e) =>
               handleChange("examStudentNumber", Number(e.target.value))
             }
@@ -66,6 +67,18 @@ const Step1 = ({ examData, setExamData }: Step1Props) => {
           placeholder="입력해주세요"
           className={inputClassName}
         />
+      </div>
+
+      {/* 강의실 좌석 배치 */}
+      <div>
+        <label className="text-black text-[24px] mb-3 block">
+          강의실 좌석 배치
+        </label>
+        <div className="flex gap-5 items-center justify-between">
+          <input type="number" placeholder="8" className={inputClassName} />
+          <XIcon className="mb-10" />
+          <input type="number" placeholder="8" className={inputClassName} />
+        </div>
       </div>
     </div>
   );

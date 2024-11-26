@@ -53,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:8000", "https://eyesee-admin.vercel.app","https://eyesee-exam.vercel.app","http://43.201.224.93:8000"));  // 허용할 도메인 설정
+        configuration.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:8000", "https://eyesee-admin.vercel.app","https://eyesee-exam.vercel.app","https://43.201.224.93.nip.io"));  // 허용할 도메인 설정
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드
         configuration.setAllowedHeaders(List.of("*"));  // 모든 헤더 허용
         configuration.setAllowCredentials(true);  // 인증 정보 포함 여부

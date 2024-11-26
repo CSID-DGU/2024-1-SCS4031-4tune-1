@@ -89,7 +89,7 @@ cheating_messages = defaultdict(list)
 
 
 class CheatingResult(BaseModel):
-    userId: str
+    userId: int
     cheatingCounts: dict
     timestamp: str
     # messages: list = []  # 부정행위 메시지 추가

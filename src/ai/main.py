@@ -18,7 +18,7 @@ import logging
 BACKEND_API_URL = "https://43.203.23.202.nip.io/api/cheatings"
 # 로깅 설정
 logging.basicConfig(
-    level=logging.WARNING,  # WARNING 이상 레벨의 로그만 표시
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )

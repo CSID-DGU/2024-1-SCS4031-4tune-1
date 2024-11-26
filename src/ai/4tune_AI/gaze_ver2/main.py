@@ -89,10 +89,10 @@ cheating_messages = defaultdict(list)
 
 
 class CheatingResult(BaseModel):
-    user_id: str
-    cheating_counts: dict
+    userId: str
+    cheatingCounts: dict
     timestamp: str
-    messages: list = []  # 부정행위 메시지 추가
+    # messages: list = []  # 부정행위 메시지 추가
 
 
 class ConnectionManager:
@@ -155,27 +155,33 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
         manager.disconnect(user_id)
 
 
+# 기존에 정의된 cheating_counts와 cheating_messages를 사용하는 로직
 async def get_cheating_result(user_id: str):
+    # 유저의 부정행위 카운트가 존재하고 1개라도 > 0인 경우에만 진행
     if user_id not in cheating_counts or not any(count > 0 for count in cheating_counts[user_id].values()):
         raise HTTPException(status_code=404, detail="User not found or no cheating detected.")
 
+    # 현재 시간을 timestamp로 설정
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # CheatingResult 객체 생성 (messages 필드는 비워두어도 됨)
     cheating_result = CheatingResult(
         userId=user_id,
         cheatingCounts=cheating_counts[user_id],
-        timestamp=current_time
-        # messages=cheating_messages[user_id]
+        timestamp=current_time,
+        # messages=cheating_messages.get(user_id, [])  # 메시지가 필요하면 추가
     )
-    response = cheating_result
+
+    # 부정행위 결과를 JSON 형태로 백엔드 API로 전송
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(BACKEND_API_URL, json=response) as resp:
+            async with session.post(BACKEND_API_URL, json=cheating_result.dict()) as resp:
                 if resp.status == 200:
-                    logging.info(f"부정행위 결과 전송 성공: {response}")
+                    logging.info(f"Cheating result sent successfully: {cheating_result.dict()}")
                 else:
-                    logging.error(f"부정행위 결과 전송 실패: {response}")
-        except Exception as e:  # 요청 실패 시 로그 출력
-            logging.error(f"부정행위 결과 전송 중 오류 발생: {e}")
+                    logging.error(f"Failed to send cheating result: {cheating_result.dict()}")
+        except Exception as e:
+            logging.error(f"Error sending cheating result: {e}")
 
 
 async def process_frame(user_id, image, frame_timestamp):
@@ -210,6 +216,7 @@ async def process_frame(user_id, image, frame_timestamp):
             "messages": cheating_messages[user_id]
         }
         try:
+            await get_cheating_result(user_id)
             await manager.send_message(user_id, cheating_result)
             cheating_messages[user_id].clear()
             logging.debug(f"{user_id}: 부정행위 메시지 전송 및 초기화 완료")

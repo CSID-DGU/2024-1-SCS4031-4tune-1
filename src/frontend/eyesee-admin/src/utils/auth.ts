@@ -19,15 +19,17 @@ export const setRefreshToken = (token: string | null) => {
 // @utils/auth.ts
 
 export const getAccessToken = () => {
+  if (typeof window === "undefined") {
+    return null;
+  }
   return localStorage.getItem("access_token");
 };
 
 export const getRefreshToken = () => {
+  if (typeof window === "undefined") {
+    return null;
+  }
   return localStorage.getItem("refresh_token");
-};
-
-export const getTemporaryToken = () => {
-  return localStorage.getItem("temporary_token");
 };
 
 // 로컬 스토리지의 인증 토큰을 삭제하는 함수

@@ -18,6 +18,12 @@ const config: Config = {
         blueGradient: "linear-gradient(180deg, #0E1D3C 0%, #000 100%)",
         redGradient: "linear-gradient(180deg, #0E1D3C 0%, #410C0C 100%)",
       },
+      boxShadow: {
+        dashboordShadow: "0px -5px 10px 0px rgba(0, 0, 0, 0.25)",
+      },
+      animation: {
+        "slide-up": "slide-up 0.3s ease-out",
+      },
     },
   },
   plugins: [],

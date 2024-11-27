@@ -18,7 +18,7 @@ import logging
 BACKEND_API_URL = "https://43.203.23.202.nip.io/api/cheatings"
 # 로깅 설정
 logging.basicConfig(
-    level=logging.WARNING,  # WARNING 이상 레벨의 로그만 표시
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
@@ -162,7 +162,7 @@ async def get_cheating_result(user_id: str):
         raise HTTPException(status_code=404, detail="User not found or no cheating detected.")
 
     # 현재 시간을 timestamp로 설정
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    current_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     # CheatingResult 객체 생성 (messages 필드는 비워두어도 됨)
     cheating_result = CheatingResult(

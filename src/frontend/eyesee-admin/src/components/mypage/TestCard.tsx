@@ -5,6 +5,7 @@ import { testType } from "@/types/test";
 import React from "react";
 import EditIcon from "@/assets/icons/EditIcon.svg";
 import BoardIcon from "@/assets/icons/BoardIcon.svg";
+import ReportIcon from "@/assets/icons/ReportIcon.svg";
 import { useRouter } from "next/navigation";
 
 type TestCardProps = {
@@ -16,40 +17,50 @@ const TestCard = ({ test, type }: TestCardProps) => {
   const router = useRouter();
 
   // 아이콘과 경로 값을 반환하는 함수
-  const testMap = (type: string) => {
-    if (type === testState.BEFORE) {
-      return {
-        icon: <EditIcon />,
-        path: `/edit-exam/${test.examId}`,
-        label: "Edit",
-      };
+  const buttonComponent = (type: string) => {
+    if (type === testState.DONE) {
+      return (
+        <button
+          onClick={() => router.push(`/report/${test.examId}`)}
+          className="flex items-center gap-2"
+        >
+          <ReportIcon />
+        </button>
+      );
     } else {
-      return {
-        icon: <BoardIcon />,
-        path: `/dashboard/${test.examId}`,
-        label: "Dashboard",
-      };
+      return (
+        <div className="flex gap-[6px]">
+          <button
+            onClick={() => router.push(`/edit-exam/${test.examId}`)}
+            className="flex items-center gap-2"
+          >
+            <EditIcon />
+          </button>
+          <button
+            onClick={() => router.push(`/dashboard/${test.examId}`)}
+            className="flex items-center gap-2"
+          >
+            <BoardIcon />
+          </button>
+        </div>
+      );
     }
   };
-
-  // testMap 함수 호출 결과를 저장
-  const { icon, path } = testMap(type);
 
   return (
     <div
       className={`${
-        type === testState.BEFORE ? "bg-blueGradient" : "bg-redGradient"
+        type === testState.BEFORE
+          ? "bg-blueGradient"
+          : type === testState.INPROGRESS
+          ? "bg-redGradient"
+          : "bg-grayGradient"
       } px-8 py-4 rounded-[20px] w-[320px]`}
     >
       <div className="flex flex-col py-5 gap-4">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-medium text-white">{test.examName}</h1>
-          <button
-            onClick={() => router.push(path)}
-            className="flex items-center gap-2"
-          >
-            {icon}
-          </button>
+          {buttonComponent(type)}
         </div>
         <div className="flex justify-between items-center">
           <span className="text-white">시험 코드 :</span>

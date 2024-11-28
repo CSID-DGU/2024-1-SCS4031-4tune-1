@@ -1,0 +1,20 @@
+import DashBoardSection from "@/components/dashBoard/DashBoardSection";
+import UserSection from "@/components/dashBoard/UserSection";
+import ReportSection from "@/components/report/ReportSection";
+import { testSesstionData } from "@/types/user";
+
+const ReportPage = () => {
+  // TODO: 서버 데이터 연결
+  const sessionData = testSesstionData;
+
+  return (
+    <div className="flex min-h-screen w-screen bg-[##0E1D3C]">
+      <UserSection sessionData={sessionData} />
+      <DashBoardSection sesstionData={sessionData}>
+        <ReportSection />
+      </DashBoardSection>
+    </div>
+  );
+};
+
+export default ReportPage;

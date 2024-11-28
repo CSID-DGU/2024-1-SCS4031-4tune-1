@@ -12,9 +12,13 @@ import TestInfo from "./TestInfo";
 
 type DashBoardSectionProps = {
   sesstionData: testSesstion;
+  children?: React.ReactNode;
 };
 
-const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
+const DashBoardSection = ({
+  sesstionData,
+  children,
+}: DashBoardSectionProps) => {
   const [column, setColumn] = useState(5);
   const [row, setRow] = useState(
     Math.ceil(sesstionData.examStudentNumber / column)
@@ -47,6 +51,7 @@ const DashBoardSection = ({ sesstionData }: DashBoardSectionProps) => {
           <PeopleIcon onClick={() => setCodeModalOpen(true)} />
           <RowMoreIcon />
         </TestInfo>
+        {children}
         <div
           className="grid gap-5 justify-center items-center"
           style={{

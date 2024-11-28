@@ -2,12 +2,12 @@ import ExcelIcon from "@/assets/images/Excel.svg";
 
 const ReportSection = () => {
   return (
-    <div className="relative w-full mb-20 flex justify-between">
+    <div className="relative w-full mb-20 flex justify-between gap-20">
       <div className="cursor-pointer absolute bottom-0 flex items-center gap-3">
         <ExcelIcon />
         <p className="text-[20px]">엑셀 다운로드</p>
       </div>
-      <div className="w-[50%] h-full text-[3rem] font-bold text-white">
+      <div className="w-[50%] h-full text-[2.5rem] font-bold text-white">
         <p className="">2024년 11월 27일</p>
         <p className="text-[#16A34A]">융합캡스톤디자인 중간시험</p>
         <p>부정행위 탐지 결과</p>

@@ -11,30 +11,30 @@ const RealTimeVideoPage = () => {
   const socketRef = useRef<WebSocket | null>(null);
 
   const userId = useStore(useUserIdStore, (state) => state.userId);
-
   const setupWebSocket = () => {
+    console.log(process.env.NEXT_PUBLIC_WEBSOCKET_KEY);
+    console.log(userId);
+
     if (!userId) {
-      console.error(
-        "userId가 설정되지 않았습니다. WebSocket 연결을 중단합니다."
-      );
+      console.error("userId가 설정되지 않았습니다.");
       return;
     }
 
     const socket = new WebSocket(
       `${process.env.NEXT_PUBLIC_WEBSOCKET_KEY}/${userId}`
-      // `${
-      //   process.env.NEXT_PUBLIC_WEBSOCKET_KEY || "wss://43.201.224.93:8000/ws"
-      // }/${userId}`
     );
 
     socket.onopen = () => {
       console.log(`WebSocket 연결 성공: ${userId}`);
     };
+
     socket.onerror = (error) => {
       console.error("WebSocket 오류 발생:", error);
     };
-    socket.onclose = () => {
-      console.log("WebSocket 연결 종료");
+
+    socket.onclose = (event) => {
+      console.log("WebSocket 연결 종료. 재연결 시도 중", event.reason);
+      setTimeout(setupWebSocket, 3000); // 3초 후 재시도
     };
 
     socketRef.current = socket;
@@ -55,24 +55,6 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // 시작 시점에 API 호출 - 추후 추가 예정
-  /*
-  const callStartRecordingApi = async () => {
-    // JSON 데이터 생성
-    const examData = {
-      userId: 123, // 사용자 ID
-      sessionId: 456, // 세션 ID
-      startTime: new Date().toISOString(), // 부정행위 발생 시간
-    };
-
-    try {
-      const response = await api.post("/video-recording/start", examData);
-      console.log("시작 API 호출 성공:", response.data);
-    } catch (error) {
-      console.error("시작 API 호출 실패:", error);
-    }
-  };
-*/
   // Canvas를 사용해 비디오 프레임을 WebSocket으로 전송
   const captureAndSendFrame = () => {
     if (
@@ -107,13 +89,6 @@ const RealTimeVideoPage = () => {
   // 초기화 작업: WebSocket 연결, 비디오 스트리밍 시작, 시작 API 호출
   useEffect(() => {
     const initialize = async () => {
-      // await callStartRecordingApi(); // 시작 API 호출
-
-      if (!userId) {
-        console.error("userId가 설정되지 않았습니다. 초기화를 중단합니다.");
-        return;
-      }
-
       setupWebSocket();
       await startStreaming();
 

@@ -15,6 +15,9 @@ export type ExamResponse = {
   examNotice: string;
   sessionId: number;
   examRandomCode: string;
+  adminName: string;
+  examQuestionNumber: number;
+  examTotalScore: number;
 };
 
 export const InitialExamResponse = {
@@ -30,6 +33,9 @@ export const InitialExamResponse = {
   examNotice: "notice!!!!!",
   sessionId: 1,
   examRandomCode: "d1213jfaj3",
+  adminName: "Admin1",
+  examQuestionNumber: 10,
+  examTotalScore: 100,
 };
 
 export type UserInfoRequest = {

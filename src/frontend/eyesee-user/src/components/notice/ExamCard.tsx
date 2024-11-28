@@ -13,7 +13,7 @@ const ExamCard = () => {
       </div>
       <div className="text-white flex items-center py-3 border-b border-white px-3">
         <div className="text-[14px] w-[25vw]">담당 교수</div>
-        <div className="text-[12px] font-semibold">확인중</div>
+        <div className="text-[12px] font-semibold">{exam.adminName}</div>
       </div>
       <div className="text-white flex items-center py-3 border-b border-white px-3">
         <div className="text-[14px] w-[25vw]">시험 시작시간</div>
@@ -25,11 +25,13 @@ const ExamCard = () => {
       </div>
       <div className="text-white flex items-center py-3 border-b border-white px-3">
         <div className="text-[14px] w-[25vw]">문제 수</div>
-        <div className="text-[12px] font-semibold">확인 중</div>
+        <div className="text-[12px] font-semibold">
+          {exam.examQuestionNumber}
+        </div>
       </div>
       <div className="text-white flex items-center py-3 border-b border-white px-3">
         <div className="text-[14px] w-[25vw]">총 점수</div>
-        <div className="text-[12px] font-semibold">확인 중</div>
+        <div className="text-[12px] font-semibold">{exam.examTotalScore}</div>
       </div>
       <div className="text-white text-[10px] mt-3">
         ※ 카메라 권한을 허용해야 합니다.

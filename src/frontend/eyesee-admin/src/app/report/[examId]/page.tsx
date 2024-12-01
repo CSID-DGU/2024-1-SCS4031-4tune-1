@@ -8,18 +8,17 @@ import { useReportdData } from "@/hooks/api/useReport";
 import { useParams } from "next/navigation";
 
 const ReportPage = () => {
-  // TODO: 서버 데이터 연결
   const { examId } = useParams();
-  const dashboard = useDashboarReportdData(Number(examId));
-  const report = useReportdData(Number(examId));
+  const { data: dashboard } = useDashboarReportdData(Number(examId));
+  const { data: report } = useReportdData(Number(examId));
 
   return (
     <>
-      {dashboard.data && report.data && (
+      {dashboard && report && (
         <div className="flex min-h-screen w-screen bg-[##0E1D3C]">
-          <UserSection sessionData={dashboard.data.data} />
-          <DashBoardSection sesstionData={dashboard.data.data}>
-            <ReportSection reportData={report.data.data} />
+          <UserSection sessionData={dashboard.data} />
+          <DashBoardSection sesstionData={dashboard.data}>
+            <ReportSection reportData={report} />
           </DashBoardSection>
         </div>
       )}

@@ -14,7 +14,7 @@ const CheatingSetting = ({
 }: CheatingSettingProps) => {
   return (
     <div className="z-50 fixed w-screen h-screen top-0 left-0 flex justify-center items-center">
-      <div className="relative bg-[rgba(14,29,60,0.9)] rounded-[10px] flex flex-col gap-4 px-12 py-16 justify-center">
+      <div className="relative bg-[rgba(14,29,60,0.9)] rounded-[10px] flex flex-col gap-4 px-12 pt-16 pb-24 justify-center">
         {/* 저장 버튼 */}
         <button
           onClick={() => setCheatingModal(false)}

@@ -143,8 +143,20 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
         logging.info(f"Cached cheating settings for examId {exam_id}: {cheating_settings}")
     else:
         logging.error(f"Could not fetch cheating settings for examId {exam_id}")
-        await websocket.close()
-        return
+        # 모든 부정행위 탐지 기능을 활성화하는 기본 설정 사용
+        cheating_settings = {
+            'look_around': True,
+            'repeated_gaze': True,
+            'object': True,
+            'face_absence_long': True,
+            'face_absence_repeat': True,
+            'hand_gesture': True,
+            'head_turn_long': True,
+            'head_turn_repeat': True,
+            'eye_movement': True
+        }
+        cheating_settings_cache[exam_id] = cheating_settings
+        logging.info(f"Using default cheating settings for examId {exam_id}: {cheating_settings}")
 
     previous_cheating_counts[user_id] = {key: 0 for key in cheating_counts[user_id].keys()}
 

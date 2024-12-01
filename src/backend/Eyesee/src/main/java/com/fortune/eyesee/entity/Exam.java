@@ -2,12 +2,14 @@ package com.fortune.eyesee.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fortune.eyesee.enums.ExamStatus;
+import com.fortune.eyesee.utils.CheatingTypeConverter;
 import lombok.Data;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 
 @Entity
@@ -41,4 +43,7 @@ public class Exam {
 
     @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
     private Session session; // 1:1 관계 설정
+
+    @Convert(converter = CheatingTypeConverter.class) // JSON 컬럼 변환기
+    private List<String> cheatingTypes;
 }

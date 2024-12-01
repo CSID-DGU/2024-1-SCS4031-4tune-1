@@ -127,6 +127,7 @@ public class ExamController {
             @PathVariable Integer examId,
             @PathVariable Integer userId) {
         UserDetailResponseDTO response = examService.getUserDetailByExamIdAndUserId(examId, userId);
+
         return ResponseEntity.ok(new BaseResponse<>(response, "학생 상세 정보 조회 성공"));
     }
 
@@ -164,5 +165,11 @@ public class ExamController {
                 .body(new InputStreamResource(excelFile));
     }
 
+
+    @GetMapping("/{examId}/cheating-types")
+    public ResponseEntity<Map<String, Boolean>> getCheatingTypes(@PathVariable Integer examId) {
+        Map<String, Boolean> cheatingTypes = examService.getCheatingTypesByExamId(examId);
+        return ResponseEntity.ok(cheatingTypes);
+    }
 
 }

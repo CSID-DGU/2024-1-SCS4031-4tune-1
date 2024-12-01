@@ -4,17 +4,22 @@ import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponseCode;
 import com.fortune.eyesee.dto.*;
 import com.fortune.eyesee.entity.*;
+import com.fortune.eyesee.enums.CheatingTypeEnum;
 import com.fortune.eyesee.enums.ExamStatus;
 import com.fortune.eyesee.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ExamService {
 
@@ -26,6 +31,8 @@ public class ExamService {
     private final DetectedCheatingRepository detectedCheatingRepository;
     private final CheatingTypeRepository cheatingTypeRepository;
     private final AdminRepository adminRepository;
+
+
 
     @Autowired
     public ExamService(ExamRepository examRepository,
@@ -44,6 +51,31 @@ public class ExamService {
         this.detectedCheatingRepository = detectedCheatingRepository;
         this.cheatingTypeRepository = cheatingTypeRepository;
         this.adminRepository = adminRepository;
+    }
+
+    @Scheduled(cron = "0 0/10 * * * *") // 10분마다 실행
+    public void updateExamStatuses() {
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        // 필터링된 시험만 가져오기
+        List<Exam> activeExams = examRepository.findActiveExams(currentDate, currentTime);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Exam exam : activeExams) {
+            LocalDateTime examStartDateTime = LocalDateTime.of(exam.getExamDate(), exam.getExamStartTime());
+            LocalDateTime examEndDateTime = examStartDateTime.plusMinutes(exam.getExamDuration());
+
+            if (now.isBefore(examStartDateTime)) {
+                exam.setExamStatus(ExamStatus.BEFORE);
+            } else if (now.isAfter(examEndDateTime)) {
+                exam.setExamStatus(ExamStatus.DONE);
+            } else {
+                exam.setExamStatus(ExamStatus.IN_PROGRESS);
+            }
+        }
+
+        examRepository.saveAll(activeExams); // 상태 변경된 시험만 저장
     }
 
     // 시험 등록 메서드
@@ -70,6 +102,11 @@ public class ExamService {
         exam.setExamNotice(examRequestDTO.getExamNotice());
         exam.setExamStatus(ExamStatus.BEFORE);
         exam.setExamRandomCode(examRandomCode);
+
+        // 부정행위 유형 저장
+        if (examRequestDTO.getCheatingTypes() != null) {
+            exam.setCheatingTypes(examRequestDTO.getCheatingTypes());
+        }
 
         // Exam 저장 후 ID 생성
         examRepository.save(exam);
@@ -198,13 +235,14 @@ public class ExamService {
             List<User> sessionUsers = userRepository.findBySession(session);
             List<UserListResponseDTO.UserInfo> sessionUserInfo = sessionUsers.stream()
                     .map(user -> {
-                        int cheatingCount = cheatingStatisticsRepository.countByUserId(user.getUserId());
+                        // 부정행위 횟수 합산
+                        Integer cheatingCount = cheatingStatisticsRepository.findTotalCheatingCountByUserId(user.getUserId());
                         return new UserListResponseDTO.UserInfo(
                                 user.getUserId(),
                                 user.getUserName(),
                                 user.getUserNum(),
                                 user.getSeatNum(),
-                                cheatingCount
+                                cheatingCount != null ? cheatingCount : 0 // null 처리
                         );
                     })
                     .collect(Collectors.toList());
@@ -220,9 +258,8 @@ public class ExamService {
     }
 
 
-    // 특정 Exam ID와 User ID로 User 상세 정보 조회
     public UserDetailResponseDTO getUserDetailByExamIdAndUserId(Integer examId, Integer userId) {
-        List<Session> sessions = sessionRepository.findByExam_ExamId(examId); // 수정된 부분
+        List<Session> sessions = sessionRepository.findByExam_ExamId(examId);
         if (sessions.isEmpty()) {
             throw new IllegalArgumentException("시험을 찾을 수 없거나 세션이 없습니다");
         }
@@ -235,23 +272,27 @@ public class ExamService {
 
         User user = userOpt.orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
+        List<CheatingStatistic> cheatingStatistics = cheatingStatisticsRepository.findStatisticsByUserId(userId);
 
-        List<UserDetailResponseDTO.CheatingStatistic> cheatingStatistics = cheatingStatisticsRepository.findByUserId(userId).stream()
-                .map(stat -> {
-                    String cheatingTypeName = cheatingTypeRepository.findById(stat.getCheatingTypeId())
-                            .map(CheatingType::getCheatingTypeName)
-                            .orElse("알 수 없음");
-
-                    return new UserDetailResponseDTO.CheatingStatistic(
-                            stat.getCheatingStatisticsId(),
-                            cheatingTypeName,
-                            stat.getCheatingCount(),
-                            detectedCheatingRepository.findByUserIdAndCheatingTypeId(userId, stat.getCheatingTypeId())
-                                    .map(detected -> detected.getDetectedTime() != null ? detected.getDetectedTime().toString() : null)
-                                    .orElse(null)
-                    );
-                })
-                .collect(Collectors.toList());
+//        Map<Integer, CheatingStatistic> mergedStatistics = new HashMap<>();
+//
+//        for (CheatingStatistic stat : cheatingStatistics) {
+//            int statId = stat.getCheatingStatisticsId();
+//
+//            if (mergedStatistics.containsKey(statId)) {
+//                CheatingStatistic existingStat = mergedStatistics.get(statId);
+//                existingStat.addDetectedTime(stat.getDetectedTimes().get(0));
+//            } else {
+//                mergedStatistics.put(statId, new CheatingStatistic(
+//                        stat.getCheatingStatisticsId(),
+//                        stat.getKoreanTypeName(),
+//                        stat.getCheatingCount(),
+//                        stat.getDetectedTimes().get(0)
+//                ));
+//            }
+//        }
+//
+//        List<CheatingStatistic> finalStatistics = new ArrayList<>(mergedStatistics.values());
 
         List<UserDetailResponseDTO.CheatingVideo> cheatingVideos = videoRecordingRepository.findByUserId(userId).stream()
                 .map(video -> new UserDetailResponseDTO.CheatingVideo(
@@ -268,7 +309,26 @@ public class ExamService {
                 user.getUserNum(),
                 user.getSeatNum(),
                 cheatingStatistics,
-                cheatingVideos
+                cheatingVideos,
+                user.getSession().getExam().getExamName(),
+                user.getSession().getExam().getExamStartTime(),
+                user.getSession().getExam().getExamDuration()
         );
+    }
+
+    public Map<String, Boolean> getCheatingTypesByExamId(Integer examId) {
+        Exam exam = examRepository.findById(examId)
+                .orElseThrow(() -> new IllegalArgumentException("Exam not found for ID: " + examId));
+
+        // JSON 컬럼에서 부정행위 타입을 가져오기
+        List<String> enabledCheatingTypes = exam.getCheatingTypes(); // JSON 컬럼 파싱
+
+        // 활성화된 항목만 포함하는 Map 생성
+        Map<String, Boolean> cheatingTypesMap = new HashMap<>();
+        for (String type : enabledCheatingTypes) {
+            cheatingTypesMap.put(type, true);
+        }
+
+        return cheatingTypesMap;
     }
 }

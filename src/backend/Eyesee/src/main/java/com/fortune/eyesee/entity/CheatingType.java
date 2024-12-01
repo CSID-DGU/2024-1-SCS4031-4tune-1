@@ -13,4 +13,5 @@ public class CheatingType {
     private Integer cheatingTypeId;
 
     private String cheatingTypeName; // 부정행위 종류 이름
+    private String koreanTypeName; // 한글 부정행위 이름
 }

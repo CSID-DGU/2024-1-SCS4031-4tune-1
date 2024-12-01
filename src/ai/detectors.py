@@ -5,7 +5,7 @@ import math
 
 def detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages):
     current_time = time.time()
-    if pitch <= PITCH_DOWN_THRESHOLD and abs(yaw) > YAW_FORWARD_THRESHOLD:
+    if pitch > PITCH_DOWN_THRESHOLD and abs(yaw) > YAW_FORWARD_THRESHOLD:
         if start_times[user_id]['look_around'] is None:
             start_times[user_id]['look_around'] = current_time
         else:
@@ -22,7 +22,7 @@ def detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheatin
 
 def detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts, cheating_messages, pitch):
     current_time = time.time()
-    if pitch <= PITCH_DOWN_THRESHOLD:
+    if pitch > PITCH_DOWN_THRESHOLD:
         gaze_history[user_id].append((grid_position, current_time))
         gaze_history[user_id] = [(pos, t) for pos, t in gaze_history[user_id] if current_time - t <= REPEATED_GAZE_WINDOW]
 
@@ -140,34 +140,3 @@ def detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_
             cheating_flags[user_id]['head_turn_long'] = False
             cheating_flags[user_id]['head_turn_repeat'] = False
             start_times[user_id]['head_turn'] = None
-
-def detect_eye_movement(user_id, eye_center, image_shape, start_times, cheating_flags, cheating_counts, cheating_messages):
-    if image_shape is None or len(image_shape) < 2:
-        return
-
-    current_time = time.time()
-    image_center = (image_shape[1] // 2, image_shape[0] // 2)
-
-    if eye_center:
-        dx = eye_center[0] - image_center[0]
-        dy = eye_center[1] - image_center[1]
-        distance = math.sqrt(dx**2 + dy**2)
-
-        if distance > EYE_MOVEMENT_THRESHOLD:
-            if start_times[user_id]['eye_movement'] is None:
-                start_times[user_id]['eye_movement'] = current_time
-            else:
-                elapsed_time = current_time - start_times[user_id]['eye_movement']
-                if elapsed_time >= EYE_MOVEMENT_DURATION and not cheating_flags[user_id]['eye_movement']:
-                    cheating_flags[user_id]['eye_movement'] = True
-                    cheating_counts[user_id]['eye_movement'] += 1
-                    message = {'type': '눈동자 움직임 감지됨', 'start_time': current_time}
-                    cheating_messages[user_id].append(message)
-        else:
-            if cheating_flags[user_id]['eye_movement']:
-                cheating_flags[user_id]['eye_movement'] = False
-                start_times[user_id]['eye_movement'] = None
-    else:
-        if cheating_flags[user_id]['eye_movement']:
-            cheating_flags[user_id]['eye_movement'] = False
-            start_times[user_id]['eye_movement'] = None

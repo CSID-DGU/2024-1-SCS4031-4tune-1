@@ -1,5 +1,5 @@
 import mediapipe as mp
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 from datetime import datetime
 import base64
@@ -44,7 +44,7 @@ hands = mp_hands.Hands(
     min_tracking_confidence=0.5
 )
 
-# YOLO11 모델 로드
+# YOLO 모델 로드
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = YOLO('yolo11s.pt').to(device)
 logging.info("YOLO 모델 로드 완료")
@@ -56,8 +56,7 @@ start_times = defaultdict(lambda: {
     'head_turn': None,
     'hand_gesture': None,
     'repeated_gaze': None,
-    'object': None,
-    'eye_movement': None
+    'object': None
 })
 cheating_flags = defaultdict(lambda: {
     'look_around': False,
@@ -67,8 +66,7 @@ cheating_flags = defaultdict(lambda: {
     'face_absence_repeat': False,
     'hand_gesture': False,
     'head_turn_long': False,
-    'head_turn_repeat': False,
-    'eye_movement': False
+    'head_turn_repeat': False
 })
 cheating_counts = defaultdict(lambda: {
     'look_around': 0,
@@ -78,8 +76,7 @@ cheating_counts = defaultdict(lambda: {
     'face_absence_repeat': 0,
     'hand_gesture': 0,
     'head_turn_long': 0,
-    'head_turn_repeat': 0,
-    'eye_movement': 0
+    'head_turn_repeat': 0
 })
 cheating_settings_cache = defaultdict(dict)
 
@@ -128,9 +125,15 @@ previous_cheating_counts = defaultdict(lambda: {
     'face_absence_repeat': 0,
     'hand_gesture': 0,
     'head_turn_long': 0,
-    'head_turn_repeat': 0,
-    'eye_movement': 0
+    'head_turn_repeat': 0
 })
+
+# aiohttp 세션을 전역적으로 생성
+session = aiohttp.ClientSession()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await session.close()
 
 @app.websocket("/ws/{user_id}/{exam_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
@@ -152,8 +155,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
             'face_absence_repeat': True,
             'hand_gesture': True,
             'head_turn_long': True,
-            'head_turn_repeat': True,
-            'eye_movement': True
+            'head_turn_repeat': True
         }
         cheating_settings_cache[exam_id] = cheating_settings
         logging.info(f"Using default cheating settings for examId {exam_id}: {cheating_settings}")
@@ -181,16 +183,15 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
         manager.disconnect(user_id)
 
 async def fetch_cheating_settings(exam_id):
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.get(f"{BACKEND_API_URL}/exams/{exam_id}/cheating-types") as resp:
-                if resp.status == 200:
-                    return await resp.json()
-                else:
-                    logging.error(f"Failed to fetch cheating settings for examId {exam_id}. Status: {resp.status}")
-        except Exception as e:
-            logging.exception(f"Error fetching cheating settings for examId {exam_id}")
-        return None
+    try:
+        async with session.get(f"{BACKEND_API_URL}/exams/{exam_id}/cheating-types") as resp:
+            if resp.status == 200:
+                return await resp.json()
+            else:
+                logging.error(f"Failed to fetch cheating settings for examId {exam_id}. Status: {resp.status}")
+    except Exception as e:
+        logging.exception(f"Error fetching cheating settings for examId {exam_id}")
+    return None
 
 async def process_frame(user_id, exam_id, image, frame_timestamp):
     loop = asyncio.get_running_loop()
@@ -294,26 +295,20 @@ def update_cheating(user_id, exam_id, detections, face_present, head_pose, eye_c
             grid_col = int(gaze_point[0] / (image_shape[1] / GRID_COLS))
             grid_position = (grid_row, grid_col)
             detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts, cheating_messages, pitch)
-        if cheating_settings.get('eye_movement'):
-            detect_eye_movement(user_id, eye_center, image_shape, start_times, cheating_flags, cheating_counts, cheating_messages)
     if cheating_settings.get('hand_gesture'):
         detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts, cheating_messages)
 
 async def compare_and_send_if_changed(user_id: str):
-    # 현재 부정행위 상태 가져오기
     current_counts = cheating_counts[user_id]
 
-    # 이전 상태와 비교하여 변경 감지
     counts_changed = any(
         current_counts[key] != previous_cheating_counts[user_id][key]
         for key in current_counts
     )
 
     if counts_changed:
-        # 현재 시간 추가
         current_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
-        # 변경된 상태를 결과로 구성
         cheating_result = CheatingResult(
             userId=user_id,
             cheatingCounts=current_counts,
@@ -322,12 +317,11 @@ async def compare_and_send_if_changed(user_id: str):
 
         try:
             # 백엔드로 데이터 전송
-            async with aiohttp.ClientSession() as session:
-                async with session.post(f"{BACKEND_API_URL}/cheatings", json=cheating_result.dict()) as resp:
-                    if resp.status == 200:
-                        logging.info(f"Cheating result sent successfully: {cheating_result.dict()}")
-                    else:
-                        logging.error(f"Failed to send cheating result: {cheating_result.dict()}")
+            async with session.post(f"{BACKEND_API_URL}/cheatings", json=cheating_result.dict()) as resp:
+                if resp.status == 200:
+                    logging.info(f"Cheating result sent successfully: {cheating_result.dict()}")
+                else:
+                    logging.error(f"Failed to send cheating result: {cheating_result.dict()}")
 
             # 프론트엔드로 데이터 전송
             await manager.send_message(user_id, cheating_result.dict())

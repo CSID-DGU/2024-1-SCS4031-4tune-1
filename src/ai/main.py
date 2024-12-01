@@ -282,7 +282,7 @@ previous_cheating_counts = defaultdict(lambda: {
 async def fetch_cheating_settings(exam_id):
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.get(f"{BACKEND_API_URL}/exams/{exam_id}/cheatingTypes") as resp:
+            async with session.get(f"{BACKEND_API_URL}/exams/{exam_id}/cheating-types") as resp:
                 if resp.status == 200:
                     return await resp.json()
                 else:

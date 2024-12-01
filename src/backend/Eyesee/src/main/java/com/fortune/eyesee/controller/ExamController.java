@@ -115,14 +115,14 @@ public class ExamController {
     }
 
     // 특정 시험 ID에 해당하는 세션 내 모든 학생들의 리스트를 조회
-    @GetMapping("/{examId}/sessions")
+    @GetMapping("/{examId}/users")
     public ResponseEntity<BaseResponse<UserListResponseDTO>> getUserListByExamId(@PathVariable Integer examId) {
         UserListResponseDTO response = examService.getUserListByExamId(examId);
         return ResponseEntity.ok(new BaseResponse<>(response, "학생 리스트 조회 성공"));
     }
 
     // 특정 시험 ID와 사용자 ID에 해당하는 학생의 상세 정보를 조회
-    @GetMapping("/{examId}/sessions/{userId}")
+    @GetMapping("/{examId}/users/{userId}")
     public ResponseEntity<BaseResponse<UserDetailResponseDTO>> getUserDetailByExamIdAndUserId(
             @PathVariable Integer examId,
             @PathVariable Integer userId) {

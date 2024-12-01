@@ -7,6 +7,7 @@ import Step3 from "@/components/addExam/Step3";
 import Step4 from "@/components/addExam/Step4";
 import SubHeader from "@/components/addExam/SubHeader";
 import NextButton from "@/components/common/NextButton";
+import { MonitoringCondition } from "@/constant/monitoring";
 import { useAddExam } from "@/hooks/api/useExam";
 import { useTestCodeStore } from "@/store/useTestCodeStore";
 import { ExamRequest, initialExamData } from "@/types/exam";
@@ -17,9 +18,20 @@ const AddExamPage = () => {
   const router = useRouter();
   const { examRandomCode } = useTestCodeStore();
   const [step, setStep] = useState(1);
+
+  // 시험 정보 초기화
   const [examData, setExamData] = useState<ExamRequest>(initialExamData);
 
   const { mutate } = useAddExam();
+
+  const handleToggleCondition = (condition: MonitoringCondition) => {
+    setExamData((prevExamData) => ({
+      ...prevExamData,
+      cheatingTypes: prevExamData.cheatingTypes.includes(condition)
+        ? prevExamData.cheatingTypes.filter((item) => item !== condition)
+        : [...prevExamData.cheatingTypes, condition],
+    }));
+  };
 
   const handleSubmit = () => {
     if (step === 3) {
@@ -56,7 +68,11 @@ const AddExamPage = () => {
             <Step1 examData={examData} setExamData={setExamData} />
           )}
           {step === 2 && (
-            <Step2 examData={examData} setExamData={setExamData} />
+            <Step2
+              examData={examData}
+              setExamData={setExamData}
+              handleToggleCondition={handleToggleCondition}
+            />
           )}
           {step === 3 && (
             <Step3 examData={examData} setExamData={setExamData} />

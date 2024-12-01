@@ -1,4 +1,3 @@
-import { api } from "@/apis";
 import { downloadReport } from "@/apis/report";
 import ExcelIcon from "@/assets/images/Excel.svg";
 import { ReportResponse } from "@/types/report";
@@ -21,13 +20,16 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
   };
 
   return (
-    <div className="relative w-full mb-20 flex justify-between gap-20">
+    <div className="relative w-full mt-10 mb-20 flex justify-between gap-20">
       <div
         onClick={handleDownload}
         className="cursor-pointer absolute bottom-0 flex items-center gap-3"
       >
         <ExcelIcon />
         <p className="text-[20px]">엑셀 다운로드</p>
+      </div>
+      <div className="fixed bottom-5 text-2xl text-red-500 font-bold z-50 shadow-lg">
+        종료된 시험입니다.
       </div>
       <div className="w-[50%] h-full text-[2.5rem] font-bold text-white">
         <p className="">2024년 11월 27일</p>

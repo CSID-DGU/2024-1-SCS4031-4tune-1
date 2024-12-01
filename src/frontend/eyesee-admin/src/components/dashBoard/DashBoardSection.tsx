@@ -42,16 +42,18 @@ const DashBoardSection = ({
       {codeModalOpen && (
         <TestCodeModal setCodeModalOpen={setCodeModalOpen} code={"12345"} />
       )}
-      <div className="grow bg-[#0E1D3C] text-white p-10">
+      <div className="grow bg-[#0E1D3C] text-white p-10 h-screen overflow-scroll">
         <TestInfo
           examDuration={sesstionData.examDuration}
           examName={sesstionData.examName}
         >
+          {children}
+        </TestInfo>
+        <div className="flex items-center w-full justify-end gap-5 mb-5">
           <GridIcon onClick={() => setTableModalOpen(true)} />
           <PeopleIcon onClick={() => setCodeModalOpen(true)} />
           <RowMoreIcon />
-        </TestInfo>
-        {children}
+        </div>
         <div
           className="grid gap-5 justify-center items-center"
           style={{

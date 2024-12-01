@@ -34,19 +34,19 @@ export const dummyTimeLineData: timeLineType = {
       cheatingStatisticsId: 1,
       koreanTypeName: "휴대폰 사용",
       cheatingCount: 2,
-      detectedTimes: ["2023-11-02T10:20:00"],
+      detectedTime: "2023-11-02T10:20:00",
     },
     {
       cheatingStatisticsId: 2,
       koreanTypeName: "시선 이탈",
       cheatingCount: 5,
-      detectedTimes: ["2023-11-02T10:25:00"],
+      detectedTime: "2023-11-02T10:25:00",
     },
     {
       cheatingStatisticsId: 3,
       koreanTypeName: "종이 사용",
       cheatingCount: 1,
-      detectedTimes: ["2023-11-02T10:30:00"],
+      detectedTime: "2023-11-02T10:30:00",
     },
   ],
   cheatingVideos: [

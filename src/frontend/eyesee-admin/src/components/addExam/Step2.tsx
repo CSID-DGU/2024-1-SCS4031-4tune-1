@@ -2,13 +2,19 @@ import { ExamRequest } from "@/types/exam";
 import CTAIcon from "@/assets/icons/CTAIcon.svg";
 import { Dispatch, SetStateAction, useState } from "react";
 import CheatingSetting from "./CheatingSetting";
+import { MonitoringCondition } from "@/constant/monitoring";
 
 type Step2Props = {
   examData: ExamRequest;
   setExamData: Dispatch<SetStateAction<ExamRequest>>;
+  handleToggleCondition: (condition: MonitoringCondition) => void;
 };
 
-const Step2 = ({ examData, setExamData }: Step2Props) => {
+const Step2 = ({
+  examData,
+  setExamData,
+  handleToggleCondition,
+}: Step2Props) => {
   const [cheatingModal, setCheatingModal] = useState(false);
 
   // 시험 일시 상태
@@ -42,7 +48,13 @@ const Step2 = ({ examData, setExamData }: Step2Props) => {
 
   return (
     <>
-      {cheatingModal && <CheatingSetting setCheatingModal={setCheatingModal} />}
+      {cheatingModal && (
+        <CheatingSetting
+          examData={examData}
+          handleToggleCondition={handleToggleCondition}
+          setCheatingModal={setCheatingModal}
+        />
+      )}
       <div>
         {/* 시험 일시 */}
         <div className="flex justify-between gap-10">

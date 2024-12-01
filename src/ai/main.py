@@ -15,7 +15,7 @@ import requests
 import aiohttp
 
 import logging
-BACKEND_API_URL = "https://43.203.23.202.nip.io/api/cheatings"
+BACKEND_API_URL = "https://43.203.23.202.nip.io/api"
 # 로깅 설정
 logging.basicConfig(
     level=logging.DEBUG,
@@ -144,6 +144,9 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
         await websocket.close()
         return
 
+    # 이전 상태를 0으로 초기화
+    previous_cheating_counts[user_id] = {key: 0 for key in cheating_counts[user_id].keys()}
+
     try:
         while True:
             # WebSocket 데이터 처리 로직
@@ -158,6 +161,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
                 await websocket.send_json({"error": "이미지 디코딩 실패"})
                 continue
 
+            # 프레임 처리
             await process_frame(user_id, exam_id, image, timestamp)
     except WebSocketDisconnect:
         manager.disconnect(user_id)
@@ -217,7 +221,7 @@ async def get_cheating_result(user_id: str):
     # 부정행위 결과를 JSON 형태로 백엔드 API로 전송
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(BACKEND_API_URL, json=cheating_result.dict()) as resp:
+            async with session.post(f"{BACKEND_API_URL}/cheatings", json=cheating_result.dict()) as resp:
                 if resp.status == 200:
                     logging.info(f"Cheating result sent successfully: {cheating_result.dict()}")
                 else:
@@ -330,10 +334,11 @@ async def send_cheating_result_if_changed(user_id: str):
             logging.error(f"{user_id}: 부정행위 메시지 전송 중 오류 발생: {e}")
 
 # `update_cheating` 함수에서 호출
-async def process_frame(user_id, image, frame_timestamp):
+async def process_frame(user_id, exam_id, image, frame_timestamp):
     loop = asyncio.get_event_loop()
     try:
-        image_shape, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list = await loop.run_in_executor(
+        # 이미지 처리
+        image_shape, detections, face_present, head_pose, gaze_point, hand_landmarks_list = await loop.run_in_executor(
             executor,
             process_image,
             image
@@ -343,18 +348,15 @@ async def process_frame(user_id, image, frame_timestamp):
         logging.error(f"{user_id}: 프레임 처리 중 오류 발생: {e}")
         return
 
-    # 부정행위 업데이트
+    # 부정행위 상태 업데이트
     try:
-        update_cheating(user_id, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list,
-                        image_shape)
+        update_cheating(user_id, exam_id, detections, face_present, head_pose, gaze_point, hand_landmarks_list, image_shape)
         logging.debug(f"{user_id}: 부정행위 업데이트 완료")
 
-        # 변경된 경우에만 전송
-        await send_cheating_result_if_changed(user_id)
-
+        # 변경된 경우 전송 및 저장
+        await compare_and_send_if_changed(user_id)
     except Exception as e:
-        logging.error(f"{user_id}: 부정행위 업데이트 중 오류 발생: {e}")
-
+        logging.error(f"{user_id}: 부정행위 업데이트 및 전송 중 오류 발생: {e}")
 def process_image(image):
     """
     이미지를 처리하여 부정행위 탐지에 필요한 정보를 반환
@@ -474,3 +476,44 @@ def update_cheating(user_id, exam_id, detections, face_present, head_pose, eye_c
     if cheating_settings.get('hand_gesture'):
         detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts,
                              cheating_messages)
+
+async def compare_and_send_if_changed(user_id: str):
+    global previous_cheating_counts
+
+    # 현재 부정행위 상태 가져오기
+    current_counts = cheating_counts[user_id]
+
+    # 이전 상태와 비교하여 변경 감지
+    counts_changed = any(
+        current_counts[key] != previous_cheating_counts[user_id][key]
+        for key in current_counts
+    )
+
+    if counts_changed:
+        # 현재 시간 추가
+        current_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+        # 변경된 상태를 결과로 구성
+        cheating_result = {
+            "user_id": user_id,
+            "cheating_counts": current_counts,
+            "timestamp": current_time
+        }
+
+        try:
+            # 백엔드로 데이터 전송
+            async with aiohttp.ClientSession() as session:
+                async with session.post(f"{BACKEND_API_URL}/cheatings", json=cheating_result) as resp:
+                    if resp.status == 200:
+                        logging.info(f"Cheating result sent successfully: {cheating_result}")
+                    else:
+                        logging.error(f"Failed to send cheating result: {cheating_result}")
+
+            # 프론트엔드로 데이터 전송
+            await manager.send_message(user_id, cheating_result)
+
+            # 이전 상태를 현재 상태로 업데이트
+            previous_cheating_counts[user_id] = current_counts.copy()
+
+        except Exception as e:
+            logging.error(f"Error sending cheating result for {user_id}: {e}")

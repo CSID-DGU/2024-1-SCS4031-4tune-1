@@ -9,6 +9,7 @@ import com.fortune.eyesee.repository.DetectedCheatingRepository;
 import com.fortune.eyesee.repository.CheatingStatisticsRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class DetectedCheatingService {
                     detectedCheating.setUserId(userId);
                     detectedCheating.setSessionId(finalSessionId);  // 세션 ID 추가
                     detectedCheating.setCheatingTypeId(cheatingTypeId);
-                    detectedCheating.setDetectedTime(cheatingResponseDTO.getTimestamp().toLocalTime());
+                    detectedCheating.setDetectedTime(LocalTime.from(cheatingResponseDTO.getTimestamp()));
                     detectedCheatings.add(detectedCheatingRepository.save(detectedCheating));
 
                     // CheatingStatistics 갱신

@@ -31,6 +31,8 @@ public enum BaseResponseCode {
     INVALID_STATUS("GL012", HttpStatus.BAD_REQUEST, "유효하지 않은 상태 값입니다."),
     INVALID_INPUT("GL013", HttpStatus.BAD_REQUEST, "입력이 잘못되었습니다."),
 
+    NOT_FOUND_DATA("GL014", HttpStatus.NOT_FOUND, "요청한 데이터를 찾을 수 없습니다."),
+
     // User Errors
     ALREADY_EXIST_USER("U0001", HttpStatus.CONFLICT, "이미 존재하는 사용자입니다"),
     WRONG_PASSWORD("U0002", HttpStatus.BAD_REQUEST, "비밀번호가 틀렸습니다."),
@@ -55,6 +57,7 @@ public enum BaseResponseCode {
 
     // Cheating Errors
     NOT_FOUND_CHEATING_TYPE("C0001", HttpStatus.NOT_FOUND, "부정행위 타입을 찾을 수 없습니다."),
+
 
     // 기타 추가 오류 코드 ...
 

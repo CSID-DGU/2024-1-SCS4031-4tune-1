@@ -1,5 +1,6 @@
+import { api } from "@/apis";
+import { downloadReport } from "@/apis/report";
 import ExcelIcon from "@/assets/images/Excel.svg";
-import { useDownloadReport } from "@/hooks/api/useReport";
 import { ReportResponse } from "@/types/report";
 import { useParams } from "next/navigation";
 
@@ -10,14 +11,19 @@ type ReportSectionType = {
 const ReportSection = ({ reportData }: ReportSectionType) => {
   const { examId } = useParams();
 
-  const excelDownload = () => {
-    const { data } = useDownloadReport(Number(examId));
+  // 시험 레포트 엑셀 다운로드
+  const handleDownload = () => {
+    if (examId) {
+      downloadReport(Number(examId));
+    } else {
+      console.error("exam id가 존재하지 않습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
     <div className="relative w-full mb-20 flex justify-between gap-20">
       <div
-        onClick={excelDownload}
+        onClick={handleDownload}
         className="cursor-pointer absolute bottom-0 flex items-center gap-3"
       >
         <ExcelIcon />

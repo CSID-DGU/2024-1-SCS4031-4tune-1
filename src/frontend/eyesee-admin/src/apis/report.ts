@@ -1,40 +1,34 @@
 import { api } from ".";
-import { RESTYPE } from "@/types/common";
 import { ReportResponse } from "@/types/report";
 
 export const getReportData = async (
   examId: number
 ): Promise<ReportResponse> => {
-  // ): Promise<RESTYPE<ReportResponse>> => {
   const response = await api.get(`/exams/${examId}/report`);
   return response.data;
 };
 
-// TODO: save response to file
+// 사후 레포트 엑셀 다운로드
 export const downloadReport = async (examId: number) => {
-  const response = await api.get(`/exams/${examId}/report/download`);
-  return response.data;
+  try {
+    const response = await api.get(`/exams/${examId}/report/download`, {
+      responseType: "blob",
+    });
 
-  //   if (!response.ok) {
-  //     throw new Error("Failed to download the file");
-  //   }
+    const blob = new Blob([response.data], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
 
-  //   const blob = await response.blob();
-  //   const url = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "report.xlsx";
+    document.body.appendChild(link);
 
-  //   // Create a hidden anchor element to trigger download
-  //   const link = document.createElement("a");
-  //   link.href = url;
-
-  //   // Set a default file name for the download
-  //   link.download = `report-${sessionId}.xlsx`;
-  //   document.body.appendChild(link);
-  //   link.click();
-
-  //   // Cleanup
-  //   link.remove();
-  //   window.URL.revokeObjectURL(url);
-  // } catch (error) {
-  //   console.error("Error downloading the file:", error);
-  // }
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("엑셀 다운로드 중 에러가 발생했습니다: ", error);
+  }
 };

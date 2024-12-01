@@ -15,10 +15,3 @@ export const useReportdData = (examId: number) => {
     queryFn: () => getReportData(examId),
   });
 };
-
-export const useDownloadReport = (examId: number) => {
-  return useQuery({
-    queryKey: ["report_download", examId],
-    queryFn: () => downloadReport(examId),
-  });
-};

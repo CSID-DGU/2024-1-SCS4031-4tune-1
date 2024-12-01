@@ -1,6 +1,8 @@
 package com.fortune.eyesee.dto;
 
 import lombok.Data;
+
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -11,32 +13,39 @@ public class UserDetailResponseDTO {
     private Integer seatNum;
     private List<CheatingStatistic> cheatingStatistics;
     private List<CheatingVideo> cheatingVideos;
+    private String examName;
+    private LocalTime examStartTime;        // 시험 시작 시간
+    private Integer examDuration;           // 진행 시간
 
     public UserDetailResponseDTO(Integer userId, String userName, Integer userNum, Integer seatNum,
-                                 List<CheatingStatistic> cheatingStatistics, List<CheatingVideo> cheatingVideos) {
+                                 List<CheatingStatistic> cheatingStatistics, List<CheatingVideo> cheatingVideos
+            , String examName, LocalTime examStartTime, Integer examDuration) {
         this.userId = userId;
         this.userName = userName;
         this.userNum = userNum;
         this.seatNum = seatNum;
         this.cheatingStatistics = cheatingStatistics;
         this.cheatingVideos = cheatingVideos;
+        this.examName = examName;
+        this.examStartTime = examStartTime;
+        this.examDuration = examDuration;
     }
 
-    @Data
-    public static class CheatingStatistic {
-        private Integer cheatingStatisticsId;
-        private String cheatingTypeName; // String으로 변경
-        private Integer cheatingCount;
-        private String detectedTime;
-
-        // 부정행위 통계 생성자
-        public CheatingStatistic(Integer cheatingStatisticsId, String cheatingTypeName, Integer cheatingCount, String detectedTime) {
-            this.cheatingStatisticsId = cheatingStatisticsId;
-            this.cheatingTypeName = cheatingTypeName;
-            this.cheatingCount = cheatingCount;
-            this.detectedTime = detectedTime;
-        }
-    }
+//    @Data
+//    public static class CheatingStatistic {
+//        private Integer cheatingStatisticsId;
+//        private String cheatingTypeName; // String으로 변경git
+//        private Integer cheatingCount;
+//        private String detectedTime;
+//
+//        // 부정행위 통계 생성자
+//        public CheatingStatistic(Integer cheatingStatisticsId, String cheatingTypeName, Integer cheatingCount, String detectedTime) {
+//            this.cheatingStatisticsId = cheatingStatisticsId;
+//            this.cheatingTypeName = cheatingTypeName;
+//            this.cheatingCount = cheatingCount;
+//            this.detectedTime = detectedTime != null ? detectedTime : "N/A"; // 기본값 "N/A"
+//        }
+//    }
 
 
     @Data
@@ -51,7 +60,7 @@ public class UserDetailResponseDTO {
             this.videoId = videoId;
             this.startTime = startTime;
             this.endTime = endTime;
-            this.filepath = filepath;
+            this.filepath = filepath != null ? filepath : "No file available"; // 기본값
         }
     }
 }

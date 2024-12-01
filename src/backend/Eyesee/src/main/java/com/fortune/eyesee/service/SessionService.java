@@ -48,7 +48,7 @@ public class SessionService {
 
         // 세션 토큰 생성 및 반환
         String accessToken = jwtUtil.generateSessionToken(session.getSessionId(), user.getUserNum());
-        return new TokenWithUserIdResponseDTO(accessToken, null, user.getUserId());  // Refresh Token은 필요 없으므로 null 설정
+        return new TokenWithUserIdResponseDTO(accessToken, null, user.getUserId(), user.getSession().getExam().getExamId());  // Refresh Token은 필요 없으므로 null 설정
     }
 
 }

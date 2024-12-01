@@ -54,7 +54,6 @@ start_times = defaultdict(lambda: {
     'face_absence': None,
     'head_turn': None,
     'hand_gesture': None,
-    'eye_movement': None,
     'repeated_gaze': None,
     'object': None
 })
@@ -66,8 +65,7 @@ cheating_flags = defaultdict(lambda: {
     'face_absence_repeat': False,
     'hand_gesture': False,
     'head_turn_long': False,
-    'head_turn_repeat': False,
-    'eye_movement': False
+    'head_turn_repeat': False
 })
 cheating_counts = defaultdict(lambda: {
     'look_around': 0,
@@ -77,8 +75,18 @@ cheating_counts = defaultdict(lambda: {
     'face_absence_repeat': 0,
     'hand_gesture': 0,
     'head_turn_long': 0,
-    'head_turn_repeat': 0,
-    'eye_movement': 0
+    'head_turn_repeat': 0
+})
+cheating_settings_cache = defaultdict(lambda: {
+    'look_around': False,
+    'repeated_gaze': False,
+    'object': False,
+    'face_absence_long': False,
+    'face_absence_repeat': False,
+    'hand_gesture': False,
+    'head_turn_long': False,
+    'head_turn_repeat': False,
+    'eye_movement': False
 })
 
 gaze_history = defaultdict(list)
@@ -122,6 +130,40 @@ manager = ConnectionManager()
 executor = ProcessPoolExecutor(max_workers=4)
 logging.info("ProcessPoolExecutor 초기화 완료")
 
+@app.websocket("/ws/{user_id}/{exam_id}")
+async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
+    await manager.connect(user_id, websocket)
+
+    # Fetch cheating settings from backend
+    cheating_settings = await fetch_cheating_settings(exam_id)
+    if cheating_settings:
+        cheating_settings_cache[exam_id] = cheating_settings
+        logging.info(f"Cached cheating settings for examId {exam_id}: {cheating_settings}")
+    else:
+        logging.error(f"Could not fetch cheating settings for examId {exam_id}")
+        await websocket.close()
+        return
+
+    try:
+        while True:
+            # WebSocket 데이터 처리 로직
+            data = await websocket.receive_text()
+            image_bytes = base64.b64decode(data)
+            timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+            image_np = np.frombuffer(image_bytes, np.uint8)
+            image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+
+            if image is None:
+                await websocket.send_json({"error": "이미지 디코딩 실패"})
+                continue
+
+            await process_frame(user_id, exam_id, image, timestamp)
+    except WebSocketDisconnect:
+        manager.disconnect(user_id)
+    except Exception as e:
+        logging.error(f"WebSocket {user_id} 연결 중 오류 발생: {e}")
+        manager.disconnect(user_id)
 
 @app.websocket("/ws/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: str):
@@ -237,6 +279,18 @@ previous_cheating_counts = defaultdict(lambda: {
     'eye_movement': 0
 })
 
+async def fetch_cheating_settings(exam_id):
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(f"{BACKEND_API_URL}/exams/{exam_id}/cheatingTypes") as resp:
+                if resp.status == 200:
+                    return await resp.json()
+                else:
+                    logging.error(f"Failed to fetch cheating settings for examId {exam_id}. Status: {resp.status}")
+        except Exception as e:
+            logging.error(f"Error fetching cheating settings for examId {exam_id}: {e}")
+        return None
+
 # 부정행위 메시지 전송
 async def send_cheating_result_if_changed(user_id: str):
     global previous_cheating_counts
@@ -304,12 +358,6 @@ async def process_frame(user_id, image, frame_timestamp):
 def process_image(image):
     """
     이미지를 처리하여 부정행위 탐지에 필요한 정보를 반환
-
-    Args:
-        image (numpy.ndarray): 입력 이미지.
-
-    Returns:
-        tuple: (image_shape, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list)
     """
     image_shape = image.shape
     image_for_detection = image.copy()
@@ -326,7 +374,7 @@ def process_image(image):
     # 손 랜드마크 추출
     hands_results = hands.process(image_rgb)
 
-    # 객체 탐지 (YOLO11 사용)
+    # 객체 탐지 (YOLO 사용)
     object_results = model(image_for_detection, device=device)
     logging.debug(f"객체 탐지 완료: {len(object_results)} 결과")
 
@@ -359,49 +407,70 @@ def process_image(image):
         head_pose = {'pitch': pitch, 'yaw': yaw, 'roll': roll}
         logging.debug(f"머리 자세: Pitch={pitch}, Yaw={yaw}, Roll={roll}")
 
-        # 눈동자 위치 계산
-        eye_center = calculate_eye_position(landmarks)
-        logging.debug(f"눈동자 중심: {eye_center}")
-
         # 시선 위치 추정
         gaze_point = get_gaze_position(landmarks)
         logging.debug(f"시선 위치: {gaze_point}")
 
-    return image_shape, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list
+    return image_shape, detections, face_present, head_pose, gaze_point, hand_landmarks_list
+# def update_cheating(user_id, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list,
+#                     image_shape):
+#     """
+#     감지된 정보를 기반으로 부정행위를 업데이트
+#
+#     Args:
+#         user_id (str): 사용자 ID.
+#         detections (list): 감지된 객체의 리스트.
+#         face_present (bool): 얼굴 존재 여부.
+#         head_pose (dict): 머리 자세 (pitch, yaw, roll).
+#         eye_center (tuple): 눈동자의 중심 좌표 (x, y).
+#         gaze_point (tuple): 시선 위치의 좌표 (x, y).
+#         hand_landmarks_list (list): 손 랜드마크 리스트.
+#         image_shape (tuple): 이미지의 형태 (높이, 너비, 채널).
+#     """
+#     detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape)
+#     detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history,
+#                         cheating_messages)
+#     if head_pose:
+#         pitch = head_pose['pitch']
+#         yaw = head_pose['yaw']
+#         detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
+#         detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history,
+#                          cheating_messages)
+#         detect_eye_movement(user_id, eye_center, image_shape, start_times, cheating_flags, cheating_counts,
+#                             cheating_messages)
+#         if gaze_point:
+#             grid_row = int(gaze_point[1] / (image_shape[0] / GRID_ROWS))
+#             grid_col = int(gaze_point[0] / (image_shape[1] / GRID_COLS))
+#             grid_position = (grid_row, grid_col)
+#             detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts,
+#                                  cheating_messages, pitch)
+#     if hand_landmarks_list:
+#         detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts,
+#                              cheating_messages)
+def update_cheating(user_id, exam_id, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list, image_shape):
+    # Fetch cheating settings for the current exam
+    cheating_settings = cheating_settings_cache.get(exam_id, {})
 
-
-def update_cheating(user_id, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list,
-                    image_shape):
-    """
-    감지된 정보를 기반으로 부정행위를 업데이트
-
-    Args:
-        user_id (str): 사용자 ID.
-        detections (list): 감지된 객체의 리스트.
-        face_present (bool): 얼굴 존재 여부.
-        head_pose (dict): 머리 자세 (pitch, yaw, roll).
-        eye_center (tuple): 눈동자의 중심 좌표 (x, y).
-        gaze_point (tuple): 시선 위치의 좌표 (x, y).
-        hand_landmarks_list (list): 손 랜드마크 리스트.
-        image_shape (tuple): 이미지의 형태 (높이, 너비, 채널).
-    """
-    detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape)
-    detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history,
-                        cheating_messages)
+    # 동적으로 탐지 로직 활성화
+    if cheating_settings.get('object'):
+        detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape)
+    if cheating_settings.get('face_absence_long') or cheating_settings.get('face_absence_repeat'):
+        detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history,
+                            cheating_messages)
     if head_pose:
         pitch = head_pose['pitch']
         yaw = head_pose['yaw']
-        detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
-        detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history,
-                         cheating_messages)
-        detect_eye_movement(user_id, eye_center, image_shape, start_times, cheating_flags, cheating_counts,
-                            cheating_messages)
-        if gaze_point:
+        if cheating_settings.get('look_around'):
+            detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
+        if cheating_settings.get('head_turn_long') or cheating_settings.get('head_turn_repeat'):
+            detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history,
+                             cheating_messages)
+        if gaze_point and cheating_settings.get('repeated_gaze'):
             grid_row = int(gaze_point[1] / (image_shape[0] / GRID_ROWS))
             grid_col = int(gaze_point[0] / (image_shape[1] / GRID_COLS))
             grid_position = (grid_row, grid_col)
             detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts,
                                  cheating_messages, pitch)
-    if hand_landmarks_list:
+    if cheating_settings.get('hand_gesture'):
         detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts,
                              cheating_messages)

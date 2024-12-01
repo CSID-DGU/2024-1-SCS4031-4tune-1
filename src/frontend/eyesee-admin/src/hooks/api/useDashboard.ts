@@ -9,3 +9,10 @@ export const useDashboardData = (examId: number) => {
     refetchIntervalInBackground: true, // 화면이 포커스되지 않아도 백그라운드에서 리프레시
   });
 };
+
+export const useDashboarReportdData = (examId: number) => {
+  return useQuery({
+    queryKey: ["dashboard", examId],
+    queryFn: () => getDashboardData(examId),
+  });
+};

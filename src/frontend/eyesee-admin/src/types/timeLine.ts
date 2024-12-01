@@ -1,6 +1,6 @@
 export type cheatingStatistics = {
   cheatingStatisticsId: number;
-  cheatingTypeName: string;
+  koreanTypeName: string;
   cheatingCount: number;
   detectedTime: string;
 };
@@ -19,6 +19,9 @@ export type timeLineType = {
   seatNum: number;
   cheatingStatistics: cheatingStatistics[];
   cheatingVideos: cheatingVideo[];
+  examName: string;
+  examStartTime: string;
+  examDuration: number;
 };
 
 export const dummyTimeLineData: timeLineType = {
@@ -29,21 +32,21 @@ export const dummyTimeLineData: timeLineType = {
   cheatingStatistics: [
     {
       cheatingStatisticsId: 1,
-      cheatingTypeName: "휴대폰 사용",
+      koreanTypeName: "휴대폰 사용",
       cheatingCount: 2,
-      detectedTime: "2023-11-02T10:20:00",
+      detectedTimes: ["2023-11-02T10:20:00"],
     },
     {
       cheatingStatisticsId: 2,
-      cheatingTypeName: "시선 이탈",
+      koreanTypeName: "시선 이탈",
       cheatingCount: 5,
-      detectedTime: "2023-11-02T10:25:00",
+      detectedTimes: ["2023-11-02T10:25:00"],
     },
     {
       cheatingStatisticsId: 3,
-      cheatingTypeName: "종이 사용",
+      koreanTypeName: "종이 사용",
       cheatingCount: 1,
-      detectedTime: "2023-11-02T10:30:00",
+      detectedTimes: ["2023-11-02T10:30:00"],
     },
   ],
   cheatingVideos: [
@@ -69,4 +72,7 @@ export const dummyTimeLineData: timeLineType = {
         "https://videos.pexels.com/video-files/4778714/4778714-uhd_2732_1440_25fps.mp4",
     },
   ],
+  examName: "test",
+  examStartTime: "05:30:00",
+  examDuration: 120,
 };

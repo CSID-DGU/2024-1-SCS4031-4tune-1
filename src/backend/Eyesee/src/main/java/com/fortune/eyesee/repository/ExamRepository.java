@@ -4,8 +4,12 @@ import com.fortune.eyesee.entity.Exam;
 import com.fortune.eyesee.enums.ExamStatus;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +31,14 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     // 특정 sessionId와 adminId를 기준으로 Exam 데이터 조회
     Optional<Exam> findBySession_SessionIdAndAdmin_AdminId(Integer sessionId, Integer adminId);
+
+    @Query("""
+    SELECT e 
+    FROM Exam e 
+    WHERE 
+        e.examDate >= :currentDate OR 
+        (e.examDate = :currentDate AND e.examStartTime >= :currentTime)
+    """)
+    List<Exam> findActiveExams(@Param("currentDate") LocalDate currentDate, @Param("currentTime") LocalTime currentTime);
 
 }

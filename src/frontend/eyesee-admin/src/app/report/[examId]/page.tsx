@@ -1,19 +1,28 @@
+"use client";
+
 import DashBoardSection from "@/components/dashBoard/DashBoardSection";
 import UserSection from "@/components/dashBoard/UserSection";
 import ReportSection from "@/components/report/ReportSection";
-import { testSesstionData } from "@/types/user";
+import { useDashboarReportdData } from "@/hooks/api/useDashboard";
+import { useReportdData } from "@/hooks/api/useReport";
+import { useParams } from "next/navigation";
 
 const ReportPage = () => {
-  // TODO: 서버 데이터 연결
-  const sessionData = testSesstionData;
+  const { examId } = useParams();
+  const { data: dashboard } = useDashboarReportdData(Number(examId));
+  const { data: report } = useReportdData(Number(examId));
 
   return (
-    <div className="flex min-h-screen w-screen bg-[##0E1D3C]">
-      <UserSection sessionData={sessionData} />
-      <DashBoardSection sesstionData={sessionData}>
-        <ReportSection />
-      </DashBoardSection>
-    </div>
+    <>
+      {dashboard && report && (
+        <div className="flex min-h-screen w-screen bg-[##0E1D3C]">
+          <UserSection sessionData={dashboard.data} />
+          <DashBoardSection sesstionData={dashboard.data}>
+            <ReportSection reportData={report} />
+          </DashBoardSection>
+        </div>
+      )}
+    </>
   );
 };
 

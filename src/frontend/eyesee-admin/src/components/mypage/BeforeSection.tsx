@@ -12,14 +12,17 @@ const BeforeSection = () => {
 
   useEffect(() => {
     if (data) {
-      setBeforeTestData(data.data);
+      const sortedData = [...data.data].sort((a, b) => {
+        return new Date(b.examDate).getTime() - new Date(a.examDate).getTime();
+      });
+      setBeforeTestData(sortedData);
     }
   }, [data]);
 
   return (
     <>
       {beforeTestData ? (
-        <div className="bg-[rgba(14,29,60,0.20)] p-4 rounded-lg">
+        <div className="bg-[rgba(14,29,60,0.20)] p-4 rounded-lg w-[350px]">
           <div className="flex items-center gap-2.5 p-2.5 pb-5">
             <span className="text-[#6f6f6f] text-lg font-normal">Before</span>
             <span className="text-[#6f6f6f] text-lg font-semibold">

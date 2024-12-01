@@ -27,12 +27,15 @@ const UserDetailPage = () => {
         <div className="flex w-screen h-screen bg-[#0E1D3C]">
           <TimeLine timeLineData={userDetailData} setVideoNum={setVideoNum} />
           <div className="grow text-white p-10">
-            <TestInfo examName="융합캡스톤디자인 중간시험" examDuration={120} />
+            <TestInfo
+              examName={userDetailData.examName}
+              examDuration={userDetailData.examDuration}
+            />
             <div>
               <CheatingVideo
                 cheatingVideo={userDetailData.cheatingVideos[vidieoNum]}
                 cheatingType={
-                  userDetailData.cheatingStatistics[vidieoNum].cheatingTypeName
+                  userDetailData.cheatingStatistics[vidieoNum].koreanTypeName
                 }
                 cheatingCounts={
                   userDetailData.cheatingStatistics[vidieoNum].cheatingCount

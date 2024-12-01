@@ -6,6 +6,6 @@ export const getUserDetail = async (
   examId: string,
   userId: string
 ): Promise<RESTYPE<timeLineType>> => {
-  const response = await api.get(`/exams/${examId}/sessions/${userId}`);
+  const response = await api.get(`/exams/${examId}/users/${userId}`);
   return response.data;
 };

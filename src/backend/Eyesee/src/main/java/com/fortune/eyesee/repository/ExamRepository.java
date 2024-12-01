@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExamRepository extends JpaRepository<Exam, Integer> {
@@ -23,4 +24,8 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     // adminId 없이 상태로만 Exam 조회
     List<Exam> findByExamStatus(ExamStatus examStatus);
+
+    // 특정 sessionId와 adminId를 기준으로 Exam 데이터 조회
+    Optional<Exam> findBySession_SessionIdAndAdmin_AdminId(Integer sessionId, Integer adminId);
+
 }

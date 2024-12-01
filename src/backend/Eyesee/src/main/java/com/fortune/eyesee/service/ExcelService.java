@@ -19,15 +19,16 @@ public class ExcelService {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Exam Report");
 
-            // 헤더
-            Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("항목");
-            headerRow.createCell(1).setCellValue("값");
 
             // 시험 이름
-            Row examNameRow = sheet.createRow(1);
+            Row examNameRow = sheet.createRow(0);
             examNameRow.createCell(0).setCellValue("시험 이름");
             examNameRow.createCell(1).setCellValue(report.getExamName());
+
+            // 시험 날짜 및 시간
+            Row examDateRow = sheet.createRow(1);
+            examDateRow.createCell(0).setCellValue("시험 날짜 및 시간");
+            examDateRow.createCell(1).setCellValue(report.getExamDate() + " " + report.getExamStartTime());
 
             // 부정행위 관련 정보
             int rowNum = 2; // 초기 행 번호

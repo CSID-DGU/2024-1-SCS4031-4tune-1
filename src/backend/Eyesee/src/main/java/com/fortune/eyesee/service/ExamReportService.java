@@ -8,7 +8,7 @@ import com.fortune.eyesee.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +44,11 @@ public class ExamReportService {
 
         // 시험의 전체 학생 수 가져오기
         Integer totalStudents = exam.getExamStudentNumber();
+
+        // 시험 날짜와 시간 가져오기
+        LocalDate examDate = exam.getExamDate();
+        LocalTime examStartTime = exam.getExamStartTime();
+
 
         // 1. 부정행위 데이터 조회
         List<DetectedCheating> detectedCheatings = detectedCheatingRepository.findBySessionId(sessionId);
@@ -100,6 +105,8 @@ public class ExamReportService {
         ExamReportResponseDTO report = new ExamReportResponseDTO();
 
         report.setExamName(exam.getExamName());
+        report.setExamDate(examDate);
+        report.setExamStartTime(examStartTime);
         report.setTotalCheatingCount(totalCheatingCount);
         report.setCheatingStudentsCount(cheatingStudentsCount);
         report.setAverageCheatingCount(averageCheatingCount);

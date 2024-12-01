@@ -2,11 +2,15 @@ package com.fortune.eyesee.dto;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Map;
 
 @Data
 public class ExamReportResponseDTO {
     private String examName;                    // 시험 이름
+    private LocalDate examDate;                 // 시험 날짜
+    private LocalTime examStartTime;            // 시험 시작 시간
     private Integer totalCheatingCount;         // 총 탐지된 부정행위 건수
     private Integer cheatingStudentsCount;      // 부정행위 탐지된 학생 수
     private Double averageCheatingCount;        // 평균 부정행위 탐지 건수

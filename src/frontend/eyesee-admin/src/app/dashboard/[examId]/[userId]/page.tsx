@@ -35,10 +35,15 @@ const UserDetailPage = () => {
               <CheatingVideo
                 cheatingVideo={userDetailData.cheatingVideos[vidieoNum]}
                 cheatingType={
-                  userDetailData.cheatingStatistics[vidieoNum].koreanTypeName
+                  userDetailData.cheatingStatistics.length > 0
+                    ? userDetailData.cheatingStatistics[vidieoNum]
+                        .koreanTypeName
+                    : ""
                 }
                 cheatingCounts={
-                  userDetailData.cheatingStatistics[vidieoNum].cheatingCount
+                  userDetailData.cheatingStatistics.length > 0
+                    ? userDetailData.cheatingStatistics[vidieoNum].cheatingCount
+                    : 0
                 }
               />
               <div className="flex gap-5 py-5">

@@ -13,9 +13,7 @@ const TestInfo = ({ examName, examDuration, children }: TestInfoProps) => {
         <p className="text-[20px] font-bold">{examName}</p>
         <p className="text-[18px] font-bold">🕐 {examDuration}분</p>
       </div>
-      <div className="w-full flex justify-end items-center gap-5 mb-5">
-        {children}
-      </div>
+      <div className="w-full flex justify-end items-center">{children}</div>
     </>
   );
 };

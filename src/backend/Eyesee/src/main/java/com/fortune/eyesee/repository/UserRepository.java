@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findBySessionAndUserNum(Session session, Integer userNum);
 
     User findByUserId(Integer userId);
-}
+
+    // sessionId로 User 리스트 조회
+    List<User> findBySession_SessionId(Integer sessionId);}

@@ -4,7 +4,9 @@ import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponse;
 import com.fortune.eyesee.common.response.BaseResponseCode;
 import com.fortune.eyesee.dto.*;
+import com.fortune.eyesee.entity.Session;
 import com.fortune.eyesee.enums.ExamStatus;
+import com.fortune.eyesee.repository.SessionRepository;
 import com.fortune.eyesee.service.ExamReportService;
 import com.fortune.eyesee.service.ExamService;
 import com.fortune.eyesee.service.ExcelService;
@@ -34,6 +36,9 @@ public class ExamController {
 
     @Autowired
     private ExcelService excelService;
+
+    @Autowired
+    private SessionRepository sessionRepository;
 
 //    // "before" 상태의 Exam 리스트 조회
 //    @GetMapping("/before")
@@ -147,14 +152,21 @@ public class ExamController {
     @GetMapping("/{sessionId}/report/download")
     public ResponseEntity<InputStreamResource> downloadExamReport(@PathVariable Integer sessionId) throws IOException {
 
+        List<Session> sessionList = sessionRepository.findByExam_ExamId(sessionId);
+        Session session = sessionList.get(0);
+
         // SecurityContextHolder에서 adminId 가져오기
         Integer adminId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // 레포트 생성
         ExamReportResponseDTO report = examReportService.generateExamReport(adminId, sessionId);
 
+        // 학생 정보 가져오기
+        List<UserListResponseDTO.UserInfo> userInfos = examReportService.getUserInfoList(sessionId);
+
+
         // 엑셀 파일 생성
-        ByteArrayInputStream excelFile = excelService.generateExcelFile(report);
+        ByteArrayInputStream excelFile = excelService.generateExcelFile(report, userInfos);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=exam_report.xlsx");

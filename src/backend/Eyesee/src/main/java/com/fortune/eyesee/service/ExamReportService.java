@@ -3,12 +3,13 @@ package com.fortune.eyesee.service;
 import com.fortune.eyesee.common.exception.BaseException;
 import com.fortune.eyesee.common.response.BaseResponseCode;
 import com.fortune.eyesee.dto.ExamReportResponseDTO;
+import com.fortune.eyesee.dto.UserListResponseDTO;
 import com.fortune.eyesee.entity.*;
 import com.fortune.eyesee.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,11 @@ public class ExamReportService {
 
         // 시험의 전체 학생 수 가져오기
         Integer totalStudents = exam.getExamStudentNumber();
+
+        // 시험 날짜와 시간 가져오기
+        LocalDate examDate = exam.getExamDate();
+        LocalTime examStartTime = exam.getExamStartTime();
+
 
         // 1. 부정행위 데이터 조회
         List<DetectedCheating> detectedCheatings = detectedCheatingRepository.findBySessionId(sessionId);
@@ -100,6 +106,8 @@ public class ExamReportService {
         ExamReportResponseDTO report = new ExamReportResponseDTO();
 
         report.setExamName(exam.getExamName());
+        report.setExamDate(examDate);
+        report.setExamStartTime(examStartTime);
         report.setTotalCheatingCount(totalCheatingCount);
         report.setCheatingStudentsCount(cheatingStudentsCount);
         report.setAverageCheatingCount(averageCheatingCount);
@@ -110,4 +118,27 @@ public class ExamReportService {
 
         return report;
     }
+
+    public List<UserListResponseDTO.UserInfo> getUserInfoList(Integer sessionId) {
+        // 세션 ID를 기준으로 학생 정보 조회
+        List<User> users = userRepository.findBySession_SessionId(sessionId);
+
+        // 학생별 부정행위 횟수를 계산하여 UserInfo 리스트 생성
+        return users.stream()
+                .map(user -> {
+                    // 학생의 부정행위 횟수를 계산
+                    int cheatingCount = detectedCheatingRepository.countByUserIdAndSessionId(user.getUserId(), sessionId);
+
+                    // UserInfo 객체 생성 및 반환
+                    return new UserListResponseDTO.UserInfo(
+                            user.getUserId(),
+                            user.getUserName(),
+                            user.getUserNum(),
+                            user.getSeatNum(),
+                            cheatingCount
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
 }

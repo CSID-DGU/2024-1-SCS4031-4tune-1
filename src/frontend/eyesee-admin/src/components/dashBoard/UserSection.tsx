@@ -15,7 +15,6 @@ const UserSection = ({ sessionData }: UserSectionProps) => {
   const handleClick = () => {
     router.push(`/mypage`);
   };
-  console.log(sessionData);
 
   return (
     <div className="w-[342px] py-8 px-2.5">

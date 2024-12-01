@@ -131,7 +131,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
             data = await websocket.receive_text()
             # data는 Base64로 인코딩된 이미지 데이터라고 가정
             image_bytes = base64.b64decode(data)
-            timestamp = time.time()
+            timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
             logging.debug(f"Received frame from {user_id} at {timestamp}")
 
             # 이미지 디코딩
@@ -184,6 +184,98 @@ async def get_cheating_result(user_id: str):
             logging.error(f"Error sending cheating result: {e}")
 
 
+# async def process_frame(user_id, image, frame_timestamp):
+#     loop = asyncio.get_event_loop()
+#     try:
+#         image_shape, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list = await loop.run_in_executor(
+#             executor,
+#             process_image,
+#             image
+#         )
+#         logging.debug(f"{user_id}: 프레임 처리 완료")
+#     except Exception as e:
+#         logging.error(f"{user_id}: 프레임 처리 중 오류 발생: {e}")
+#         return
+#
+#     # 부정행위 업데이트
+#     try:
+#         update_cheating(user_id, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list,
+#                         image_shape)
+#         logging.debug(f"{user_id}: 부정행위 업데이트 완료")
+#     except Exception as e:
+#         logging.error(f"{user_id}: 부정행위 업데이트 중 오류 발생: {e}")
+#         return
+#
+#     # 부정행위 메시지 전송
+#     if cheating_messages[user_id]:
+#         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+#         cheating_result = {
+#             "user_id": user_id,
+#             "cheating_counts": cheating_counts[user_id],
+#             "timestamp": current_time,
+#             "messages": cheating_messages[user_id]
+#         }
+#         try:
+#             await get_cheating_result(user_id)
+#             await manager.send_message(user_id, cheating_result)
+#             cheating_messages[user_id].clear()
+#             logging.debug(f"{user_id}: 부정행위 메시지 전송 및 초기화 완료")
+#         except Exception as e:
+#             logging.error(f"{user_id}: 부정행위 메시지 전송 중 오류 발생: {e}")
+#
+
+# 이전 부정행위 카운트를 저장하는 딕셔너리
+previous_cheating_counts = defaultdict(lambda: {
+    'look_around': 0,
+    'repeated_gaze': 0,
+    'object': 0,
+    'face_absence_long': 0,
+    'face_absence_repeat': 0,
+    'hand_gesture': 0,
+    'head_turn_long': 0,
+    'head_turn_repeat': 0,
+    'eye_movement': 0
+})
+
+# 부정행위 메시지 전송
+async def send_cheating_result_if_changed(user_id: str):
+    global previous_cheating_counts
+
+    # 현재 부정행위 카운트 가져오기
+    current_counts = cheating_counts[user_id]
+
+    # 변화 감지
+    counts_changed = any(
+        current_counts[key] != previous_cheating_counts[user_id][key]
+        for key in current_counts
+    )
+
+    if counts_changed:
+        # 부정행위 메시지 전송
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cheating_result = {
+            "user_id": user_id,
+            "cheating_counts": cheating_counts[user_id],
+            "timestamp": current_time,
+            "messages": cheating_messages[user_id]
+        }
+        try:
+            # 백엔드에 결과 전송
+            await get_cheating_result(user_id)
+            # 웹소켓으로 프론트엔드에 전송
+            await manager.send_message(user_id, cheating_result)
+
+            # 이전 카운트를 업데이트
+            previous_cheating_counts[user_id] = current_counts.copy()
+            logging.debug(f"{user_id}: 부정행위 메시지 전송 및 이전 상태 업데이트 완료")
+
+            # 메시지 초기화
+            cheating_messages[user_id].clear()
+
+        except Exception as e:
+            logging.error(f"{user_id}: 부정행위 메시지 전송 중 오류 발생: {e}")
+
+# `update_cheating` 함수에서 호출
 async def process_frame(user_id, image, frame_timestamp):
     loop = asyncio.get_event_loop()
     try:
@@ -202,27 +294,12 @@ async def process_frame(user_id, image, frame_timestamp):
         update_cheating(user_id, detections, face_present, head_pose, eye_center, gaze_point, hand_landmarks_list,
                         image_shape)
         logging.debug(f"{user_id}: 부정행위 업데이트 완료")
+
+        # 변경된 경우에만 전송
+        await send_cheating_result_if_changed(user_id)
+
     except Exception as e:
         logging.error(f"{user_id}: 부정행위 업데이트 중 오류 발생: {e}")
-        return
-
-    # 부정행위 메시지 전송
-    if cheating_messages[user_id]:
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        cheating_result = {
-            "user_id": user_id,
-            "cheating_counts": cheating_counts[user_id],
-            "timestamp": current_time,
-            "messages": cheating_messages[user_id]
-        }
-        try:
-            await get_cheating_result(user_id)
-            await manager.send_message(user_id, cheating_result)
-            cheating_messages[user_id].clear()
-            logging.debug(f"{user_id}: 부정행위 메시지 전송 및 초기화 완료")
-        except Exception as e:
-            logging.error(f"{user_id}: 부정행위 메시지 전송 중 오류 발생: {e}")
-
 
 def process_image(image):
     """

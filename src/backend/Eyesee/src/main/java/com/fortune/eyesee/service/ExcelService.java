@@ -1,6 +1,7 @@
 package com.fortune.eyesee.service;
 
 import com.fortune.eyesee.dto.ExamReportResponseDTO;
+import com.fortune.eyesee.dto.UserListResponseDTO;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,12 +11,13 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ExcelService {
 
-    public ByteArrayInputStream generateExcelFile(ExamReportResponseDTO report) throws IOException {
+    public ByteArrayInputStream generateExcelFile(ExamReportResponseDTO report, List<UserListResponseDTO.UserInfo> userInfos) throws IOException {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Exam Report");
 
@@ -59,6 +61,26 @@ public class ExcelService {
             // 부정행위 발생 시간대
             sheet.createRow(finalRowNum.getAndIncrement()).createCell(0).setCellValue("부정행위 발생 시간대");
             sheet.getRow(finalRowNum.get() - 1).createCell(1).setCellValue(report.getPeakCheatingTimeRange());
+
+            // 빈 줄 추가
+            finalRowNum.getAndIncrement();
+
+            // 학생 정보 헤더 추가
+            Row userHeaderRow = sheet.createRow(finalRowNum.getAndIncrement());
+            userHeaderRow.createCell(0).setCellValue("학생 이름");
+            userHeaderRow.createCell(1).setCellValue("학번");
+            userHeaderRow.createCell(2).setCellValue("좌석 번호");
+            userHeaderRow.createCell(3).setCellValue("부정행위 횟수");
+
+            // 학생 정보 추가
+            userInfos.forEach(userInfo -> {
+                Row row = sheet.createRow(finalRowNum.getAndIncrement());
+                row.createCell(0).setCellValue(userInfo.getUserName());
+                row.createCell(1).setCellValue(userInfo.getUserNum());
+                row.createCell(2).setCellValue(userInfo.getSeatNum());
+                row.createCell(3).setCellValue(userInfo.getCheatingCount());
+            });
+
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             workbook.write(out);

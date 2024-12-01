@@ -21,4 +21,6 @@ public interface DetectedCheatingRepository extends JpaRepository<DetectedCheati
     // 시험에 참여한 학생 수 조회
     @Query("SELECT COUNT(DISTINCT dc.userId) FROM DetectedCheating dc WHERE dc.sessionId = :sessionId")
     Integer countDistinctUsersBySessionId(@Param("sessionId") Integer sessionId);
+
+    int countByUserIdAndSessionId(Integer userId, Integer sessionId);
 }

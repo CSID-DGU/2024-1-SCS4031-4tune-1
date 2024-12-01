@@ -41,7 +41,9 @@ public class SecurityConfig {
                                 "/api/sessions/join",
                                 "/api/sessions/student",
                                 "/api/cheatings",
-                                "/api/exams/cheating-types"
+                                "/api/exams/*/cheating-types",
+                                "/api/video"
+
                         ).permitAll()  // 인증 불필요 경로
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )

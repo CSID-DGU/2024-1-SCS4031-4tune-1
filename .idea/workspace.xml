@@ -5,32 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fb130f4-ff3a-4d08-b9af-31d0460f5b1f" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/6/26f666c05e7d5cb7b6c2a7012ddbf42ab1d4a20a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/0/3018e0480b74841d68ae2911e77eb4e280d53af7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/d/7d01d549631efecd842a47b2109686b0dadda929" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/f/9f68362eb15ae11c7dc951cd3db572b77d6ad01c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/1/a1d82e19a35cc324010c4e4adaa4fce93baab176" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/6/26f666c05e7d5cb7b6c2a7012ddbf42ab1d4a20a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/3/0/3018e0480b74841d68ae2911e77eb4e280d53af7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/d/7d01d549631efecd842a47b2109686b0dadda929" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/f/9f68362eb15ae11c7dc951cd3db572b77d6ad01c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/1/a1d82e19a35cc324010c4e4adaa4fce93baab176" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/Eyesee/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Eyesee/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/controller/ExamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/controller/ExamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/dto/ExamReportResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/dto/ExamReportResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/entity/CheatingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/entity/CheatingType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/service/ExamReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/Eyesee/src/main/java/com/fortune/eyesee/service/ExamReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ai/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +48,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "backend/feature/excel",
+    "git-widget-placeholder": "ai/detect",
     "last_opened_file_path": "/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -121,7 +96,7 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$te.coverage" NAME="te 커버리지 결과" MODIFIED="1732438646027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze" />
     <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$main.coverage" NAME="main 커버리지 결과" MODIFIED="1731994680825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
+    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$te.coverage" NAME="te 커버리지 결과" MODIFIED="1732438646027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze" />
   </component>
 </project>

@@ -15,12 +15,16 @@ import aiohttp
 import logging
 import cv2
 import numpy as np
+from datetime import datetime, timedelta, timezone
+import pytz  # pytz를 사용해 시간대를 처리
 
 BACKEND_API_URL = "https://43.203.23.202.nip.io/api"
 
+KST = timezone(timedelta(hours=9))
+
 # 로깅 설정
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
@@ -166,7 +170,15 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
         while True:
             data = await websocket.receive_text()
             image_bytes = base64.b64decode(data)
-            timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+            # 현재 UTC 시간 가져오기
+            utc_now = datetime.now(timezone.utc)
+
+            # UTC를 KST로 변환
+            kst = pytz.timezone('Asia/Seoul')
+            kst_now = utc_now.replace(tzinfo=pytz.utc).astimezone(kst)
+
+            # KST에서 ISO 8601 포맷으로 변환 (시간대 오프셋 제거)
+            current_time = kst_now.strftime('%Y-%m-%dT%H:%M:%S')  # 예: 2024-12-02T12:57:51
 
             image_np = np.frombuffer(image_bytes, np.uint8)
             image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
@@ -175,7 +187,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str, exam_id: str):
                 await websocket.send_json({"error": "이미지 디코딩 실패"})
                 continue
 
-            await process_frame(user_id, exam_id, image, timestamp)
+            await process_frame(user_id, exam_id, image, current_time)
     except WebSocketDisconnect:
         manager.disconnect(user_id)
     except Exception as e:
@@ -279,23 +291,23 @@ def update_cheating(user_id, exam_id, detections, face_present, head_pose, eye_c
     cheating_settings = cheating_settings_cache.get(exam_id, {})
 
     # 동적으로 탐지 로직 활성화
-    if cheating_settings.get('object'):
+    if cheating_settings.get('OBJECT'):
         detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape)
-    if cheating_settings.get('face_absence_long') or cheating_settings.get('face_absence_repeat'):
+    if cheating_settings.get('FACE_ABSENCE_LONG') or cheating_settings.get('FACE_ABSNCE_REPEAT'):
         detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages)
     if head_pose:
         pitch = head_pose['pitch']
         yaw = head_pose['yaw']
-        if cheating_settings.get('look_around'):
+        if cheating_settings.get('LOOK_AROUND'):
             detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
-        if cheating_settings.get('head_turn_long') or cheating_settings.get('head_turn_repeat'):
+        if cheating_settings.get('HEAD_TURN_LONG') or cheating_settings.get('HEAD_TURN_REPEAT'):
             detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history, cheating_messages)
-        if gaze_point and cheating_settings.get('repeated_gaze'):
+        if gaze_point and cheating_settings.get('REPEATED_GAZE'):
             grid_row = int(gaze_point[1] / (image_shape[0] / GRID_ROWS))
             grid_col = int(gaze_point[0] / (image_shape[1] / GRID_COLS))
             grid_position = (grid_row, grid_col)
             detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts, cheating_messages, pitch)
-    if cheating_settings.get('hand_gesture'):
+    if cheating_settings.get('HAND_GESTURE'):
         detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts, cheating_messages)
 
 async def compare_and_send_if_changed(user_id: str):
@@ -307,7 +319,16 @@ async def compare_and_send_if_changed(user_id: str):
     )
 
     if counts_changed:
-        current_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+        # 현재 UTC 시간 가져오기
+        utc_now = datetime.now(timezone.utc)
+
+        # UTC를 KST로 변환
+        kst = pytz.timezone('Asia/Seoul')
+        kst_now = utc_now.replace(tzinfo=pytz.utc).astimezone(kst)
+
+        # KST에서 ISO 8601 포맷으로 변환 (시간대 오프셋 제거)
+        current_time = kst_now.strftime('%Y-%m-%dT%H:%M:%S')  # 예: 2024-12-02T12:57:51
 
         cheating_result = CheatingResult(
             userId=user_id,
@@ -318,6 +339,7 @@ async def compare_and_send_if_changed(user_id: str):
         try:
             # 백엔드로 데이터 전송
             async with session.post(f"{BACKEND_API_URL}/cheatings", json=cheating_result.dict()) as resp:
+                logging.info(f"Sending cheating result to backend: {cheating_result.dict()}")
                 if resp.status == 200:
                     logging.info(f"Cheating result sent successfully: {cheating_result.dict()}")
                 else:

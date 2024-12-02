@@ -15,3 +15,7 @@ O
 src/ai/4tune_AI/test_gaze/te.py,3/0/3018e0480b74841d68ae2911e77eb4e280d53af7
 T
 $src/ai/4tune_AI/gaze_ver2/server.log,a/1/a1d82e19a35cc324010c4e4adaa4fce93baab176
+_
+/src/frontend/eyesee-user/src/app/video/page.tsx,3/a/3a199af80bd5d802b53c8695838077c9710f404f
+>
+src/ai/main.py,0/0/00b2af604a29b7619106f5ba84f18ed5078b84a1

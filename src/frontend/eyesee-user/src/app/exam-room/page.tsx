@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import NextButton from "@/components/common/NextButton";
-import { useUserIdStore } from "@/store/useUserIdStore";
+import { useUserStore } from "@/store/useUserStore";
 import { useStore } from "@/store/useStore";
 
 const RealTimeVideoPage = () => {
@@ -18,8 +18,8 @@ const RealTimeVideoPage = () => {
 
   const [isProcessing, setIsProcessing] = useState(false); // 부정행위 감지 처리 중 여부 상태
 
-  const userId = useStore(useUserIdStore, (state) => state.userId);
-  const examId = 1;
+  const userId = useStore(useUserStore, (state) => state.userId);
+  const examId = useStore(useUserStore, (state) => state.examId);
   const setupWebSocket = () => {
     console.log(process.env.NEXT_PUBLIC_WEBSOCKET_KEY);
     console.log(userId);

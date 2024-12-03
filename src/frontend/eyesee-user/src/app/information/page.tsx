@@ -5,7 +5,7 @@ import NextButton from "@/components/common/NextButton";
 import SubHeader from "@/components/common/SubHeader";
 import InformationSection from "@/components/information/InformationSection";
 import { useExamStore } from "@/store/useExamStore";
-import { useUserIdStore } from "@/store/useUserIdStore";
+import { useUserStore } from "@/store/useUserStore";
 import { UserInfoRequest } from "@/types/exam";
 import { setAccessToken, setRefreshToken } from "@/utils/auth";
 import { informationValidation } from "@/utils/validation";
@@ -14,8 +14,11 @@ import { useEffect, useState } from "react";
 
 const InformationPage = () => {
   const router = useRouter();
-  const { setUserId } = useUserIdStore();
+
+  const { setUserId } = useUserStore();
+  const { setExamId } = useUserStore();
   const { exam } = useExamStore();
+
   const [isAvailable, setIsAvailable] = useState(false);
   const [information, setInformation] = useState<UserInfoRequest>({
     // TODO: 서버 데이터 타입 통일 필요
@@ -34,6 +37,9 @@ const InformationPage = () => {
       setAccessToken(response.data.access_token);
       setRefreshToken(response.data.refresh_token);
       setUserId(response.data.userId);
+      setExamId(response.data.examId);
+      console.log(response.data.userId, response.data.examId);
+
       router.push("/camera");
     } catch (error) {
       console.error("수험 정보 입력 실패:", error); // 실패 시 에러 처리

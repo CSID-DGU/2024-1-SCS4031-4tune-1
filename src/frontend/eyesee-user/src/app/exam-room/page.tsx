@@ -2,30 +2,42 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import NextButton from "@/components/common/NextButton";
-import { useUserIdStore } from "@/store/useUserIdStore";
+import { useUserStore } from "@/store/useUserStore";
 import { useStore } from "@/store/useStore";
 
 const RealTimeVideoPage = () => {
+  // 수험자 실시간 화면이 담기는 공간
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // 캠버스에서 프레임을 캡쳐
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 웹소켓 연결 관리
   const socketRef = useRef<WebSocket | null>(null);
+
+  // 실시간 비디오 녹화
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
+  // 녹화된 비디오 데이터를 청크 단위로 저장
   const recordedChunksRef = useRef<{ timestamp: number; data: Blob }[]>([]); // 청크와 타임스탬프 저장
+
   const captureIntervalRef = useRef<number | null>(null);
 
   const CHUNK_SIZE = 1000; // 1초마다 녹화 데이터를 저장
   const BUFFER_DURATION = 20 * 1000; // 20초 간의 데이터를 저장
 
-  const [isProcessing, setIsProcessing] = useState(false); // 부정행위 감지 처리 중 여부 상태
+  // 부정행위 감지 처리 중 여부
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const userId = useStore(useUserIdStore, (state) => state.userId);
-  const examId = 1;
+  const userId = useStore(useUserStore, (state) => state.userId);
+  const examId = useStore(useUserStore, (state) => state.examId);
+
   const setupWebSocket = () => {
     console.log(process.env.NEXT_PUBLIC_WEBSOCKET_KEY);
-    console.log(userId);
+    console.log(userId, examId);
 
     if (!userId) {
-      console.error("userId가 설정되지 않았습니다.");
+      console.log("userId가 설정되지 않았습니다.");
       return;
     }
 
@@ -83,21 +95,27 @@ const RealTimeVideoPage = () => {
   // Canvas를 사용해 비디오 프레임을 WebSocket으로 전송
   const startRecording = (stream: MediaStream) => {
     mediaRecorderRef.current = new MediaRecorder(stream, {
-      mimeType: "video/webm; codecs=vp8",
+      mimeType: "video/webm; codecs=vp9",
     });
 
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         const timestamp = Date.now();
+
+        // 새로 들어온 데이터 추가
         recordedChunksRef.current.push({
           timestamp: timestamp,
           data: event.data,
         });
 
+        // if (isProcessing) return; // 부정행위 비디오 처리 및 저장 중에는 비디오 프레임 업데이트 정지
         // 슬라이딩 윈도우 방식으로 오래된 데이터 삭제
-        const currentTime = Date.now();
         recordedChunksRef.current = recordedChunksRef.current.filter(
-          (chunk) => chunk.timestamp >= currentTime - BUFFER_DURATION
+          (chunk) => chunk.timestamp >= timestamp - BUFFER_DURATION
+        );
+
+        console.log(
+          `현재 청크 수: ${recordedChunksRef.current.length}, 유지 시간: ${BUFFER_DURATION}ms`
         );
       }
     };
@@ -117,16 +135,16 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // 부정행위 비디오 처리 및 저장
-  const sendCheatingVideo = async (
-    cheatingTimestamp: string | number | Date
-  ) => {
+  // ===== AI단에서 웹소켓 메시지를 수신하면 부정행위 비디오 처리 및 저장 =====
+  const sendCheatingVideo = async (cheatingTimestamp: string) => {
     try {
       setIsProcessing(true); // 부정행위 감지 시작
 
       console.log("부정행위 발생 타임스탬프:", cheatingTimestamp);
 
       const cheatingDate = new Date(cheatingTimestamp);
+      console.log("cheatingDate", cheatingDate);
+
       if (isNaN(cheatingDate.getTime())) {
         throw new Error("Invalid cheatingTimestamp: " + cheatingTimestamp);
       }
@@ -142,34 +160,55 @@ const RealTimeVideoPage = () => {
 
       // MediaRecorder가 멈춘 후 데이터를 처리
       mediaRecorderRef.current!.onstop = () => {
+        console.log("recordedChunksRef.current :", recordedChunksRef.current);
+
         const previousChunks = recordedChunksRef.current.filter(
           (chunk) =>
             chunk.timestamp >= startTime && chunk.timestamp <= cheatingTime
         );
         console.log(`탐지 이전 데이터: ${previousChunks.length} 청크`);
+        console.log(`탐지 이전 데이터: ${previousChunks}`);
 
         const postCheatingChunks = recordedChunksRef.current.filter(
           (chunk) =>
             chunk.timestamp > cheatingTime && chunk.timestamp <= endTime
         );
         console.log(`탐지 이후 데이터: ${postCheatingChunks.length} 청크`);
+        console.log(`탐지 이후 데이터: ${postCheatingChunks}`);
 
         const allChunks = [...previousChunks, ...postCheatingChunks];
+        console.log(`allChunks: ${allChunks.length} 청크`);
+        console.log(`allChunks: ${allChunks}`);
+        allChunks.forEach((chunk, index) => {
+          console.log(`손실 탐지 Chunk ${index}:`, chunk.timestamp, chunk.data);
+        });
+
         const blob = new Blob(
           allChunks.map((chunk) => chunk.data),
           {
-            type: "video/webm",
+            type: "video/webm; codecs=vp9",
           }
         );
-
+        // 디버깅
+        console.log("blob: ", blob);
         console.log(`최종 Blob 크기: ${blob.size / 1024} KB`);
+        // --
 
         const url = URL.createObjectURL(blob);
+        // 디버깅
+        console.log("Generated Blob URL:", url);
+
+        // 비디오 태그 생성으로 디버깅
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        document.body.appendChild(video);
+        // --
+
         const a = document.createElement("a");
         a.href = url;
         a.download = `cheating_${new Date().toISOString()}.webm`;
         a.click();
-        URL.revokeObjectURL(url);
 
         console.log("부정행위 비디오 저장 완료");
         // 이 부분은 녹화가 중지된 후, 데이터가 완전히 처리된 후에 실행되어야 합니다.
@@ -183,6 +222,7 @@ const RealTimeVideoPage = () => {
     }
   };
 
+  // AI 단으로 실시간 영상 송신
   const captureAndSendFrame = () => {
     if (
       canvasRef.current &&

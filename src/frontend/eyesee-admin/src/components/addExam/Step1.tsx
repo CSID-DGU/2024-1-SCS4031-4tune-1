@@ -62,8 +62,8 @@ const Step1 = ({ examData, setExamData }: Step1Props) => {
         <label className="text-black text-[24px] mb-3 block">강의실</label>
         <input
           type="text"
-          value={examData.examLocatoin}
-          onChange={(e) => handleChange("examLocatoin", e.target.value)}
+          value={examData.examLocation}
+          onChange={(e) => handleChange("examLocation", e.target.value)}
           placeholder="입력해주세요"
           className={inputClassName}
         />

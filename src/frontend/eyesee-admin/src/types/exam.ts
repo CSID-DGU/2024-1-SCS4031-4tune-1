@@ -4,7 +4,7 @@ export type ExamRequest = {
   examName: string;
   examSemester: string;
   examStudentNumber: number;
-  examLocatoin: string;
+  examLocation: string;
   examDate: string;
   examStartTime: string;
   examDuration: number;
@@ -18,7 +18,7 @@ export const initialExamData: ExamRequest = {
   examName: "",
   examSemester: "",
   examStudentNumber: 0,
-  examLocatoin: "",
+  examLocation: "",
   examDate: "",
   examStartTime: "",
   examDuration: 0,

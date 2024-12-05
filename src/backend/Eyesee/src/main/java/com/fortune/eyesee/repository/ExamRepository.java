@@ -16,8 +16,8 @@ import java.util.Optional;
 @Repository
 public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
-    // 특정 adminId에 해당하는 Exam 리스트 조회
-    List<Exam> findByAdmin_AdminId(Integer adminId);
+    // ExamId와 AdminId로 Exam 데이터 조회
+    boolean existsByExamIdAndAdmin_AdminId(Integer examId, Integer adminId);
 
     // 특정 상태에 해당하는 Exam 리스트 조회
     List<Exam> findByAdmin_AdminIdAndExamStatus(Integer adminId, ExamStatus examStatus);

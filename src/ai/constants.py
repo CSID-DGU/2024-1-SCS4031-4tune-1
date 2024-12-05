@@ -24,7 +24,7 @@ HAND_GESTURE_THRESHOLD = 2        # 손동작이 2초 이상 지속될 때 부�
 HAND_GESTURE_EXCLUDE = ['fist', 'palm']  # 제외할 손동작 목록
 
 # 7. 고개 돌림 유지 감지
-HEAD_TURN_THRESHOLD = 15          # 고개 돌림 각도 임계값 (Yaw)
+HEAD_TURN_THRESHOLD = 30          # 고개 돌림 각도 임계값 (Yaw)
 HEAD_TURN_DURATION = 5            # 고개 돌리고 5초 이상 유지
 
 # 8. 고개 돌림 반복 감지
@@ -34,7 +34,7 @@ HEAD_TURN_WINDOW = 30             # 30초의 시간 창
 
 # 기타 상수
 PITCH_DOWN_THRESHOLD = 30         # 아래를 보고 있다고 판단할 Pitch 각도 임계값
-YAW_FORWARD_THRESHOLD = 20        # 정면을 보고 있다고 판단할 Yaw 각도 임계값
+YAW_FORWARD_THRESHOLD = 30        # 정면을 보고 있다고 판단할 Yaw 각도 임계값
 GRID_ROWS = 3                     # 시선 추적 격자 행 수
 GRID_COLS = 3                     # 시선 추적 격자 열 수
 

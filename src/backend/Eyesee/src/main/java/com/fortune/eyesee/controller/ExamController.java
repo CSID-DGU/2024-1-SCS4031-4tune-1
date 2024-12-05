@@ -40,67 +40,33 @@ public class ExamController {
     @Autowired
     private SessionRepository sessionRepository;
 
-//    // "before" 상태의 Exam 리스트 조회
-//    @GetMapping("/before")
-//    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getBeforeExams(HttpSession session) {
-//        return getExamsByStatus("BEFORE", session);
-//    }
-//
-//    // "in-progress" 상태의 Exam 리스트 조회
-//    @GetMapping("/in-progress")
-//    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getInProgressExams(HttpSession session) {
-//        return getExamsByStatus("IN_PROGRESS", session);
-//    }
-//
-//    // "done" 상태의 Exam 리스트 조회
-//    @GetMapping("/done")
-//    public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getDoneExams(HttpSession session) {
-//        return getExamsByStatus("DONE", session);
-//    }
-
-    // 공통 메서드: 상태별 Exam 조회
-//    private ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getExamsByStatus(String status, HttpSession session) {
-//        Integer adminId = (Integer) session.getAttribute("adminId");
-//        if (adminId == null) {
-//            throw new BaseException(BaseResponseCode.UNAUTHORIZED);
-//        }
-//
-//        ExamStatus examStatus = ExamStatus.fromString(status);
-//        if (examStatus == null) {
-//            throw new BaseException(BaseResponseCode.INVALID_STATUS);
-//        }
-//
-//        List<ExamResponseDTO> examList = examService.getExamsByStatus(adminId, examStatus);
-//        return ResponseEntity.ok(new BaseResponse<>(examList));
-//    }
-
     // "before" 상태의 Exam 리스트 조회
     @GetMapping("/before")
     public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getBeforeExams() {
-        return getExamsByStatus("BEFORE");
+        return fetchExamsByStatus(ExamStatus.BEFORE);
     }
 
     // "in-progress" 상태의 Exam 리스트 조회
     @GetMapping("/in-progress")
     public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getInProgressExams() {
-        return getExamsByStatus("IN_PROGRESS");
+        return fetchExamsByStatus(ExamStatus.IN_PROGRESS);
     }
 
     // "done" 상태의 Exam 리스트 조회
     @GetMapping("/done")
     public ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getDoneExams() {
-        return getExamsByStatus("DONE");
+        return fetchExamsByStatus(ExamStatus.DONE);
     }
 
-    // 공통 메서드: 상태별 Exam 조회 (세션 검증 없이)
-    private ResponseEntity<BaseResponse<List<ExamResponseDTO>>> getExamsByStatus(String status) {
-        ExamStatus examStatus = ExamStatus.fromString(status);
-        if (examStatus == null) {
-            throw new BaseException(BaseResponseCode.INVALID_STATUS);
+    // 공통 메서드: 상태별 Exam 조회 (세션 검증 포함)
+    private ResponseEntity<BaseResponse<List<ExamResponseDTO>>> fetchExamsByStatus(ExamStatus status) {
+        Integer adminId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (adminId == null) {
+            throw new BaseException(BaseResponseCode.UNAUTHORIZED);
         }
 
-        // adminId를 사용하지 않는 조회 방식으로 수정
-        List<ExamResponseDTO> examList = examService.getExamsByStatus(null, examStatus);
+        List<ExamResponseDTO> examList = examService.getExamsByStatus(adminId, status);
         return ResponseEntity.ok(new BaseResponse<>(examList));
     }
 
@@ -122,6 +88,15 @@ public class ExamController {
     // 특정 시험 ID에 해당하는 세션 내 모든 학생들의 리스트를 조회
     @GetMapping("/{examId}/users")
     public ResponseEntity<BaseResponse<UserListResponseDTO>> getUserListByExamId(@PathVariable Integer examId) {
+
+        // SecurityContextHolder에서 adminId를 가져옴
+        Integer adminId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Admin 권한 확인
+        if (!examService.isAdminAuthorizedForExam(adminId, examId)) {
+            throw new BaseException(BaseResponseCode.EXAM_ACCESS_DENIED);
+        }
+
         UserListResponseDTO response = examService.getUserListByExamId(examId);
         return ResponseEntity.ok(new BaseResponse<>(response, "학생 리스트 조회 성공"));
     }
@@ -131,6 +106,15 @@ public class ExamController {
     public ResponseEntity<BaseResponse<UserDetailResponseDTO>> getUserDetailByExamIdAndUserId(
             @PathVariable Integer examId,
             @PathVariable Integer userId) {
+
+        // SecurityContextHolder에서 adminId를 가져옴
+        Integer adminId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Admin 권한 확인
+        if (!examService.isAdminAuthorizedForExam(adminId, examId)) {
+            throw new BaseException(BaseResponseCode.EXAM_ACCESS_DENIED);
+        }
+
         UserDetailResponseDTO response = examService.getUserDetailByExamIdAndUserId(examId, userId);
 
         return ResponseEntity.ok(new BaseResponse<>(response, "학생 상세 정보 조회 성공"));

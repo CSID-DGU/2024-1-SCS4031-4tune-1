@@ -21,17 +21,20 @@ public enum BaseResponseCode {
     CONTENT_NULL("GL004", HttpStatus.BAD_REQUEST, "내용을 입력해 주세요."),
 
     NOT_FOUND_TOKEN("GL005", HttpStatus.NOT_FOUND, "토큰이 존재하지 않습니다"),
-    EXPIRED_TOKEN("GL006", HttpStatus.GATEWAY_TIMEOUT, "토큰의 기한이 지났습니다"),
-    WRONG_TYPE_TOKEN("GL007", HttpStatus.BAD_REQUEST, "잘못된 타입의 토큰입니다."),
-    UNSUPPORTED_TOKEN("GL008", HttpStatus.BAD_REQUEST, "지원하지 않는 토큰입니다."),
-    TOKEN_ERROR("GL009", HttpStatus.BAD_REQUEST, "토큰에 문제가 발생했습니다."),
-    MALFORMED_TOKEN("GL010", HttpStatus.BAD_REQUEST, "토큰의 구조가 잘못되었습니다."),
+    EXPIRED_TOKEN("GL006", HttpStatus.UNAUTHORIZED, "토큰의 기한이 지났습니다"),
+    WRONG_TYPE_TOKEN("GL007", HttpStatus.UNAUTHORIZED, "잘못된 타입의 토큰입니다."),
+    UNSUPPORTED_TOKEN("GL008", HttpStatus.UNAUTHORIZED, "지원하지 않는 토큰입니다."),
+    TOKEN_ERROR("GL009", HttpStatus.UNAUTHORIZED, "토큰에 문제가 발생했습니다."),
+    MALFORMED_TOKEN("GL010", HttpStatus.UNAUTHORIZED, "토큰의 구조가 잘못되었습니다."),
 
     UNAUTHORIZED("GL011", HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."),
     INVALID_STATUS("GL012", HttpStatus.BAD_REQUEST, "유효하지 않은 상태 값입니다."),
     INVALID_INPUT("GL013", HttpStatus.BAD_REQUEST, "입력이 잘못되었습니다."),
 
     NOT_FOUND_DATA("GL014", HttpStatus.NOT_FOUND, "요청한 데이터를 찾을 수 없습니다."),
+
+    EXPIRED_REFRESH_TOKEN("GL015", HttpStatus.UNAUTHORIZED, "리프레시 토큰이 만료되었습니다."),
+    INVALID_REFRESH_TOKEN("GL016", HttpStatus.UNAUTHORIZED, "리프레시 토큰이 유효하지 않습니다."),
 
     // User Errors
     ALREADY_EXIST_USER("U0001", HttpStatus.CONFLICT, "이미 존재하는 사용자입니다"),

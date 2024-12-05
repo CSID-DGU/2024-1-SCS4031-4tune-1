@@ -1,9 +1,15 @@
 package com.fortune.eyesee.utils;
 
+import com.fortune.eyesee.common.exception.BaseException;
+import com.fortune.eyesee.common.response.BaseResponseCode;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
@@ -13,10 +19,10 @@ public class JwtUtil {
     private String secretKey;
 
     @Value("${jwt.expiration}")
-    private long expiration;
+    private long accessTokenExpiration;
 
     @Value("${jwt.refreshExpiration}")
-    private long refreshExpiration;
+    private long refreshTokenExpiration;
 
     @Value("${jwt.studentExpiration}")
     private long studentExpiration;
@@ -25,9 +31,10 @@ public class JwtUtil {
     public String generateToken(Integer adminId) {
         return Jwts.builder()
                 .setSubject(adminId.toString())
+                .claim("type", "access_token") // 토큰 타입 추가
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
                 .compact();
     }
 
@@ -35,10 +42,40 @@ public class JwtUtil {
     public String generateRefreshToken(Integer adminId) {
         return Jwts.builder()
                 .setSubject(adminId.toString())
+                .claim("type", "refresh_token") // 토큰 타입 추가
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
                 .compact();
+    }
+
+    // 토큰 유효성 검증
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            throw new BaseException(BaseResponseCode.EXPIRED_TOKEN);
+        } catch (MalformedJwtException e) {
+            throw new BaseException(BaseResponseCode.MALFORMED_TOKEN);
+        } catch (UnsupportedJwtException e) {
+            throw new BaseException(BaseResponseCode.UNSUPPORTED_TOKEN);
+        } catch (IllegalArgumentException e) {
+            throw new BaseException(BaseResponseCode.TOKEN_ERROR);
+        }
+    }
+
+    // 토큰 타입 검증
+    public boolean isRefreshToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return "refresh_token".equals(claims.get("type"));
     }
 
     // Session Token 생성 (Student용) Refresh 토큰은 없음.
@@ -53,18 +90,24 @@ public class JwtUtil {
 
     // 토큰에서 AdminId 추출
     public Integer getAdminIdFromToken(String token) {
-        String subject = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-        return Integer.parseInt(subject);
+        try {
+            String subject = Jwts.parserBuilder()
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+            return Integer.parseInt(subject);
+        } catch (JwtException | NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid token or admin ID", e);
+        }
     }
 
     // 토큰에서 Session ID와 UserNum 추출
     public Integer[] getSessionInfoFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
         String subject = claims.getSubject();
@@ -77,15 +120,5 @@ public class JwtUtil {
         }
 
         throw new JwtException("Invalid session token");
-    }
-
-    // 토큰 유효성 검증
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
     }
 }

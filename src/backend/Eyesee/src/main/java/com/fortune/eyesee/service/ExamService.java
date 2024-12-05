@@ -139,45 +139,7 @@ public class ExamService {
     }
 
     // Admin ID와 ExamStatus로 시험 목록 조회
-//    public List<ExamResponseDTO> getExamsByStatus(Integer adminId, ExamStatus examStatus) {
-//        return examRepository.findByAdmin_AdminIdAndExamStatus(adminId, examStatus).stream()
-//                .map(exam -> new ExamResponseDTO(
-//                        exam.getExamId(),
-//                        exam.getExamName(),
-//                        exam.getExamSemester(),
-//                        exam.getExamStudentNumber(),
-//                        exam.getExamLocation(),
-//                        exam.getExamDate(),
-//                        exam.getExamStartTime(),
-//                        exam.getExamDuration(),
-//                        exam.getExamStatus(),
-//                        exam.getExamNotice(),
-//                        exam.getSession() != null ? exam.getSession().getSessionId() : null,
-//                        exam.getExamRandomCode()
-//                ))
-//                .collect(Collectors.toList());
-//    }
-
-    // Admin ID 없이 ExamStatus로만 시험 목록 조회
     public List<ExamResponseDTO> getExamsByStatus(Integer adminId, ExamStatus examStatus) {
-        if (adminId == null) {
-            return examRepository.findByExamStatus(examStatus).stream()
-                    .map(exam -> new ExamResponseDTO(
-                            exam.getExamId(),
-                            exam.getExamName(),
-                            exam.getExamSemester(),
-                            exam.getExamStudentNumber(),
-                            exam.getExamLocation(),
-                            exam.getExamDate(),
-                            exam.getExamStartTime(),
-                            exam.getExamDuration(),
-                            exam.getExamStatus(),
-                            exam.getExamNotice(),
-                            exam.getSession() != null ? exam.getSession().getSessionId() : null,
-                            exam.getExamRandomCode()
-                    ))
-                    .collect(Collectors.toList());
-        } else {
             return examRepository.findByAdmin_AdminIdAndExamStatus(adminId, examStatus).stream()
                     .map(exam -> new ExamResponseDTO(
                             exam.getExamId(),
@@ -194,7 +156,7 @@ public class ExamService {
                             exam.getExamRandomCode()
                     ))
                     .collect(Collectors.toList());
-        }
+
     }
 
 
@@ -330,5 +292,9 @@ public class ExamService {
         }
 
         return cheatingTypesMap;
+    }
+
+    public boolean isAdminAuthorizedForExam(Integer adminId, Integer examId) {
+        return examRepository.existsByExamIdAndAdmin_AdminId(examId, adminId);
     }
 }

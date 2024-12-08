@@ -8,21 +8,22 @@ import { useStore } from "@/store/useStore";
 const RealTimeVideoPage = () => {
   // 수험자 실시간 화면이 담기는 공간
   const videoRef = useRef<HTMLVideoElement>(null);
+
   // 캠버스에서 프레임을 캡쳐
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // 웹소켓 연결 관리
   const socketRef = useRef<WebSocket | null>(null);
+
   // 실시간 비디오 녹화
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
   // 미디어 스트림을 저장
   const streamRef = useRef<MediaStream | null>(null);
 
   // 녹화된 비디오 데이터를 청크 단위로 저장
   const recordedChunksRef = useRef<Blob[]>([]);
   const captureIntervalRef = useRef<number | null>(null);
-
-  const [isProcessing, setIsProcessing] = useState(false);
 
   const userId = useStore(useUserStore, (state) => state.userId);
   const examId = useStore(useUserStore, (state) => state.examId);
@@ -120,8 +121,6 @@ const RealTimeVideoPage = () => {
 
   const startRecordingForCheating = async () => {
     try {
-      setIsProcessing(true);
-
       // 이미 녹화 중이면 기존 녹화 중지
       if (mediaRecorderRef.current) {
         mediaRecorderRef.current.stop();
@@ -138,11 +137,9 @@ const RealTimeVideoPage = () => {
         if (mediaRecorderRef.current) {
           mediaRecorderRef.current.stop();
         }
-        setIsProcessing(false);
       }, 5000);
     } catch (error) {
       console.error("부정행위 이벤트 처리 중 오류", error);
-      setIsProcessing(false);
     }
   };
 

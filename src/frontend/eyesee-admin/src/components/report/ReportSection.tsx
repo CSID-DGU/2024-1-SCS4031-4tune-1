@@ -47,7 +47,9 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
         </div>
         <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>평균 부정행위 탐지 건수</div>
-          <div>{reportData.averageCheatingCount.toFixed(1)}건/수험자</div>
+          <div>
+            {Number(reportData.averageCheatingCount).toFixed(1)}건/수험자
+          </div>
         </div>
         <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>최다 부정행위 탐지 수험자</div>
@@ -55,7 +57,7 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
         </div>
         <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>부정행위 탐지율</div>
-          <div>{reportData.cheatingRate.toFixed(2)}%</div>
+          <div>{Number(reportData.cheatingRate).toFixed(2)}%</div>
         </div>
         <div className="w-full flex gap-10 py-3 items-start justify-between text-[20px] text-bold border-b border-white">
           <div>부정행위 유형별 통계</div>

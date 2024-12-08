@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import NextButton from "@/components/common/NextButton";
 import { useUserStore } from "@/store/useUserStore";
 import { useStore } from "@/store/useStore";
+import { videoPost } from "@/apis/video";
 
 const RealTimeVideoPage = () => {
   // 수험자 실시간 화면이 담기는 공간
@@ -18,16 +19,13 @@ const RealTimeVideoPage = () => {
   // 실시간 비디오 녹화
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
+  // 미디어 스트림을 저장
+  const streamRef = useRef<MediaStream | null>(null);
+
   // 녹화된 비디오 데이터를 청크 단위로 저장
-  const recordedChunksRef = useRef<{ timestamp: number; data: Blob }[]>([]); // 청크와 타임스탬프 저장
-
+  const recordedChunksRef = useRef<Blob[]>([]);
   const captureIntervalRef = useRef<number | null>(null);
-
-  const CHUNK_SIZE = 1000; // 1초마다 녹화 데이터를 저장
-  const BUFFER_DURATION = 20 * 1000; // 20초 간의 데이터를 저장
-
-  // 부정행위 감지 처리 중 여부
-  const [isProcessing, setIsProcessing] = useState(false);
+  const cheatingStartTimeRef = useRef<string | null>(null);
 
   const userId = useStore(useUserStore, (state) => state.userId);
   const examId = useStore(useUserStore, (state) => state.examId);
@@ -35,7 +33,6 @@ const RealTimeVideoPage = () => {
   const setupWebSocket = () => {
     console.log(process.env.NEXT_PUBLIC_WEBSOCKET_KEY);
     console.log(userId, examId);
-
     if (!userId) {
       console.log("userId가 설정되지 않았습니다.");
       return;
@@ -55,7 +52,7 @@ const RealTimeVideoPage = () => {
 
     socket.onclose = (event) => {
       console.log("WebSocket 연결 종료. 재연결 시도 중", event.reason);
-      setTimeout(setupWebSocket, 3000); // 3초 후 재시도
+      setTimeout(setupWebSocket, 3000);
     };
 
     // 부정행위 감지 메시지 처리
@@ -66,163 +63,184 @@ const RealTimeVideoPage = () => {
       // 부정행위 감지 메시지가 있을 경우
       if (message) {
         console.log("부정행위 감지:", message.timestamp);
-
-        // 부정행위 비디오 저장 호출
-        sendCheatingVideo(message.timestamp);
+        startRecordingForCheating(); // 부정행위 비디오 저장 함수 호출
       }
     };
 
     socketRef.current = socket;
   };
 
+  // 비디오 압축 함수
+  const compressVideo = async (blob: Blob): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      video.onloadedmetadata = () => {
+        // 비디오 크기 조정 (480p)
+        const MAX_WIDTH = 640;
+        const MAX_HEIGHT = 480;
+        let width = video.videoWidth;
+        let height = video.videoHeight;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // 비디오를 캔버스에 그리기
+        context?.drawImage(video, 0, 0, width, height);
+
+        // 캔버스를 낮은 품질의 비디오로 변환
+        canvas.toBlob(
+          (compressedBlob) => {
+            if (compressedBlob) {
+              resolve(compressedBlob);
+            } else {
+              reject(new Error("압축 실패"));
+            }
+          },
+          "video/webm",
+          0.5
+        ); // 품질 조절 (0.5)
+      };
+
+      video.src = URL.createObjectURL(blob);
+    });
+  };
+
   const startStreaming = async () => {
     try {
-      const constraints = { video: true };
+      const constraints = { video: true, audio: false };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      streamRef.current = stream;
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        console.log("비디오 스트림 시작");
       }
 
-      startRecording(stream); // 비디오 스트림과 함께 녹화 시작
+      return stream;
     } catch (error) {
       console.error("비디오 스트림 가져오기 오류:", error);
-      alert("카메라 권한을 허용해주세요.");
+      throw error;
     }
   };
 
-  // Canvas를 사용해 비디오 프레임을 WebSocket으로 전송
+  const uploadVideo = async (videoFile: File) => {
+    try {
+      if (!userId) {
+        console.error("사용자 ID가 없습니다.");
+        return;
+      }
+      if (!cheatingStartTimeRef.current) {
+        console.error("부정행위 시작 시간이 없습니다.");
+        return;
+      }
+
+      // 비디오 압축
+      const compressedBlob = await compressVideo(videoFile);
+      const compressedFile = new File([compressedBlob], videoFile.name, {
+        type: "video/webm",
+      });
+
+      const endTime = new Date().toISOString();
+      const result = await videoPost(
+        Number(userId),
+        cheatingStartTimeRef.current,
+        endTime,
+        compressedFile
+      );
+
+      console.log("비디오 업로드 성공:", result);
+    } catch (error) {
+      console.error("비디오 업로드 중 오류 발생:", error);
+    }
+  };
+
   const startRecording = (stream: MediaStream) => {
+    recordedChunksRef.current = []; // 기존 청크 초기화
+    cheatingStartTimeRef.current = new Date().toISOString();
+
     mediaRecorderRef.current = new MediaRecorder(stream, {
-      mimeType: "video/webm; codecs=vp9",
+      mimeType: "video/webm",
     });
 
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
-        const timestamp = Date.now();
-
-        // 새로 들어온 데이터 추가
-        recordedChunksRef.current.push({
-          timestamp: timestamp,
-          data: event.data,
-        });
-
-        // if (isProcessing) return; // 부정행위 비디오 처리 및 저장 중에는 비디오 프레임 업데이트 정지
-        // 슬라이딩 윈도우 방식으로 오래된 데이터 삭제
-        recordedChunksRef.current = recordedChunksRef.current.filter(
-          (chunk) => chunk.timestamp >= timestamp - BUFFER_DURATION
-        );
-
-        console.log(
-          `현재 청크 수: ${recordedChunksRef.current.length}, 유지 시간: ${BUFFER_DURATION}ms`
-        );
+        recordedChunksRef.current.push(event.data);
       }
     };
 
-    mediaRecorderRef.current.onerror = (e) => {
-      console.error("MediaRecorder 오류 발생:", e);
-    };
-
-    mediaRecorderRef.current.start(CHUNK_SIZE); // **녹화 시작**
-    console.log("MediaRecorder 시작");
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-      console.log("MediaRecorder 중지");
-    }
-  };
-
-  // ===== AI단에서 웹소켓 메시지를 수신하면 부정행위 비디오 처리 및 저장 =====
-  const sendCheatingVideo = async (cheatingTimestamp: string) => {
-    try {
-      setIsProcessing(true); // 부정행위 감지 시작
-
-      console.log("부정행위 발생 타임스탬프:", cheatingTimestamp);
-
-      const cheatingDate = new Date(cheatingTimestamp);
-      console.log("cheatingDate", cheatingDate);
-
-      if (isNaN(cheatingDate.getTime())) {
-        throw new Error("Invalid cheatingTimestamp: " + cheatingTimestamp);
-      }
-
-      const cheatingTime = cheatingDate.getTime();
-      const startTime = cheatingTime - 5000; // 부정행위 5초 전
-      const endTime = cheatingTime + 5000; // 부정행위 5초 후
-
-      console.log("탐지 이후 5초 데이터를 수집 중...");
-      setTimeout(() => {
-        mediaRecorderRef.current?.stop();
-      }, 5000);
-
-      // MediaRecorder가 멈춘 후 데이터를 처리
-      mediaRecorderRef.current!.onstop = () => {
-        console.log("recordedChunksRef.current :", recordedChunksRef.current);
-
-        const previousChunks = recordedChunksRef.current.filter(
-          (chunk) =>
-            chunk.timestamp >= startTime && chunk.timestamp <= cheatingTime
-        );
-        console.log(`탐지 이전 데이터: ${previousChunks.length} 청크`);
-        console.log(`탐지 이전 데이터: ${previousChunks}`);
-
-        const postCheatingChunks = recordedChunksRef.current.filter(
-          (chunk) =>
-            chunk.timestamp > cheatingTime && chunk.timestamp <= endTime
-        );
-        console.log(`탐지 이후 데이터: ${postCheatingChunks.length} 청크`);
-        console.log(`탐지 이후 데이터: ${postCheatingChunks}`);
-
-        const allChunks = [...previousChunks, ...postCheatingChunks];
-        console.log(`allChunks: ${allChunks.length} 청크`);
-        console.log(`allChunks: ${allChunks}`);
-        allChunks.forEach((chunk, index) => {
-          console.log(`손실 탐지 Chunk ${index}:`, chunk.timestamp, chunk.data);
+    mediaRecorderRef.current.onstop = () => {
+      if (recordedChunksRef.current.length > 0) {
+        const blob = new Blob(recordedChunksRef.current, {
+          type: "video/webm",
         });
 
-        const blob = new Blob(
-          allChunks.map((chunk) => chunk.data),
+        console.log(`원본 비디오 크기: ${blob.size / 1024} KB`);
+
+        // Blob을 File로 변환
+        const file = new File(
+          [blob],
+          `cheating_${new Date().toISOString()}.webm`,
           {
-            type: "video/webm; codecs=vp9",
+            type: "video/webm",
           }
         );
-        // 디버깅
-        console.log("blob: ", blob);
-        console.log(`최종 Blob 크기: ${blob.size / 1024} KB`);
-        // --
 
+        // 비디오 업로드
+        uploadVideo(file);
+
+        // 로컬 다운로드 (테스트용)
         const url = URL.createObjectURL(blob);
-        // 디버깅
-        console.log("Generated Blob URL:", url);
-
-        // 비디오 태그 생성으로 디버깅
-        const video = document.createElement("video");
-        video.src = url;
-        video.controls = true;
-        document.body.appendChild(video);
-        // --
-
         const a = document.createElement("a");
         a.href = url;
         a.download = `cheating_${new Date().toISOString()}.webm`;
         a.click();
 
+        console.log(`비디오 크기: ${blob.size / 1024} KB`);
         console.log("부정행위 비디오 저장 완료");
-        // 이 부분은 녹화가 중지된 후, 데이터가 완전히 처리된 후에 실행되어야 합니다.
-        startRecording(videoRef.current?.srcObject as MediaStream);
-      };
+      }
+    };
+
+    mediaRecorderRef.current.start();
+  };
+
+  const startRecordingForCheating = async () => {
+    try {
+      // 이미 녹화 중이면 기존 녹화 중지
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+      }
+
+      // 스트림이 없으면 새로 생성
+      const stream = streamRef.current || (await startStreaming());
+
+      // 5초간 녹화
+      startRecording(stream);
+
+      // 5초 후 녹화 중지
+      setTimeout(() => {
+        if (mediaRecorderRef.current) {
+          mediaRecorderRef.current.stop();
+        }
+      }, 5000);
     } catch (error) {
-      console.error("부정행위 이벤트 처리 중 오류:", error);
-    } finally {
-      setIsProcessing(false); // 부정행위 처리 끝
-      console.log(isProcessing);
+      console.error("부정행위 이벤트 처리 중 오류", error);
     }
   };
 
-  // AI 단으로 실시간 영상 송신
   const captureAndSendFrame = () => {
     if (
       canvasRef.current &&
@@ -243,27 +261,39 @@ const RealTimeVideoPage = () => {
         const base64String = base64Data.split(",")[1];
 
         socketRef.current.send(base64String);
-        console.log("WebSocket으로 프레임 전송");
       }
     }
   };
 
   useEffect(() => {
     const initialize = async () => {
-      setupWebSocket();
-      await startStreaming();
+      try {
+        setupWebSocket();
+        await startStreaming();
 
-      //  0.5초에 한 번씩 프레임 캡처 및 전송
-      captureIntervalRef.current = window.setInterval(captureAndSendFrame, 500);
+        captureIntervalRef.current = window.setInterval(
+          captureAndSendFrame,
+          500
+        );
+      } catch (error) {
+        console.error("초기화 중 오류:", error);
+      }
 
       return () => {
         if (captureIntervalRef.current) {
           clearInterval(captureIntervalRef.current);
         }
 
-        stopRecording();
+        if (mediaRecorderRef.current) {
+          mediaRecorderRef.current.stop();
+        }
+
         if (socketRef.current) {
           socketRef.current.close();
+        }
+
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach((track) => track.stop());
         }
       };
     };

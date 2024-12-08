@@ -17,7 +17,7 @@ const BottomSheet = ({ onClick }: BottomSheetProps) => {
   return (
     <div
       onClick={handleClose} // 클릭 시 닫히는 동작
-      className={`cursor-pointer z-50 absolute bottom-0 w-full flex flex-col py-[4px] justify-center items-center bg-black rounded-t-xl shadow-dashboordShadow transition-transform duration-300 ${
+      className={`cursor-pointer z-20 absolute bottom-0 w-full flex flex-col py-[4px] justify-center items-center bg-black rounded-t-xl shadow-dashboordShadow transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
     >

@@ -28,7 +28,7 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
         <ExcelIcon />
         <p className="text-[20px]">엑셀 다운로드</p>
       </div>
-      <div className="fixed bottom-5 text-2xl text-red-500 font-bold z-[100] shadow-lg">
+      <div className="fixed bottom-5 text-2xl text-red-500 font-bold z-30 shadow-lg">
         종료된 시험입니다.
       </div>
       <div className="w-[50%] h-full text-[2.5rem] font-bold text-white">

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import NextButton from "@/components/common/NextButton";
 import { useUserStore } from "@/store/useUserStore";
 import { useStore } from "@/store/useStore";
+import { videoPost } from "@/apis/video";
 
 const RealTimeVideoPage = () => {
   // 수험자 실시간 화면이 담기는 공간
@@ -24,6 +25,7 @@ const RealTimeVideoPage = () => {
   // 녹화된 비디오 데이터를 청크 단위로 저장
   const recordedChunksRef = useRef<Blob[]>([]);
   const captureIntervalRef = useRef<number | null>(null);
+  const cheatingStartTimeRef = useRef<string | null>(null);
 
   const userId = useStore(useUserStore, (state) => state.userId);
   const examId = useStore(useUserStore, (state) => state.examId);
@@ -68,6 +70,56 @@ const RealTimeVideoPage = () => {
     socketRef.current = socket;
   };
 
+  // 비디오 압축 함수
+  const compressVideo = async (blob: Blob): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      video.onloadedmetadata = () => {
+        // 비디오 크기 조정 (480p)
+        const MAX_WIDTH = 640;
+        const MAX_HEIGHT = 480;
+        let width = video.videoWidth;
+        let height = video.videoHeight;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // 비디오를 캔버스에 그리기
+        context?.drawImage(video, 0, 0, width, height);
+
+        // 캔버스를 낮은 품질의 비디오로 변환
+        canvas.toBlob(
+          (compressedBlob) => {
+            if (compressedBlob) {
+              resolve(compressedBlob);
+            } else {
+              reject(new Error("압축 실패"));
+            }
+          },
+          "video/webm",
+          0.5
+        ); // 품질 조절 (0.5)
+      };
+
+      video.src = URL.createObjectURL(blob);
+    });
+  };
+
   const startStreaming = async () => {
     try {
       const constraints = { video: true, audio: false };
@@ -85,7 +137,33 @@ const RealTimeVideoPage = () => {
     }
   };
 
-  // Canvas를 사용해 비디오 프레임을 WebSocket으로 전송
+  const uploadVideo = async (videoFile: File) => {
+    try {
+      if (!userId || !cheatingStartTimeRef.current) {
+        console.error("사용자 ID 또는 부정행위 시작 시간이 없습니다.");
+        return;
+      }
+
+      // 비디오 압축
+      const compressedBlob = await compressVideo(videoFile);
+      const compressedFile = new File([compressedBlob], videoFile.name, {
+        type: "video/webm",
+      });
+
+      const endTime = new Date().toISOString();
+      const result = await videoPost(
+        Number(userId),
+        cheatingStartTimeRef.current,
+        endTime,
+        compressedFile
+      );
+
+      console.log("비디오 업로드 성공:", result);
+    } catch (error) {
+      console.error("비디오 업로드 중 오류 발생:", error);
+    }
+  };
+
   const startRecording = (stream: MediaStream) => {
     recordedChunksRef.current = []; // 기존 청크 초기화
 
@@ -104,8 +182,23 @@ const RealTimeVideoPage = () => {
         const blob = new Blob(recordedChunksRef.current, {
           type: "video/webm",
         });
-        const url = URL.createObjectURL(blob);
 
+        console.log(`원본 비디오 크기: ${blob.size / 1024} KB`);
+
+        // Blob을 File로 변환
+        const file = new File(
+          [blob],
+          `cheating_${new Date().toISOString()}.webm`,
+          {
+            type: "video/webm",
+          }
+        );
+
+        // 비디오 업로드
+        uploadVideo(file);
+
+        // 로컬 다운로드 (테스트용)
+        const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         a.download = `cheating_${new Date().toISOString()}.webm`;

@@ -28,7 +28,7 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
         <ExcelIcon />
         <p className="text-[20px]">엑셀 다운로드</p>
       </div>
-      <div className="fixed bottom-5 text-2xl text-red-500 font-bold z-[100] shadow-lg">
+      <div className="fixed bottom-5 text-2xl text-red-500 font-bold z-30 shadow-lg">
         종료된 시험입니다.
       </div>
       <div className="w-[50%] h-full text-[2.5rem] font-bold text-white">
@@ -37,33 +37,35 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
         <p>부정행위 탐지 결과</p>
       </div>
       <div className="[w-50%] flex flex-col h-full">
-        <div className="w-full flex gap-20 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
+        <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>총 탐지된 부정행위 건수</div>
           <div>{reportData.totalCheatingCount}건</div>
         </div>
-        <div className="w-full flex gap-20 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
+        <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>부정행위 탐지 수험자 수</div>
           <div>{reportData.cheatingStudentsCount}명</div>
         </div>
-        <div className="w-full flex gap-20 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
+        <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>평균 부정행위 탐지 건수</div>
-          <div>{reportData.averageCheatingCount}건/수험자</div>
+          <div>
+            {Number(reportData.averageCheatingCount).toFixed(1)}건/수험자
+          </div>
         </div>
-        <div className="w-full flex gap-20 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
+        <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>최다 부정행위 탐지 수험자</div>
           <div>{reportData.maxCheatingStudent}</div>
         </div>
-        <div className="w-full flex gap-20 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
+        <div className="w-full flex gap-10 py-3 items-center justify-between text-[20px] text-bold border-b border-white">
           <div>부정행위 탐지율</div>
-          <div>{reportData.cheatingRate}%</div>
+          <div>{Number(reportData.cheatingRate).toFixed(2)}%</div>
         </div>
-        <div className="w-full flex gap-20 py-3 items-start justify-between text-[20px] text-bold border-b border-white">
+        <div className="w-full flex gap-10 py-3 items-start justify-between text-[20px] text-bold border-b border-white">
           <div>부정행위 유형별 통계</div>
           <div className="flex flex-col gap-2">
             {Object.entries(reportData.cheatingTypeStatistics).map(
               ([type, count]) => (
-                <span key={type} className="border-b border-gray-500">
-                  {type}: {count}건{", "}
+                <span key={type} className="border-b border-gray-500 px-3">
+                  {type}: {count}건
                 </span>
               )
             )}

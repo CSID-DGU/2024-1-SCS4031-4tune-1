@@ -1,4 +1,4 @@
-import { api } from ".";
+import { apiWithoutAuth } from ".";
 
 export const videoPost = async (
   userId: number,
@@ -13,6 +13,6 @@ export const videoPost = async (
   formData.append("endOffset", new Date(endTime).toISOString());
   formData.append("video", video);
 
-  const response = await api.post(`/cheatings/video`, formData);
+  const response = await apiWithoutAuth.post(`/video`, formData);
   return response.data;
 };

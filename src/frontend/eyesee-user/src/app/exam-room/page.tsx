@@ -139,8 +139,12 @@ const RealTimeVideoPage = () => {
 
   const uploadVideo = async (videoFile: File) => {
     try {
-      if (!userId || !cheatingStartTimeRef.current) {
-        console.error("사용자 ID 또는 부정행위 시작 시간이 없습니다.");
+      if (!userId) {
+        console.error("사용자 ID가 없습니다.");
+        return;
+      }
+      if (!cheatingStartTimeRef.current) {
+        console.error("부정행위 시작 시간이 없습니다.");
         return;
       }
 
@@ -166,6 +170,7 @@ const RealTimeVideoPage = () => {
 
   const startRecording = (stream: MediaStream) => {
     recordedChunksRef.current = []; // 기존 청크 초기화
+    cheatingStartTimeRef.current = new Date().toISOString();
 
     mediaRecorderRef.current = new MediaRecorder(stream, {
       mimeType: "video/webm",

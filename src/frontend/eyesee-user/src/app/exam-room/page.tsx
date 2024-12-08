@@ -72,6 +72,9 @@ const RealTimeVideoPage = () => {
 
   // 비디오 압축 함수
   const compressVideo = async (blob: Blob): Promise<Blob> => {
+    console.log("Original Blob Size:", blob.size);
+    console.log("Original Blob Type:", blob.type);
+
     return new Promise((resolve, reject) => {
       const video = document.createElement("video");
       const canvas = document.createElement("canvas");
@@ -111,9 +114,14 @@ const RealTimeVideoPage = () => {
               reject(new Error("압축 실패"));
             }
           },
-          "video/webm",
-          0.5
-        ); // 품질 조절 (0.5)
+          "video/mp4",
+          0.3
+        ); // 품질 조절 (0.3)
+      };
+
+      video.onerror = (error) => {
+        console.error("비디오 로드 중 오류:", error);
+        reject(error);
       };
 
       video.src = URL.createObjectURL(blob);
@@ -138,7 +146,15 @@ const RealTimeVideoPage = () => {
   };
 
   const uploadVideo = async (videoFile: File) => {
+    console.log("Video File:", videoFile);
+    console.log("Video File Size:", videoFile.size);
+    console.log("Video File Type:", videoFile.type);
+
     try {
+      if (videoFile.size === 0) {
+        console.error("빈 영상입니다.");
+        return;
+      }
       if (!userId) {
         console.error("사용자 ID가 없습니다.");
         return;
@@ -151,8 +167,12 @@ const RealTimeVideoPage = () => {
       // 비디오 압축
       const compressedBlob = await compressVideo(videoFile);
       const compressedFile = new File([compressedBlob], videoFile.name, {
-        type: "video/webm",
+        type: "video/mp4",
       });
+
+      console.log("compressed File:", compressedFile);
+      console.log("compressed File Size:", compressedFile.size);
+      console.log("compressed File Type:", compressedFile.type);
 
       const endTime = new Date().toISOString();
       const result = await videoPost(
@@ -173,10 +193,12 @@ const RealTimeVideoPage = () => {
     cheatingStartTimeRef.current = new Date().toISOString();
 
     mediaRecorderRef.current = new MediaRecorder(stream, {
-      mimeType: "video/webm",
+      mimeType: "video/mp4",
     });
 
     mediaRecorderRef.current.ondataavailable = (event) => {
+      console.log("Recording Data Available:", event.data.size);
+
       if (event.data.size > 0) {
         recordedChunksRef.current.push(event.data);
       }
@@ -185,7 +207,7 @@ const RealTimeVideoPage = () => {
     mediaRecorderRef.current.onstop = () => {
       if (recordedChunksRef.current.length > 0) {
         const blob = new Blob(recordedChunksRef.current, {
-          type: "video/webm",
+          type: "video/mp4",
         });
 
         console.log(`원본 비디오 크기: ${blob.size / 1024} KB`);
@@ -193,9 +215,9 @@ const RealTimeVideoPage = () => {
         // Blob을 File로 변환
         const file = new File(
           [blob],
-          `cheating_${new Date().toISOString()}.webm`,
+          `cheating_${new Date().toISOString()}.mov`,
           {
-            type: "video/webm",
+            type: "video/mp4",
           }
         );
 
@@ -206,7 +228,7 @@ const RealTimeVideoPage = () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `cheating_${new Date().toISOString()}.webm`;
+        a.download = `cheating_${new Date().toISOString()}.mov`;
         a.click();
 
         console.log(`비디오 크기: ${blob.size / 1024} KB`);

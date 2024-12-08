@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import NextButton from "@/components/common/NextButton";
 import { useUserStore } from "@/store/useUserStore";
 import { useStore } from "@/store/useStore";

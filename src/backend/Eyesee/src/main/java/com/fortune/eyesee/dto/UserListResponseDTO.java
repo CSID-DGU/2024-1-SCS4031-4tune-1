@@ -8,14 +8,18 @@ public class UserListResponseDTO {
     private String examName;
     private Integer examStudentNumber;
     private Integer examDuration;
+    private String examCode;
     private List<UserInfo> user;
 
+
     // 시험 이름, 참가자 수, 시간 등의 정보를 포함한 생성자
-    public UserListResponseDTO(String examName, Integer examStudentNumber, Integer examDuration, List<UserInfo> user) {
+    public UserListResponseDTO(String examName, Integer examStudentNumber, Integer examDuration,String examCode ,List<UserInfo> user ) {
         this.examName = examName;
         this.examStudentNumber = examStudentNumber;
         this.examDuration = examDuration;
+        this.examCode = examCode;
         this.user = user;
+
     }
 
     @Data

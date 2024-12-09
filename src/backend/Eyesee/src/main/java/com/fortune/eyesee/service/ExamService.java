@@ -215,6 +215,7 @@ public class ExamService {
                 exam.getExamName(),
                 exam.getExamStudentNumber(),
                 exam.getExamDuration(),
+                exam.getExamRandomCode(),
                 users
         );
     }

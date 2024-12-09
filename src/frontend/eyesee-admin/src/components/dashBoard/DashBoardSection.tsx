@@ -50,8 +50,14 @@ const DashBoardSection = ({
           {children}
         </TestInfo>
         <div className="flex items-center w-full justify-end gap-5 mb-5">
-          <GridIcon onClick={() => setTableModalOpen(true)} />
-          <PeopleIcon onClick={() => setCodeModalOpen(true)} />
+          <GridIcon
+            className="cursor-pointer"
+            onClick={() => setTableModalOpen(true)}
+          />
+          <PeopleIcon
+            className="cursor-pointer"
+            onClick={() => setCodeModalOpen(true)}
+          />
           <RowMoreIcon />
         </div>
         <div
@@ -63,7 +69,6 @@ const DashBoardSection = ({
           {sesstionData.user.map((user) => (
             <div key={user.userId} className="flex justify-center">
               <DashBoardCard
-                key={user.userId}
                 user={user}
                 exam={{
                   name: sesstionData.examName,

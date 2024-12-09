@@ -19,7 +19,7 @@ const UserSection = ({ sessionData }: UserSectionProps) => {
   return (
     <div className="w-[342px] py-8 px-2.5">
       <div className="text-[#999] text-[20px] font-bold mb-12">
-        <span onClick={handleClick} className="pl-3 pr-5">
+        <span onClick={handleClick} className="pl-3 pr-5 cursor-pointer">
           〈
         </span>
         {sessionData.examName}

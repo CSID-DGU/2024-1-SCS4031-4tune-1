@@ -292,16 +292,13 @@ def update_cheating(user_id, exam_id, detections, face_present, head_pose, eye_c
 
     # 동적으로 탐지 로직 활성화
     if cheating_settings.get('OBJECT'):
-        print("확인용1")
         detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape)
     if cheating_settings.get('FACE_ABSENCE_LONG') or cheating_settings.get('FACE_ABSENCE_REPEAT'):
-        print("확인용2")
         detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages)
     if head_pose:
         pitch = head_pose['pitch']
         yaw = head_pose['yaw']
         if cheating_settings.get('LOOK_AROUND'):
-            print("확인용3")
             detect_look_around(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, cheating_messages)
         if cheating_settings.get('HEAD_TURN_LONG') or cheating_settings.get('HEAD_TURN_REPEAT'):
             detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history, cheating_messages)

@@ -70,64 +70,6 @@ const RealTimeVideoPage = () => {
     socketRef.current = socket;
   };
 
-  // 비디오 압축 함수
-  const compressVideo = async (blob: Blob): Promise<Blob> => {
-    console.log("Original Blob Size:", blob.size);
-    console.log("Original Blob Type:", blob.type);
-
-    return new Promise((resolve, reject) => {
-      const video = document.createElement("video");
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-
-      video.onloadedmetadata = () => {
-        // 비디오 크기 조정 (480p)
-        const MAX_WIDTH = 640;
-        const MAX_HEIGHT = 480;
-        let width = video.videoWidth;
-        let height = video.videoHeight;
-
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-        } else {
-          if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        // 비디오를 캔버스에 그리기
-        context?.drawImage(video, 0, 0, width, height);
-
-        // 캔버스를 낮은 품질의 비디오로 변환
-        canvas.toBlob(
-          (compressedBlob) => {
-            if (compressedBlob) {
-              resolve(compressedBlob);
-            } else {
-              reject(new Error("압축 실패"));
-            }
-          },
-          "video/mp4",
-          0.3
-        ); // 품질 조절 (0.3)
-      };
-
-      video.onerror = (error) => {
-        console.error("비디오 로드 중 오류:", error);
-        reject(error);
-      };
-
-      video.src = URL.createObjectURL(blob);
-    });
-  };
-
   const startStreaming = async () => {
     try {
       const constraints = { video: true, audio: false };
@@ -164,22 +106,12 @@ const RealTimeVideoPage = () => {
         return;
       }
 
-      // 비디오 압축
-      const compressedBlob = await compressVideo(videoFile);
-      const compressedFile = new File([compressedBlob], videoFile.name, {
-        type: "video/mp4",
-      });
-
-      console.log("compressed File:", compressedFile);
-      console.log("compressed File Size:", compressedFile.size);
-      console.log("compressed File Type:", compressedFile.type);
-
       const endTime = new Date().toISOString();
       const result = await videoPost(
         Number(userId),
         cheatingStartTimeRef.current,
         endTime,
-        compressedFile
+        videoFile
       );
 
       console.log("비디오 업로드 성공:", result);

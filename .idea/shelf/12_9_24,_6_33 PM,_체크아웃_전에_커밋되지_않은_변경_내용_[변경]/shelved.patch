@@ -1,0 +1,1051 @@
+Index: .idea/sonarlint/issuestore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n9\n\tREADME.md\u0012,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d\nP\n src/ai/4tune_AI/requirements.txt\u0012,2/6/26f666c05e7d5cb7b6c2a7012ddbf42ab1d4a20a\nY\n)src/ai/4tune_AI/gaze_ver2/custom_utils.py\u0012,a/7/a70493e17a32b9711265c1284ac59eb6e5671d82\nV\n&src/ai/4tune_AI/gaze_ver2/detectors.py\u0012,6/c/6cab8a4365ae784aa4f202efee07f97f341353c5\nQ\n!src/ai/4tune_AI/gaze_ver2/main.py\u0012,9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080\nV\n&src/ai/4tune_AI/gaze_ver2/constants.py\u0012,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/issuestore/index.pb b/.idea/sonarlint/issuestore/index.pb
+--- a/.idea/sonarlint/issuestore/index.pb	
++++ b/.idea/sonarlint/issuestore/index.pb	
+@@ -10,4 +10,12 @@
+ Q
+ !src/ai/4tune_AI/gaze_ver2/main.py,9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080
+ V
+-&src/ai/4tune_AI/gaze_ver2/constants.py,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+\ No newline at end of file
++&src/ai/4tune_AI/gaze_ver2/constants.py,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
++Q
++!src/ai/4tune_AI/test_gaze/main.py,9/3/93f3326e910973ce417d1a3bb23124e3620193ba
++V
++&src/ai/4tune_AI/test_gaze/detectors.py,0/5/05b4981c4f60fa0a192e3b06e2d4e3d46ab72c2a
++V
++&src/ai/4tune_AI/test_gaze/constants.py,c/f/cf889e44fff58d382b14551c507d3a139a54c793
++R
++"src/ai/4tune_AI/test_gaze/utils.py,2/2/22fc5e136788f1af82a9b9df31e4a86d9b8044c3
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"9fb130f4-ff3a-4d08-b9af-31d0460f5b1f\" name=\"변경\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 4\n}</component>\n  <component name=\"ProjectId\" id=\"2o641f8TQ1Srqz0IeYtTkBZ8Eba\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;ai/feature/initial-setup&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2\" />\n      <recent name=\"$PROJECT_DIR$/src/ai/4tune_AI\" />\n      <recent name=\"$PROJECT_DIR$/src/ai\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"애플리케이션 수준\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"디폴트 작업\">\n      <changelist id=\"9fb130f4-ff3a-4d08-b9af-31d0460f5b1f\" name=\"변경\" comment=\"\" />\n      <created>1730176478192</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1730176478192</updated>\n      <workItem from=\"1730176479713\" duration=\"1676000\" />\n      <workItem from=\"1730375878008\" duration=\"899000\" />\n      <workItem from=\"1730629095871\" duration=\"599000\" />\n      <workItem from=\"1730702578423\" duration=\"599000\" />\n      <workItem from=\"1730706956076\" duration=\"599000\" />\n      <workItem from=\"1730720619064\" duration=\"1626000\" />\n      <workItem from=\"1731154427257\" duration=\"600000\" />\n      <workItem from=\"1731384196719\" duration=\"1206000\" />\n      <workItem from=\"1731564970150\" duration=\"258000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,14 +5,13 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="9fb130f4-ff3a-4d08-b9af-31d0460f5b1f" name="변경" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/constants.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/detectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/detectors.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/main.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze/utils.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -38,20 +37,21 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;ai/feature/initial-setup&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "WebServerToolWindowFactoryState": "false",
++    "git-widget-placeholder": "ai/feature/initial-setup",
++    "last_opened_file_path": "/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "ts.external.directory.path": "/Applications/PyCharm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
+@@ -82,4 +82,8 @@
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
+   </component>
++  <component name="com.intellij.coverage.CoverageDataManagerImpl">
++    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$main.coverage" NAME="main 커버리지 결과" MODIFIED="1733561751977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze" />
++    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$te.coverage" NAME="te 커버리지 결과" MODIFIED="1732438646027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze" />
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/sonarlint/securityhotspotstore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n9\n\tREADME.md\u0012,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d\nP\n src/ai/4tune_AI/requirements.txt\u0012,2/6/26f666c05e7d5cb7b6c2a7012ddbf42ab1d4a20a\nY\n)src/ai/4tune_AI/gaze_ver2/custom_utils.py\u0012,a/7/a70493e17a32b9711265c1284ac59eb6e5671d82\nV\n&src/ai/4tune_AI/gaze_ver2/detectors.py\u0012,6/c/6cab8a4365ae784aa4f202efee07f97f341353c5\nQ\n!src/ai/4tune_AI/gaze_ver2/main.py\u0012,9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080\nV\n&src/ai/4tune_AI/gaze_ver2/constants.py\u0012,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/securityhotspotstore/index.pb b/.idea/sonarlint/securityhotspotstore/index.pb
+--- a/.idea/sonarlint/securityhotspotstore/index.pb	
++++ b/.idea/sonarlint/securityhotspotstore/index.pb	
+@@ -10,4 +10,12 @@
+ Q
+ !src/ai/4tune_AI/gaze_ver2/main.py,9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080
+ V
+-&src/ai/4tune_AI/gaze_ver2/constants.py,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+\ No newline at end of file
++&src/ai/4tune_AI/gaze_ver2/constants.py,b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
++Q
++!src/ai/4tune_AI/test_gaze/main.py,9/3/93f3326e910973ce417d1a3bb23124e3620193ba
++V
++&src/ai/4tune_AI/test_gaze/detectors.py,0/5/05b4981c4f60fa0a192e3b06e2d4e3d46ab72c2a
++V
++&src/ai/4tune_AI/test_gaze/constants.py,c/f/cf889e44fff58d382b14551c507d3a139a54c793
++R
++"src/ai/4tune_AI/test_gaze/utils.py,2/2/22fc5e136788f1af82a9b9df31e4a86d9b8044c3
+\ No newline at end of file
+Index: src/ai/4tune_AI/test_gaze/constants.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># 부정행위로 간주할 지속 시간 (초)\nCHEATING_THRESHOLD = 3  # 3초 이상 지속 시 부정행위로 판단\n\n# 머리 회전 각도 기준치\nHEAD_TURN_THRESHOLD = 20  # 각도 절댓값이 20도 이상이면 고개를 돌린 것으로 판단\n\n# 눈동자 각도 기준치\nEYE_TURN_THRESHOLD = 20  # 정면 기준 좌우 20도 이상이면 눈동자를 돌린 것으로 판단
+===================================================================
+diff --git a/src/ai/4tune_AI/test_gaze/constants.py b/src/ai/4tune_AI/test_gaze/constants.py
+--- a/src/ai/4tune_AI/test_gaze/constants.py	
++++ b/src/ai/4tune_AI/test_gaze/constants.py	
+@@ -1,8 +1,47 @@
+-# 부정행위로 간주할 지속 시간 (초)
+-CHEATING_THRESHOLD = 3  # 3초 이상 지속 시 부정행위로 판단
++# constants.py
++
++# 부정행위 감지 임계값 및 상수 정의
++
++# 1. 주변 응시 감지
++LOOK_AROUND_THRESHOLD = 5         # 주변을 5초 이상 응시
++
++# 2. 동일 위치 반복 응시 감지
++REPEATED_GAZE_DURATION = 2        # 동일 위치에서 3초 이상 응시
++REPEATED_GAZE_COUNT = 3           # 30초 이내에 5번
++REPEATED_GAZE_WINDOW = 30         # 30초의 시간 창
++
++# 3. 부정행위 물체 감지
++CHEATING_OBJECTS = ['cell phone', 'small paper']  # 스마트폰 및 작은 종이 등
++
++# 4. 장기 화면 이탈 감지
++FACE_ABSENCE_THRESHOLD = 5        # 화면에서 5초 이상 이탈
++
++# 5. 반복 화면 이탈 감지
++FACE_ABSENCE_DURATION = 3         # 이탈 지속 시간
++FACE_ABSENCE_COUNT_THRESHOLD = 5  # 30초 이내에 5번 이탈
++FACE_ABSENCE_WINDOW = 30          # 30초의 시간 창
+ 
+-# 머리 회전 각도 기준치
+-HEAD_TURN_THRESHOLD = 20  # 각도 절댓값이 20도 이상이면 고개를 돌린 것으로 판단
++# 6. 특정 손동작 반복 감지
++HAND_GESTURE_THRESHOLD = 2        # 손동작이 2초 이상 지속 시
++HAND_GESTURE_EXCLUDE = ['fist', 'palm']
+ 
+-# 눈동자 각도 기준치
+-EYE_TURN_THRESHOLD = 20  # 정면 기준 좌우 20도 이상이면 눈동자를 돌린 것으로 판단
+\ No newline at end of file
++# 7. 고개 돌림 유지 감지
++HEAD_TURN_THRESHOLD = 15          # 고개 돌림 각도 임계값 (Yaw)
++HEAD_TURN_DURATION = 5            # 고개 돌리고 5초 이상 유지
++
++# 8. 고개 돌림 반복 감지
++HEAD_TURN_REPEAT_DURATION = 3     # 고개 돌림 반복 시 3초 이상
++HEAD_TURN_COUNT_THRESHOLD = 5     # 30초 이내에 5번 행함
++HEAD_TURN_WINDOW = 30             # 30초의 시간 창
++
++# 시선 격자
++GRID_ROWS = 3
++GRID_COLS = 3
++
++# 시선 및 자세 기준
++PITCH_DOWN_THRESHOLD = 30
++YAW_FORWARD_THRESHOLD = 20
++
++# 눈동자 움직임 감지 임계값
++EYE_MOVEMENT_THRESHOLD = 50       # 눈동자가 중심에서 얼마나 벗어났는지 픽셀 단위
++EYE_MOVEMENT_DURATION = 2         # 2초 이상 움직임 지속 시 부정행위
+\ No newline at end of file
+Index: src/ai/4tune_AI/test_gaze/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import cv2\nimport mediapipe as mp\nimport time\n\nfrom utils import draw_text_korean, calculate_head_pose, calculate_eye_direction, detect_hand_gesture\nfrom constants import CHEATING_THRESHOLD, HEAD_TURN_THRESHOLD, EYE_TURN_THRESHOLD\nfrom detectors import (\n    detect_face_absence,\n    detect_head_turn,\n    detect_eye_movement,\n    detect_hand_gesture_wrapper\n)\n\n# MediaPipe 초기화\nmp_face_mesh = mp.solutions.face_mesh\nmp_face_detection = mp.solutions.face_detection\nmp_hands = mp.solutions.hands\n\nface_mesh = mp_face_mesh.FaceMesh(\n    max_num_faces=1,\n    refine_landmarks=True,\n    min_detection_confidence=0.5,\n    min_tracking_confidence=0.5\n)\nface_detection = mp_face_detection.FaceDetection(min_detection_confidence=0.5)\nhands = mp_hands.Hands(\n    max_num_hands=2,  # 두 손 인식을 위해 2로 설정\n    min_detection_confidence=0.5,\n    min_tracking_confidence=0.5\n)\n\n# 그리기 유틸리티\nmp_drawing = mp.solutions.drawing_utils\n\n# 부정행위 관련 변수 초기화\nstart_times = {'head': None, 'eye': None, 'face': None, 'hand': {}}\ncheating_flags = {'head': False, 'eye': False, 'face': False, 'hand': {}}\ncheating_counts = {'head': 0, 'eye': 0, 'face': 0, 'hand': {}}\n\n# 웹캠 열기\ncap = cv2.VideoCapture(0)\n\nwhile cap.isOpened():\n    success, image = cap.read()\n    if not success:\n        print(\"카메라에서 프레임을 읽을 수 없습니다.\")\n        break\n\n    # 성능 향상을 위해 이미지 쓰기 권한 해제\n    image.flags.writeable = False\n    # BGR 이미지를 RGB로 변환\n    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n\n    # 얼굴 검출\n    face_results = face_detection.process(image_rgb)\n    face_present = False if not face_results.detections else True\n\n    # 얼굴 부정행위 감지\n    detect_face_absence(face_present, start_times, cheating_flags, cheating_counts)\n\n    # 얼굴 랜드마크 추출\n    face_mesh_results = face_mesh.process(image_rgb)\n\n    # 손 랜드마크 추출\n    hands_results = hands.process(image_rgb)\n\n    # 이미지 쓰기 권한 재설정\n    image.flags.writeable = True\n    # RGB 이미지를 BGR로 변환\n    image = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)\n\n    if face_mesh_results.multi_face_landmarks:\n        face_landmarks = face_mesh_results.multi_face_landmarks[0]\n\n        # 머리 자세 추정\n        pitch, yaw, roll = calculate_head_pose(face_landmarks, image.shape)\n\n        # 머리 부정행위 감지\n        detect_head_turn(yaw, start_times, cheating_flags, cheating_counts)\n\n        # 눈동자 움직임 추적\n        eye_angle = calculate_eye_direction(face_landmarks, image.shape)\n\n        # 눈동자 부정행위 감지\n        detect_eye_movement(eye_angle, start_times, cheating_flags, cheating_counts)\n\n        # 얼굴 랜드마크 그리기 (디버깅용)\n        mp_drawing.draw_landmarks(\n            image, face_landmarks, mp_face_mesh.FACEMESH_CONTOURS,\n            landmark_drawing_spec=None,\n            connection_drawing_spec=mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=1, circle_radius=1)\n        )\n\n        # 머리 자세 정보 표시\n        text = f'Yaw(좌우): {yaw:.1f}, Pitch(상하): {pitch:.1f}, Roll(기울기): {roll:.1f}'\n        image = draw_text_korean(image, text, (30, 30), font_size=20, font_color=(255, 255, 255))\n\n    else:\n        # 얼굴 랜드마크가 검출되지 않는 경우\n        start_times['head'] = None\n        cheating_flags['head'] = False\n        start_times['eye'] = None\n        cheating_flags['eye'] = False\n\n    # 손동작 감지\n    if hands_results.multi_hand_landmarks:\n        for hand_landmarks, hand_info in zip(hands_results.multi_hand_landmarks, hands_results.multi_handedness):\n            hand_label = hand_info.classification[0].label  # 'Left' 또는 'Right'\n\n            # 부정행위 관련 변수 초기화\n            if hand_label not in start_times['hand']:\n                start_times['hand'][hand_label] = None\n                cheating_flags['hand'][hand_label] = False\n                cheating_counts['hand'][hand_label] = 0\n\n            # 부정행위 제스처 감지\n            hand_gesture_detected = detect_hand_gesture(hand_landmarks)\n\n            # 손동작 부정행위 감지\n            detect_hand_gesture_wrapper(hand_gesture_detected, hand_label, start_times, cheating_flags, cheating_counts)\n\n            # 손 랜드마크 그리기 (디버깅용)\n            mp_drawing.draw_landmarks(\n                image, hand_landmarks, mp_hands.HAND_CONNECTIONS,\n                mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=2, circle_radius=2),\n                mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2)\n            )\n    else:\n        start_times['hand'] = {}\n        cheating_flags['hand'] = {}\n\n    # 부정행위 상태 표시\n    status_text = ''\n    if cheating_flags['face']:\n        status_text += '부정행위 감지: 얼굴 미검출\\n'\n    if cheating_flags['head']:\n        status_text += '부정행위 감지: 고개 돌림\\n'\n    if cheating_flags['eye']:\n        status_text += '부정행위 감지: 눈동자 돌림\\n'\n    for hand_label, flag in cheating_flags['hand'].items():\n        if flag:\n            status_text += f'부정행위 감지: 손동작 (손: {hand_label})\\n'\n    if status_text == '':\n        status_text = '정상 상태'\n\n    # 상태 표시\n    y0, dy = 60, 30\n    for i, line in enumerate(status_text.strip().split('\\n')):\n        y = y0 + i * dy\n        image = draw_text_korean(\n            image,\n            line,\n            (30, y),\n            font_size=20,\n            font_color=(0, 0, 255) if '부정행위' in line else (0, 255, 0)\n        )\n\n    # 결과 이미지 출력\n    cv2.imshow('Gaze and Motion Tracking', image)\n\n    if cv2.waitKey(5) & 0xFF == 27:  # ESC 키를 누르면 종료\n        break\n\ncap.release()\ncv2.destroyAllWindows()
+===================================================================
+diff --git a/src/ai/4tune_AI/test_gaze/main.py b/src/ai/4tune_AI/test_gaze/main.py
+--- a/src/ai/4tune_AI/test_gaze/main.py	
++++ b/src/ai/4tune_AI/test_gaze/main.py	
+@@ -1,20 +1,35 @@
++# main.py
++
+ import cv2
+ import mediapipe as mp
+ import time
++import torch
++import numpy as np
++import asyncio
++from datetime import datetime, timezone
++import pytz
++from ultralytics import YOLO
++from collections import defaultdict
++import math
+ 
+-from utils import draw_text_korean, calculate_head_pose, calculate_eye_direction, detect_hand_gesture
+-from constants import CHEATING_THRESHOLD, HEAD_TURN_THRESHOLD, EYE_TURN_THRESHOLD
++from utils import draw_text_korean, calculate_head_pose, calculate_eye_position, get_gaze_position, get_landmarks
+ from detectors import (
++    detect_object_presence,
+     detect_face_absence,
+-    detect_head_turn,
+-    detect_eye_movement,
+-    detect_hand_gesture_wrapper
++    detect_look_around,   # angle, distance 조건을 포함하도록 detectors.py에서 수정 필요
++    detect_repeated_gaze,
++    detect_hand_gestures,
++    detect_head_turn
+ )
++from constants import *
+ 
+-# MediaPipe 초기화
++cap = cv2.VideoCapture(0)
++
++# Mediapipe 초기화
+ mp_face_mesh = mp.solutions.face_mesh
+ mp_face_detection = mp.solutions.face_detection
+ mp_hands = mp.solutions.hands
++mp_drawing = mp.solutions.drawing_utils
+ 
+ face_mesh = mp_face_mesh.FaceMesh(
+     max_num_faces=1,
+@@ -24,21 +39,62 @@
+ )
+ face_detection = mp_face_detection.FaceDetection(min_detection_confidence=0.5)
+ hands = mp_hands.Hands(
+-    max_num_hands=2,  # 두 손 인식을 위해 2로 설정
++    max_num_hands=2,
+     min_detection_confidence=0.5,
+     min_tracking_confidence=0.5
+ )
+ 
+-# 그리기 유틸리티
+-mp_drawing = mp.solutions.drawing_utils
++device = 'cuda' if torch.cuda.is_available() else 'cpu'
++model = YOLO('yolo11s.pt').to(device)
++
++user_id = 'local_user'
++exam_id = 'local_test'
++
++start_times = defaultdict(lambda: {
++    'look_around': None,
++    'face_absence': None,
++    'head_turn': None,
++    'hand_gesture': {},
++    'repeated_gaze': None,
++    'object': None
++})
++cheating_flags = defaultdict(lambda: {
++    'look_around': False,
++    'repeated_gaze': False,
++    'object': False,
++    'face_absence_long': False,
++    'face_absence_repeat': False,
++    'hand_gesture': {},
++    'head_turn_long': False,
++    'head_turn_repeat': False
++})
++cheating_counts = defaultdict(lambda: {
++    'look_around': 0,
++    'repeated_gaze': 0,
++    'object': 0,
++    'face_absence_long': 0,
++    'face_absence_repeat': 0,
++    'hand_gesture': {},
++    'head_turn_long': 0,
++    'head_turn_repeat': 0
++})
++cheating_messages = defaultdict(list)
++
++gaze_history = defaultdict(list)
++face_absence_history = defaultdict(list)
++head_turn_history = defaultdict(list)
+ 
+-# 부정행위 관련 변수 초기화
+-start_times = {'head': None, 'eye': None, 'face': None, 'hand': {}}
+-cheating_flags = {'head': False, 'eye': False, 'face': False, 'hand': {}}
+-cheating_counts = {'head': 0, 'eye': 0, 'face': 0, 'hand': {}}
++# 정면 범위를 약 60~120도 (±30도)로 설정
++FRONT_MIN_ANGLE = 60
++FRONT_MAX_ANGLE = 120
+ 
+-# 웹캠 열기
+-cap = cv2.VideoCapture(0)
++# 텍스트 표시 위치
++ANGLE_TEXT_X = 30
++ANGLE_TEXT_Y = 60
++
++STATUS_TEXT_X = 600  # 모니터 해상도에 맞춰 조정
++STATUS_TEXT_Y = 30
++STATUS_LINE_HEIGHT = 30
+ 
+ while cap.isOpened():
+     success, image = cap.read()
+@@ -46,119 +102,153 @@
+         print("카메라에서 프레임을 읽을 수 없습니다.")
+         break
+ 
+-    # 성능 향상을 위해 이미지 쓰기 권한 해제
++    # 현재 KST 시간
++    utc_now = datetime.now(timezone.utc)
++    kst = pytz.timezone('Asia/Seoul')
++    kst_now = utc_now.astimezone(kst)
++    current_time = kst_now.strftime('%Y-%m-%dT%H:%M:%S')
++
++    # Mediapipe 처리 전 - 쓰기 비활성
+     image.flags.writeable = False
+-    # BGR 이미지를 RGB로 변환
+     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+ 
+     # 얼굴 검출
+     face_results = face_detection.process(image_rgb)
+-    face_present = False if not face_results.detections else True
++    face_present = face_results.detections is not None
+ 
+     # 얼굴 부정행위 감지
+-    detect_face_absence(face_present, start_times, cheating_flags, cheating_counts)
++    detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages)
+ 
+     # 얼굴 랜드마크 추출
+     face_mesh_results = face_mesh.process(image_rgb)
+-
+     # 손 랜드마크 추출
+     hands_results = hands.process(image_rgb)
+ 
+-    # 이미지 쓰기 권한 재설정
++    # Mediapipe 처리 완료 후 쓰기 활성
+     image.flags.writeable = True
+-    # RGB 이미지를 BGR로 변환
+-    image = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
++    image = image.copy()
++
++    # YOLO 객체 탐지
++    object_results = model(image, device=device)
++    detections = []
++    for result in object_results:
++        boxes = result.boxes
++        for box in boxes:
++            conf = box.conf[0].item()
++            cls = int(box.cls[0].item())
++            name = model.names[cls]
++            if conf >= 0.3 and name in CHEATING_OBJECTS:
++                detections.append({'name': name, 'confidence': conf})
++                x1, y1, x2, y2 = map(int, box.xyxy[0])
++                cv2.rectangle(image, (x1,y1), (x2,y2), (0,0,255), 2)
++                cv2.putText(image, name, (x1,y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0,0,255),2)
++
++    # 부정행위 물체 감지
++    detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image.shape)
++
++    pitch, yaw, roll = 0.0, 0.0, 0.0
++    gaze_point = None
++    eye_center = None
+ 
+     if face_mesh_results.multi_face_landmarks:
+         face_landmarks = face_mesh_results.multi_face_landmarks[0]
+ 
+         # 머리 자세 추정
+         pitch, yaw, roll = calculate_head_pose(face_landmarks, image.shape)
++        detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history, cheating_messages)
++
++        # 시선 추적
++        eye_center = calculate_eye_position(face_landmarks)
++        gaze_point = get_gaze_position(face_landmarks)
+ 
+-        # 머리 부정행위 감지
+-        detect_head_turn(yaw, start_times, cheating_flags, cheating_counts)
++        angle = None
++        distance = None
++        if eye_center is not None:
++            image_center = (image.shape[1] // 2, image.shape[0] // 2)
++            dx = eye_center[0] - image_center[0]
++            dy = eye_center[1] - image_center[1]
+ 
+-        # 눈동자 움직임 추적
+-        eye_angle = calculate_eye_direction(face_landmarks, image.shape)
++            # angle 계산: 정면을 아래 방향(약 90도) 근처로 만들기 위해 dy, -dx 사용
++            # dy>0, dx=0 일 때 angle=90도 근처
++            angle_raw = math.degrees(math.atan2(dy, -dx))
++            angle = angle_raw  # 추가 오프셋 없이 angle_raw 그대로 사용해보고 필요시 오프셋 조정
++            distance = math.sqrt(dx**2 + dy**2)
+ 
+-        # 눈동자 부정행위 감지
+-        detect_eye_movement(eye_angle, start_times, cheating_flags, cheating_counts)
++            # angle 텍스트 표시
++            angle_text = f'Eye angle: {angle:.1f} deg'
++            if FRONT_MIN_ANGLE <= angle <= FRONT_MAX_ANGLE:
++                angle_text += ' (정면)'
++            else:
++                angle_text += ' (정면 아님)'
++            angle_text += f' | dist: {distance:.1f}'
++            image = draw_text_korean(image, angle_text, (ANGLE_TEXT_X, ANGLE_TEXT_Y), font_size=20, font_color=(255, 255, 0))
+ 
+-        # 얼굴 랜드마크 그리기 (디버깅용)
++        # 주변 응시 감지: pitch, yaw, angle, distance 고려
++        # detect_look_around 함수에서 angle, distance를 받아 조건 처리
++        detect_look_around(user_id, pitch, yaw, angle, distance, start_times, cheating_flags[user_id], cheating_counts[user_id], cheating_messages[user_id])
++
++        if gaze_point:
++            grid_row = int(gaze_point[1] / (image.shape[0] / GRID_ROWS))
++            grid_col = int(gaze_point[0] / (image.shape[1] / GRID_COLS))
++            grid_position = (grid_row, grid_col)
++            detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags[user_id], cheating_counts[user_id], cheating_messages[user_id], pitch)
++
+         mp_drawing.draw_landmarks(
+             image, face_landmarks, mp_face_mesh.FACEMESH_CONTOURS,
+             landmark_drawing_spec=None,
+             connection_drawing_spec=mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=1, circle_radius=1)
+         )
+ 
+-        # 머리 자세 정보 표시
+-        text = f'Yaw(좌우): {yaw:.1f}, Pitch(상하): {pitch:.1f}, Roll(기울기): {roll:.1f}'
++        text = f'Yaw: {yaw:.1f}, Pitch: {pitch:.1f}, Roll: {roll:.1f}'
+         image = draw_text_korean(image, text, (30, 30), font_size=20, font_color=(255, 255, 255))
+ 
+-    else:
+-        # 얼굴 랜드마크가 검출되지 않는 경우
+-        start_times['head'] = None
+-        cheating_flags['head'] = False
+-        start_times['eye'] = None
+-        cheating_flags['eye'] = False
+-
+-    # 손동작 감지
++    hand_landmarks_list = []
+     if hands_results.multi_hand_landmarks:
+-        for hand_landmarks, hand_info in zip(hands_results.multi_hand_landmarks, hands_results.multi_handedness):
+-            hand_label = hand_info.classification[0].label  # 'Left' 또는 'Right'
+-
+-            # 부정행위 관련 변수 초기화
+-            if hand_label not in start_times['hand']:
+-                start_times['hand'][hand_label] = None
+-                cheating_flags['hand'][hand_label] = False
+-                cheating_counts['hand'][hand_label] = 0
+-
+-            # 부정행위 제스처 감지
+-            hand_gesture_detected = detect_hand_gesture(hand_landmarks)
+-
+-            # 손동작 부정행위 감지
+-            detect_hand_gesture_wrapper(hand_gesture_detected, hand_label, start_times, cheating_flags, cheating_counts)
+-
+-            # 손 랜드마크 그리기 (디버깅용)
++        for hand_landmarks in hands_results.multi_hand_landmarks:
++            hand_landmarks_list.append(hand_landmarks)
+             mp_drawing.draw_landmarks(
+                 image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
+                 mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=2, circle_radius=2),
+                 mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2)
+             )
+-    else:
+-        start_times['hand'] = {}
+-        cheating_flags['hand'] = {}
++
++    detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts, cheating_messages[user_id])
+ 
+-    # 부정행위 상태 표시
+-    status_text = ''
+-    if cheating_flags['face']:
+-        status_text += '부정행위 감지: 얼굴 미검출\n'
+-    if cheating_flags['head']:
+-        status_text += '부정행위 감지: 고개 돌림\n'
+-    if cheating_flags['eye']:
+-        status_text += '부정행위 감지: 눈동자 돌림\n'
+-    for hand_label, flag in cheating_flags['hand'].items():
+-        if flag:
+-            status_text += f'부정행위 감지: 손동작 (손: {hand_label})\n'
+-    if status_text == '':
+-        status_text = '정상 상태'
++    # 상태 표시 (오른쪽 상단)
++    f = cheating_flags[user_id]
++    status_lines = []
++    if f['face_absence_long']:
++        status_lines.append('부정행위 감지: 장기 화면 이탈')
++    if f['face_absence_repeat']:
++        status_lines.append('부정행위 감지: 반복 화면 이탈')
++    if f['look_around']:
++        status_lines.append('부정행위 감지: 주변 응시')
++    if f['repeated_gaze']:
++        status_lines.append('부정행위 감지: 동일 위치 반복 응시')
++    if f['object']:
++        status_lines.append('부정행위 감지: 부정행위 물체(스마트폰 등)')
++    if f['head_turn_long']:
++        status_lines.append('부정행위 감지: 고개 돌림 유지')
++    if f['head_turn_repeat']:
++        status_lines.append('부정행위 감지: 고개 돌림 반복')
++    # 여기에는 eye_forward나 eye_movement 없음
++    if 'hand_gesture' in f and isinstance(f['hand_gesture'], dict):
++        for hand_label, hg_flag in f['hand_gesture'].items():
++            if hg_flag:
++                status_lines.append(f'부정행위 감지: 특정 손동작 ({hand_label})')
+ 
+-    # 상태 표시
+-    y0, dy = 60, 30
+-    for i, line in enumerate(status_text.strip().split('\n')):
+-        y = y0 + i * dy
+-        image = draw_text_korean(
+-            image,
+-            line,
+-            (30, y),
+-            font_size=20,
+-            font_color=(0, 0, 255) if '부정행위' in line else (0, 255, 0)
+-        )
++    if len(status_lines) == 0:
++        status_lines = ['정상 상태']
++
++    status_y = STATUS_TEXT_Y
++    for line in status_lines:
++        font_color = (0,0,255) if '부정행위' in line else (0,255,0)
++        image = draw_text_korean(image, line, (STATUS_TEXT_X, status_y), font_size=20, font_color=font_color)
++        status_y += STATUS_LINE_HEIGHT
+ 
+-    # 결과 이미지 출력
+-    cv2.imshow('Gaze and Motion Tracking', image)
++    cv2.imshow('Cheating Detection Demo', image)
+ 
+-    if cv2.waitKey(5) & 0xFF == 27:  # ESC 키를 누르면 종료
++    if cv2.waitKey(5) & 0xFF == 27:
+         break
+ 
+ cap.release()
+Index: src/ai/4tune_AI/test_gaze/utils.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import cv2\nimport numpy as np\nfrom PIL import Image, ImageDraw, ImageFont\nimport math\n\ndef draw_text_korean(image, text, position, font_size=30, font_color=(0, 0, 255)):\n    # OpenCV 이미지를 PIL 이미지로 변환\n    image_pil = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))\n    draw = ImageDraw.Draw(image_pil)\n\n    # 폰트 설정 (한글 폰트 경로 지정 필요)\n    font = ImageFont.truetype('/Library/Fonts/AppleGothic.ttf', font_size)  # MacOS의 경우\n    # font = ImageFont.truetype('C:/Windows/Fonts/malgun.ttf', font_size)  # Windows의 경우\n\n    # 텍스트 그리기\n    draw.text(position, text, font=font, fill=font_color)\n\n    # PIL 이미지를 OpenCV 이미지로 변환\n    image = cv2.cvtColor(np.array(image_pil), cv2.COLOR_RGB2BGR)\n    return image\n\ndef calculate_head_pose(landmarks, image_shape):\n    # 3D 모델 포인트 설정\n    model_points = np.array([\n        (0.0, 0.0, 0.0),             # 코 끝: 1번 랜드마크\n        (0.0, -330.0, -65.0),        # 턱 끝: 152번 랜드마크\n        (-225.0, 170.0, -135.0),     # 왼쪽 눈 좌측 끝: 33번 랜드마크\n        (225.0, 170.0, -135.0),      # 오른쪽 눈 우측 끝: 263번 랜드마크\n        (-150.0, -150.0, -125.0),    # 입 좌측 끝: 78번 랜드마크\n        (150.0, -150.0, -125.0)      # 입 우측 끝: 308번 랜드마크\n    ])\n\n    image_points = np.array([\n        (landmarks.landmark[1].x * image_shape[1], landmarks.landmark[1].y * image_shape[0]),    # 코 끝\n        (landmarks.landmark[152].x * image_shape[1], landmarks.landmark[152].y * image_shape[0]),  # 턱 끝\n        (landmarks.landmark[33].x * image_shape[1], landmarks.landmark[33].y * image_shape[0]),   # 왼쪽 눈 좌측 끝\n        (landmarks.landmark[263].x * image_shape[1], landmarks.landmark[263].y * image_shape[0]),  # 오른쪽 눈 우측 끝\n        (landmarks.landmark[78].x * image_shape[1], landmarks.landmark[78].y * image_shape[0]),   # 입 좌측 끝\n        (landmarks.landmark[308].x * image_shape[1], landmarks.landmark[308].y * image_shape[0])  # 입 우측 끝\n    ], dtype='double')\n\n    # 카메라 매트릭스 설정\n    focal_length = image_shape[1]\n    center = (image_shape[1] / 2, image_shape[0] / 2)\n    camera_matrix = np.array(\n        [[focal_length, 0, center[0]],\n         [0, focal_length, center[1]],\n         [0, 0, 1]], dtype='double')\n\n    dist_coeffs = np.zeros((4, 1))  # 왜곡 계수는 0으로 설정\n\n    # SolvePnP를 사용하여 회전 및 변환 벡터 계산\n    success, rotation_vector, translation_vector = cv2.solvePnP(\n        model_points, image_points, camera_matrix, dist_coeffs)\n\n    # 회전 벡터를 오일러 각도로 변환\n    rotation_matrix, _ = cv2.Rodrigues(rotation_vector)\n    pose_matrix = cv2.hconcat((rotation_matrix, translation_vector))\n    _, _, _, _, _, _, euler_angles = cv2.decomposeProjectionMatrix(pose_matrix)\n\n    pitch, yaw, roll = [angle[0] for angle in euler_angles]\n\n    return pitch, yaw, roll\n\ndef calculate_eye_direction(landmarks, image_shape):\n    # 왼쪽 및 오른쪽 눈동자 중심 계산\n    h, w = image_shape[:2]\n\n    left_eye = landmarks.landmark[468]  # 왼쪽 눈동자 중심\n    right_eye = landmarks.landmark[473]  # 오른쪽 눈동자 중심\n\n    left_eye_point = np.array([left_eye.x * w, left_eye.y * h])\n    right_eye_point = np.array([right_eye.x * w, right_eye.y * h])\n\n    # 눈동자 중심의 평균 좌표 계산\n    eyes_center = (left_eye_point + right_eye_point) / 2\n\n    # 코 끝 좌표 추출\n    nose_tip = landmarks.landmark[1]\n    nose_point = np.array([nose_tip.x * w, nose_tip.y * h])\n\n    # 시선 벡터 계산\n    gaze_vector = eyes_center - nose_point\n\n    # 시선 방향 계산 (각도)\n    dx = gaze_vector[0]\n    dy = -gaze_vector[1]  # y축 반전\n\n    angle = math.degrees(math.atan2(dy, dx))\n    if angle < 0:\n        angle += 360\n\n    return angle\n\ndef detect_hand_gesture(hand_landmarks):\n    # 손가락이 펴져 있는지 확인하여 특정 제스처를 인식\n    # 엄지, 검지, 중지, 약지, 소지에 대한 랜드마크 인덱스\n    finger_tips = [4, 8, 12, 16, 20]\n    finger_pip = [3, 7, 11, 15, 19]\n\n    fingers_status = []\n\n    for tip, pip in zip(finger_tips, finger_pip):\n        tip_y = hand_landmarks.landmark[tip].y\n        pip_y = hand_landmarks.landmark[pip].y\n\n        if tip_y < pip_y:\n            fingers_status.append(1)  # 손가락 펴짐\n        else:\n            fingers_status.append(0)  # 손가락 구부러짐\n\n    # 모든 손가락이 펴져 있으면 특정 제스처로 판단\n    if sum(fingers_status) == 5:\n        return True  # 부정행위 제스처 감지\n    else:\n        return False
+===================================================================
+diff --git a/src/ai/4tune_AI/test_gaze/utils.py b/src/ai/4tune_AI/test_gaze/utils.py
+--- a/src/ai/4tune_AI/test_gaze/utils.py	
++++ b/src/ai/4tune_AI/test_gaze/utils.py	
+@@ -1,116 +1,91 @@
++# utils.py
++
+ import cv2
+ import numpy as np
+ from PIL import Image, ImageDraw, ImageFont
+ import math
+ 
+ def draw_text_korean(image, text, position, font_size=30, font_color=(0, 0, 255)):
+-    # OpenCV 이미지를 PIL 이미지로 변환
++    # 폰트 경로를 환경에 맞게 수정해야 함
++    # Windows 예: C:/Windows/Fonts/malgun.ttf
++    # MacOS 예: /Library/Fonts/AppleGothic.ttf
++    font_path = '/Library/Fonts/AppleGothic.ttf'  # 필요시 수정
+     image_pil = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+     draw = ImageDraw.Draw(image_pil)
+-
+-    # 폰트 설정 (한글 폰트 경로 지정 필요)
+-    font = ImageFont.truetype('/Library/Fonts/AppleGothic.ttf', font_size)  # MacOS의 경우
+-    # font = ImageFont.truetype('C:/Windows/Fonts/malgun.ttf', font_size)  # Windows의 경우
+-
+-    # 텍스트 그리기
++    font = ImageFont.truetype(font_path, font_size)
+     draw.text(position, text, font=font, fill=font_color)
+-
+-    # PIL 이미지를 OpenCV 이미지로 변환
+     image = cv2.cvtColor(np.array(image_pil), cv2.COLOR_RGB2BGR)
+     return image
+ 
+ def calculate_head_pose(landmarks, image_shape):
+-    # 3D 모델 포인트 설정
++    # Mediapipe의 face_landmarks를 사용해 머리 자세 추정
++    # 3D 모델 포인트 (미디어파이프 기준)
+     model_points = np.array([
+-        (0.0, 0.0, 0.0),             # 코 끝: 1번 랜드마크
+-        (0.0, -330.0, -65.0),        # 턱 끝: 152번 랜드마크
+-        (-225.0, 170.0, -135.0),     # 왼쪽 눈 좌측 끝: 33번 랜드마크
+-        (225.0, 170.0, -135.0),      # 오른쪽 눈 우측 끝: 263번 랜드마크
+-        (-150.0, -150.0, -125.0),    # 입 좌측 끝: 78번 랜드마크
+-        (150.0, -150.0, -125.0)      # 입 우측 끝: 308번 랜드마크
++        (0.0, 0.0, 0.0),
++        (0.0, -330.0, -65.0),
++        (-225.0, 170.0, -135.0),
++        (225.0, 170.0, -135.0),
++        (-150.0, -150.0, -125.0),
++        (150.0, -150.0, -125.0)
+     ])
+ 
++    # 랜드마크 인덱스: 코끝(1), 턱끝(152), 왼눈왼끝(33), 오른눈오른끝(263), 입왼끝(78), 입오른끝(308)
+     image_points = np.array([
+-        (landmarks.landmark[1].x * image_shape[1], landmarks.landmark[1].y * image_shape[0]),    # 코 끝
+-        (landmarks.landmark[152].x * image_shape[1], landmarks.landmark[152].y * image_shape[0]),  # 턱 끝
+-        (landmarks.landmark[33].x * image_shape[1], landmarks.landmark[33].y * image_shape[0]),   # 왼쪽 눈 좌측 끝
+-        (landmarks.landmark[263].x * image_shape[1], landmarks.landmark[263].y * image_shape[0]),  # 오른쪽 눈 우측 끝
+-        (landmarks.landmark[78].x * image_shape[1], landmarks.landmark[78].y * image_shape[0]),   # 입 좌측 끝
+-        (landmarks.landmark[308].x * image_shape[1], landmarks.landmark[308].y * image_shape[0])  # 입 우측 끝
++        (landmarks.landmark[1].x * image_shape[1], landmarks.landmark[1].y * image_shape[0]),
++        (landmarks.landmark[152].x * image_shape[1], landmarks.landmark[152].y * image_shape[0]),
++        (landmarks.landmark[33].x * image_shape[1], landmarks.landmark[33].y * image_shape[0]),
++        (landmarks.landmark[263].x * image_shape[1], landmarks.landmark[263].y * image_shape[0]),
++        (landmarks.landmark[78].x * image_shape[1], landmarks.landmark[78].y * image_shape[0]),
++        (landmarks.landmark[308].x * image_shape[1], landmarks.landmark[308].y * image_shape[0])
+     ], dtype='double')
+ 
+-    # 카메라 매트릭스 설정
+     focal_length = image_shape[1]
+-    center = (image_shape[1] / 2, image_shape[0] / 2)
+-    camera_matrix = np.array(
+-        [[focal_length, 0, center[0]],
+-         [0, focal_length, center[1]],
+-         [0, 0, 1]], dtype='double')
++    center = (image_shape[1]/2, image_shape[0]/2)
++    camera_matrix = np.array([
++        [focal_length, 0, center[0]],
++        [0, focal_length, center[1]],
++        [0, 0, 1]
++    ], dtype='double')
+ 
+-    dist_coeffs = np.zeros((4, 1))  # 왜곡 계수는 0으로 설정
++    dist_coeffs = np.zeros((4,1))
++    success, rotation_vector, translation_vector = cv2.solvePnP(model_points, image_points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_ITERATIVE)
++    if not success:
++        return 0.0, 0.0, 0.0
+ 
+-    # SolvePnP를 사용하여 회전 및 변환 벡터 계산
+-    success, rotation_vector, translation_vector = cv2.solvePnP(
+-        model_points, image_points, camera_matrix, dist_coeffs)
+-
+-    # 회전 벡터를 오일러 각도로 변환
+     rotation_matrix, _ = cv2.Rodrigues(rotation_vector)
+-    pose_matrix = cv2.hconcat((rotation_matrix, translation_vector))
+-    _, _, _, _, _, _, euler_angles = cv2.decomposeProjectionMatrix(pose_matrix)
++    proj_matrix = np.hstack((rotation_matrix, translation_vector))
++    _, _, _, _, _, _, euler_angles = cv2.decomposeProjectionMatrix(proj_matrix)
+ 
+     pitch, yaw, roll = [angle[0] for angle in euler_angles]
+-
+     return pitch, yaw, roll
+ 
+-def calculate_eye_direction(landmarks, image_shape):
+-    # 왼쪽 및 오른쪽 눈동자 중심 계산
++def get_landmarks(face_landmarks, image_shape):
+     h, w = image_shape[:2]
+-
+-    left_eye = landmarks.landmark[468]  # 왼쪽 눈동자 중심
+-    right_eye = landmarks.landmark[473]  # 오른쪽 눈동자 중심
+-
+-    left_eye_point = np.array([left_eye.x * w, left_eye.y * h])
+-    right_eye_point = np.array([right_eye.x * w, right_eye.y * h])
+-
+-    # 눈동자 중심의 평균 좌표 계산
+-    eyes_center = (left_eye_point + right_eye_point) / 2
+-
+-    # 코 끝 좌표 추출
+-    nose_tip = landmarks.landmark[1]
+-    nose_point = np.array([nose_tip.x * w, nose_tip.y * h])
+-
+-    # 시선 벡터 계산
+-    gaze_vector = eyes_center - nose_point
+-
+-    # 시선 방향 계산 (각도)
+-    dx = gaze_vector[0]
+-    dy = -gaze_vector[1]  # y축 반전
+-
+-    angle = math.degrees(math.atan2(dy, dx))
+-    if angle < 0:
+-        angle += 360
++    landmarks = {}
++    for idx, lm in enumerate(face_landmarks.landmark):
++        x, y = int(lm.x * w), int(lm.y * h)
++        landmarks[idx] = (x, y)
++    return landmarks
+ 
+-    return angle
++def get_gaze_position(landmarks):
++    # 시선 위치 추정: 왼눈(468), 오른눈(473) 기준 중점
++    # 단순히 두 눈동자 중심 중점 계산
++    left_eye = landmarks.landmark[468]
++    right_eye = landmarks.landmark[473]
++    cx = (left_eye.x + right_eye.x)/2
++    cy = (left_eye.y + right_eye.y)/2
++    return (cx * 10000, cy * 10000)  # 대략적 위치, 이후 GRID 분할에 사용
+ 
+-def detect_hand_gesture(hand_landmarks):
+-    # 손가락이 펴져 있는지 확인하여 특정 제스처를 인식
+-    # 엄지, 검지, 중지, 약지, 소지에 대한 랜드마크 인덱스
+-    finger_tips = [4, 8, 12, 16, 20]
+-    finger_pip = [3, 7, 11, 15, 19]
++def calculate_eye_position(face_landmarks):
++    # 왼/오른 눈 특정 랜드마크를 평균 내어 눈 중심 계산
++    left_eye_indices = [33, 133]
++    right_eye_indices = [362, 263]
+ 
+-    fingers_status = []
++    def landmark_to_np(idx):
++        return np.array([face_landmarks.landmark[idx].x, face_landmarks.landmark[idx].y])
+ 
+-    for tip, pip in zip(finger_tips, finger_pip):
+-        tip_y = hand_landmarks.landmark[tip].y
+-        pip_y = hand_landmarks.landmark[pip].y
++    left_eye = np.mean([landmark_to_np(i) for i in left_eye_indices], axis=0)
++    right_eye = np.mean([landmark_to_np(i) for i in right_eye_indices], axis=0)
+ 
+-        if tip_y < pip_y:
+-            fingers_status.append(1)  # 손가락 펴짐
+-        else:
+-            fingers_status.append(0)  # 손가락 구부러짐
+-
+-    # 모든 손가락이 펴져 있으면 특정 제스처로 판단
+-    if sum(fingers_status) == 5:
+-        return True  # 부정행위 제스처 감지
+-    else:
+-        return False
+\ No newline at end of file
++    eye_center = ( (left_eye[0]+right_eye[0])/2, (left_eye[1]+right_eye[1])/2 )
++    return (eye_center[0]*10000, eye_center[1]*10000)  # 이미지 크기 기준 재계산 필요할 경우 수정 가능
+\ No newline at end of file
+Index: src/ai/4tune_AI/test_gaze/detectors.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import time\nfrom constants import CHEATING_THRESHOLD, HEAD_TURN_THRESHOLD, EYE_TURN_THRESHOLD\n\ndef detect_face_absence(face_present, start_times, cheating_flags, cheating_counts):\n    if not face_present:\n        if start_times['face'] is None:\n            start_times['face'] = time.time()\n        else:\n            elapsed_time = time.time() - start_times['face']\n            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['face']:\n                cheating_flags['face'] = True\n                cheating_counts['face'] += 1\n                current_time = time.strftime(\"%Y-%m-%d %H:%M:%S\")\n                print(f'부정행위 감지! 유형: 얼굴 미검출, 시간: {current_time}, 횟수: {cheating_counts[\"face\"]}')\n    else:\n        start_times['face'] = None\n        cheating_flags['face'] = False\n\ndef detect_head_turn(yaw, start_times, cheating_flags, cheating_counts):\n    if abs(yaw) > HEAD_TURN_THRESHOLD:\n        if start_times['head'] is None:\n            start_times['head'] = time.time()\n        else:\n            elapsed_time = time.time() - start_times['head']\n            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['head']:\n                cheating_flags['head'] = True\n                cheating_counts['head'] += 1\n                current_time = time.strftime(\"%Y-%m-%d %H:%M:%S\")\n                print(f'부정행위 감지! 유형: 고개 돌림, 시간: {current_time}, 횟수: {cheating_counts[\"head\"]}')\n    else:\n        start_times['head'] = None\n        cheating_flags['head'] = False\n\ndef detect_eye_movement(eye_angle, start_times, cheating_flags, cheating_counts):\n    if eye_angle < (90 - EYE_TURN_THRESHOLD) or eye_angle > (90 + EYE_TURN_THRESHOLD):\n        if start_times['eye'] is None:\n            start_times['eye'] = time.time()\n        else:\n            elapsed_time = time.time() - start_times['eye']\n            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['eye']:\n                cheating_flags['eye'] = True\n                cheating_counts['eye'] += 1\n                current_time = time.strftime(\"%Y-%m-%d %H:%M:%S\")\n                print(f'부정행위 감지! 유형: 눈동자 돌림, 시간: {current_time}, 횟수: {cheating_counts[\"eye\"]}')\n    else:\n        start_times['eye'] = None\n        cheating_flags['eye'] = False\n\ndef detect_hand_gesture_wrapper(hand_gesture_detected, hand_label, start_times, cheating_flags, cheating_counts):\n    if hand_gesture_detected:\n        if start_times['hand'].get(hand_label) is None:\n            start_times['hand'][hand_label] = time.time()\n        else:\n            elapsed_time = time.time() - start_times['hand'][hand_label]\n            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['hand'].get(hand_label, False):\n                cheating_flags['hand'][hand_label] = True\n                cheating_counts['hand'][hand_label] = cheating_counts['hand'].get(hand_label, 0) + 1\n                current_time = time.strftime(\"%Y-%m-%d %H:%M:%S\")\n                print(f'부정행위 감지! 유형: 손동작, 손: {hand_label}, 시간: {current_time}, 횟수: {cheating_counts[\"hand\"][hand_label]}')\n    else:\n        start_times['hand'][hand_label] = None\n        cheating_flags['hand'][hand_label] = False
+===================================================================
+diff --git a/src/ai/4tune_AI/test_gaze/detectors.py b/src/ai/4tune_AI/test_gaze/detectors.py
+--- a/src/ai/4tune_AI/test_gaze/detectors.py	
++++ b/src/ai/4tune_AI/test_gaze/detectors.py	
+@@ -1,62 +1,269 @@
++# detectors.py
++
+ import time
+-from constants import CHEATING_THRESHOLD, HEAD_TURN_THRESHOLD, EYE_TURN_THRESHOLD
++import math
++from constants import *
+ 
+-def detect_face_absence(face_present, start_times, cheating_flags, cheating_counts):
++def detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape):
++    current_time = time.time()
++    cheating_objects_detected = [d for d in detections if d['name'] in CHEATING_OBJECTS]
++    if cheating_objects_detected:
++        if not cheating_flags[user_id]['object']:
++            cheating_flags[user_id]['object'] = True
++            cheating_counts[user_id]['object'] += 1
++            message = {'type': '부정행위 물체 감지', 'time': current_time, 'objects': [d['name'] for d in cheating_objects_detected]}
++            cheating_messages[user_id].append(message)
++    else:
++        if cheating_flags[user_id]['object']:
++            cheating_flags[user_id]['object'] = False
++
++def detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages):
++    current_time = time.time()
+     if not face_present:
+-        if start_times['face'] is None:
+-            start_times['face'] = time.time()
++        if start_times[user_id]['face_absence'] is None:
++            start_times[user_id]['face_absence'] = current_time
+         else:
+-            elapsed_time = time.time() - start_times['face']
+-            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['face']:
+-                cheating_flags['face'] = True
+-                cheating_counts['face'] += 1
+-                current_time = time.strftime("%Y-%m-%d %H:%M:%S")
+-                print(f'부정행위 감지! 유형: 얼굴 미검출, 시간: {current_time}, 횟수: {cheating_counts["face"]}')
++            elapsed_time = current_time - start_times[user_id]['face_absence']
++            if elapsed_time >= FACE_ABSENCE_THRESHOLD and not cheating_flags[user_id]['face_absence_long']:
++                cheating_flags[user_id]['face_absence_long'] = True
++                cheating_counts[user_id]['face_absence_long'] += 1
++                message = {'type': '장기 화면 이탈', 'time': current_time}
++                cheating_messages[user_id].append(message)
++            elif elapsed_time >= FACE_ABSENCE_DURATION:
++                face_absence_history[user_id].append(current_time)
++                face_absence_history[user_id] = [t for t in face_absence_history[user_id] if current_time - t <= FACE_ABSENCE_WINDOW]
++                if len(face_absence_history[user_id]) >= FACE_ABSENCE_COUNT_THRESHOLD and not cheating_flags[user_id]['face_absence_repeat']:
++                    cheating_flags[user_id]['face_absence_repeat'] = True
++                    cheating_counts[user_id]['face_absence_repeat'] += 1
++                    message = {'type': '반복 화면 이탈', 'time': current_time}
++                    cheating_messages[user_id].append(message)
+     else:
+-        start_times['face'] = None
+-        cheating_flags['face'] = False
++        cheating_flags[user_id]['face_absence_long'] = False
++        cheating_flags[user_id]['face_absence_repeat'] = False
++        start_times[user_id]['face_absence'] = None
++
++def detect_look_around(user_id, pitch, yaw, angle, distance, start_times, cheating_flags, cheating_counts, cheating_messages):
++    current_time = time.time()
+ 
+-def detect_head_turn(yaw, start_times, cheating_flags, cheating_counts):
++    # cheating_flags, cheating_counts는 이미 user_id에 해당하는 dict
++    # 따라서 바로 cheating_flags['look_around']로 접근 가능
++    condition = False
++
++    # 머리 각도 기반 주변 응시 조건
++    if pitch > PITCH_DOWN_THRESHOLD and abs(yaw) > YAW_FORWARD_THRESHOLD:
++        condition = True
++
++    # 정면 범위 이탈 (70~110도 밖)
++    if angle is not None:
++        if angle < 70 or angle > 110:
++            condition = True
++
++    # 눈동자 움직임 distance 조건
++    if distance is not None:
++        if distance > EYE_MOVEMENT_THRESHOLD:
++            condition = True
++
++    if condition:
++        if start_times[user_id]['look_around'] is None:
++            start_times[user_id]['look_around'] = current_time
++        else:
++            elapsed = current_time - start_times[user_id]['look_around']
++            if elapsed >= LOOK_AROUND_THRESHOLD and not cheating_flags['look_around']:
++                # 여기서 cheating_flags['look_around'] 사용
++                cheating_flags['look_around'] = True
++                cheating_counts['look_around'] += 1
++                message = {'type': '주변 응시', 'time': current_time}
++                cheating_messages.append(message)
++    else:
++        cheating_flags['look_around'] = False
++        start_times[user_id]['look_around'] = None
++
++def detect_repeated_gaze(user_id, grid_position, gaze_history, start_times, cheating_flags, cheating_counts, cheating_messages, pitch):
++    current_time = time.time()
++    if pitch > PITCH_DOWN_THRESHOLD:
++        gaze_history[user_id].append((grid_position, current_time))
++        gaze_history[user_id] = [(pos, t) for pos, t in gaze_history[user_id] if current_time - t <= REPEATED_GAZE_WINDOW]
++
++        position_times = {}
++        for pos, t in gaze_history[user_id]:
++            if pos not in position_times:
++                position_times[pos] = [t]
++            else:
++                position_times[pos].append(t)
++
++        repeated_gaze_count = 0
++        for pos, times in position_times.items():
++            times.sort()
++            for i in range(len(times)-1):
++                if times[i+1] - times[i] <= REPEATED_GAZE_DURATION:
++                    repeated_gaze_count += 1
++                    break
++
++        if repeated_gaze_count >= REPEATED_GAZE_COUNT and not cheating_flags['repeated_gaze']:
++            cheating_flags['repeated_gaze'] = True
++            cheating_counts['repeated_gaze'] += 1
++            message = {'type': '동일 위치 반복 응시', 'time': current_time}
++            cheating_messages.append(message)
++    else:
++        cheating_flags['repeated_gaze'] = False
++        start_times[user_id]['repeated_gaze'] = None
++
++def recognize_hand_gesture(hand_landmarks):
++    finger_tips = [4, 8, 12, 16, 20]
++    finger_pips = [2, 6, 10, 14, 18]
++
++    finger_states = []
++    for tip, pip in zip(finger_tips, finger_pips):
++        tip_y = hand_landmarks.landmark[tip].y
++        pip_y = hand_landmarks.landmark[pip].y
++        # 손바닥 위쪽 기준: tip_y < pip_y면 손가락이 펴진 상태로 가정
++        if tip_y < pip_y:
++            finger_states.append(1)
++        else:
++            finger_states.append(0)
++
++    # 모든 손가락 펴짐 -> palm
++    if sum(finger_states) == 5:
++        return 'palm'
++    # 모든 손가락 접힘 -> fist
++    if sum(finger_states) == 0:
++        return 'fist'
++    # 그 외 -> other
++    return 'other'
++
++def detect_hand_gestures(user_id, hand_landmarks_list, start_times, cheating_flags, cheating_counts, cheating_messages):
++    current_time = time.time()
++
++    # hand_gesture 관련 딕셔너리 초기화 보장
++    if 'hand_gesture' not in start_times[user_id]:
++        start_times[user_id]['hand_gesture'] = {}
++    if 'hand_gesture' not in cheating_flags[user_id]:
++        cheating_flags[user_id]['hand_gesture'] = {}
++    if 'hand_gesture' not in cheating_counts[user_id]:
++        cheating_counts[user_id]['hand_gesture'] = {}
++
++    # 손이 없는 경우 초기화
++    if not hand_landmarks_list:
++        start_times[user_id]['hand_gesture'].clear()
++        cheating_flags[user_id]['hand_gesture'].clear()
++        # hand_gesture count는 누적 횟수이므로 초기화하지 않아도 됨(필요하다면 clear)
++        return
++
++    for idx, hand_landmarks in enumerate(hand_landmarks_list):
++        hand_label = f'Hand{idx}'
++        gesture = recognize_hand_gesture(hand_landmarks)
++
++        # fist나 palm은 제외 대상 -> 이 경우 부정행위 상태 해제
++        if gesture in HAND_GESTURE_EXCLUDE:
++            # 주먹 또는 손펴기 상태이면 타이머 초기화 및 플래그 해제
++            start_times[user_id]['hand_gesture'][hand_label] = None
++            cheating_flags[user_id]['hand_gesture'][hand_label] = False
++        else:
++            # gesture == 'other' (부정행위 제스처)일 때
++            # hand_label 키 초기화 (없으면 0)
++            if hand_label not in cheating_counts[user_id]['hand_gesture']:
++                cheating_counts[user_id]['hand_gesture'][hand_label] = 0
++            if hand_label not in start_times[user_id]['hand_gesture']:
++                start_times[user_id]['hand_gesture'][hand_label] = current_time
++                cheating_flags[user_id]['hand_gesture'][hand_label] = False
++            else:
++                # 이미 기록된 시간이 있으면 경과 시간 계산
++                start_time = start_times[user_id]['hand_gesture'][hand_label]
++                # start_time이 None일 수 있으니 체크
++                if start_time is None:
++                    start_times[user_id]['hand_gesture'][hand_label] = current_time
++                    cheating_flags[user_id]['hand_gesture'][hand_label] = False
++                else:
++                    elapsed = current_time - start_time
++                    if elapsed >= 3 and not cheating_flags[user_id]['hand_gesture'][hand_label]:
++                        cheating_flags[user_id]['hand_gesture'][hand_label] = True
++                        cheating_counts[user_id]['hand_gesture'][hand_label] += 1
++                        message = {
++                            'type': '특정 손동작 반복',
++                            'time': current_time,
++                            'hand': hand_label
++                        }
++                        cheating_messages.append(message)
++def detect_head_turn(user_id, pitch, yaw, start_times, cheating_flags, cheating_counts, head_turn_history, cheating_messages):
++    current_time = time.time()
+     if abs(yaw) > HEAD_TURN_THRESHOLD:
+-        if start_times['head'] is None:
+-            start_times['head'] = time.time()
++        if start_times[user_id]['head_turn'] is None:
++            start_times[user_id]['head_turn'] = current_time
+         else:
+-            elapsed_time = time.time() - start_times['head']
+-            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['head']:
+-                cheating_flags['head'] = True
+-                cheating_counts['head'] += 1
+-                current_time = time.strftime("%Y-%m-%d %H:%M:%S")
+-                print(f'부정행위 감지! 유형: 고개 돌림, 시간: {current_time}, 횟수: {cheating_counts["head"]}')
++            elapsed_time = current_time - start_times[user_id]['head_turn']
++            if elapsed_time >= HEAD_TURN_DURATION and not cheating_flags[user_id]['head_turn_long']:
++                cheating_flags[user_id]['head_turn_long'] = True
++                cheating_counts[user_id]['head_turn_long'] += 1
++                message = {'type': '고개 돌림 유지', 'time': current_time}
++                cheating_messages[user_id].append(message)
++            elif elapsed_time >= HEAD_TURN_REPEAT_DURATION:
++                head_turn_history[user_id].append(current_time)
++                head_turn_history[user_id] = [t for t in head_turn_history[user_id] if current_time - t <= HEAD_TURN_WINDOW]
++                if len(head_turn_history[user_id]) >= HEAD_TURN_COUNT_THRESHOLD and not cheating_flags[user_id]['head_turn_repeat']:
++                    cheating_flags[user_id]['head_turn_repeat'] = True
++                    cheating_counts[user_id]['head_turn_repeat'] += 1
++                    message = {'type': '고개 돌림 반복', 'time': current_time}
++                    cheating_messages[user_id].append(message)
+     else:
+-        start_times['head'] = None
+-        cheating_flags['head'] = False
++        cheating_flags[user_id]['head_turn_long'] = False
++        cheating_flags[user_id]['head_turn_repeat'] = False
++        start_times[user_id]['head_turn'] = None
++
++def detect_eye_movement(user_id, eye_center, image_shape, start_times, cheating_flags, cheating_counts, cheating_messages):
++    # 눈동자 중심과 이미지 중심 비교
++    if eye_center is None:
++        # 눈동자 없음
++        cheating_flags[user_id]['eye_movement'] = False
++        start_times[user_id]['eye_movement'] = None
++        return
+ 
+-def detect_eye_movement(eye_angle, start_times, cheating_flags, cheating_counts):
+-    if eye_angle < (90 - EYE_TURN_THRESHOLD) or eye_angle > (90 + EYE_TURN_THRESHOLD):
+-        if start_times['eye'] is None:
+-            start_times['eye'] = time.time()
++    current_time = time.time()
++    image_center = (image_shape[1] // 2, image_shape[0] // 2)
++    dx = eye_center[0] - image_center[0]
++    dy = eye_center[1] - image_center[1]
++    distance = math.sqrt(dx**2 + dy**2)
++
++    if distance > EYE_MOVEMENT_THRESHOLD:
++        if start_times[user_id]['eye_movement'] is None:
++            start_times[user_id]['eye_movement'] = current_time
+         else:
+-            elapsed_time = time.time() - start_times['eye']
+-            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['eye']:
+-                cheating_flags['eye'] = True
+-                cheating_counts['eye'] += 1
+-                current_time = time.strftime("%Y-%m-%d %H:%M:%S")
+-                print(f'부정행위 감지! 유형: 눈동자 돌림, 시간: {current_time}, 횟수: {cheating_counts["eye"]}')
++            elapsed = current_time - start_times[user_id]['eye_movement']
++            if elapsed >= EYE_MOVEMENT_DURATION and not cheating_flags[user_id]['eye_movement']:
++                cheating_flags[user_id]['eye_movement'] = True
++                cheating_counts[user_id]['eye_movement'] += 1
++                message = {'type': '눈동자 움직임', 'time': current_time}
++                cheating_messages[user_id].append(message)
+     else:
+-        start_times['eye'] = None
+-        cheating_flags['eye'] = False
++        cheating_flags[user_id]['eye_movement'] = False
++        start_times[user_id]['eye_movement'] = None
++def detect_eye_forward(user_id, angle, start_times, cheating_flags, cheating_counts, cheating_messages):
++    """
++    눈동자가 정면(±20도 범위) 이내에 있는지 확인하고,
++    벗어난 상태가 2초 이상 지속되면 부정행위로 판단하는 함수
++    정면 범위: angle in [70, 110] (90도가 정면이라고 가정)
++    """
++    current_time = time.time()
++    if 'eye_forward' not in cheating_flags[user_id]:
++        cheating_flags[user_id]['eye_forward'] = False
++    if 'eye_forward' not in cheating_counts[user_id]:
++        cheating_counts[user_id]['eye_forward'] = 0
+ 
+-def detect_hand_gesture_wrapper(hand_gesture_detected, hand_label, start_times, cheating_flags, cheating_counts):
+-    if hand_gesture_detected:
+-        if start_times['hand'].get(hand_label) is None:
+-            start_times['hand'][hand_label] = time.time()
+-        else:
+-            elapsed_time = time.time() - start_times['hand'][hand_label]
+-            if elapsed_time >= CHEATING_THRESHOLD and not cheating_flags['hand'].get(hand_label, False):
+-                cheating_flags['hand'][hand_label] = True
+-                cheating_counts['hand'][hand_label] = cheating_counts['hand'].get(hand_label, 0) + 1
+-                current_time = time.strftime("%Y-%m-%d %H:%M:%S")
+-                print(f'부정행위 감지! 유형: 손동작, 손: {hand_label}, 시간: {current_time}, 횟수: {cheating_counts["hand"][hand_label]}')
+-    else:
+-        start_times['hand'][hand_label] = None
+-        cheating_flags['hand'][hand_label] = False
+\ No newline at end of file
++    # 정면 범위 체크
++    if 70 <= angle <= 110:
++        # 정면을 보고 있는 경우
++        cheating_flags[user_id]['eye_forward'] = False
++        start_times[user_id]['eye_forward'] = None
++    else:
++        # 정면을 벗어난 경우
++        if start_times[user_id]['eye_forward'] is None:
++            start_times[user_id]['eye_forward'] = current_time
++        else:
++            elapsed = current_time - start_times[user_id]['eye_forward']
++            if elapsed >= 2 and not cheating_flags[user_id]['eye_forward']:
++                cheating_flags[user_id]['eye_forward'] = True
++                cheating_counts[user_id]['eye_forward'] += 1
++                message = {
++                    'type': '눈 정면 비주시(2초 이상)',
++                    'time': current_time
++                }
++                cheating_messages[user_id].append(message)
+\ No newline at end of file

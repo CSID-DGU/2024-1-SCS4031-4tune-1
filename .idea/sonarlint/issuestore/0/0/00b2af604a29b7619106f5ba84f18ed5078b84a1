@@ -1,10 +1,15 @@
 
-‘python:S2208"GImport only needed names or import the module and then use its members.(ŸĞ¯öúÿÿÿÿ8â°µ¸2J$0ea623c6-531d-4787-8a2c-64b96c781f22
-Œpython:S2208"GImport only needed names or import the module and then use its members.(íä‚Ó8â°µ¸2J$47d5b064-c554-4015-b3b5-a62b4f80c467
-Œpython:S2208"GImport only needed names or import the module and then use its members.(³Âá…8â°µ¸2J$a4f4f60e-2df9-4653-a6f6-a558285e25e6
-ppython:S1481Á"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8â°µ¸2J$5108bfc9-74c9-4db8-bf18-ab69370a0138
-ppython:S1481Ì"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8â°µ¸2J$3ec0393f-97c3-44ee-8a67-cbcd4e24cf3b
-‚python:S1172Ğ"7Remove the unused function parameter "frame_timestamp".(„ Úéúÿÿÿÿ8â°µ¸2J$117167ce-1d3c-4af3-9d99-d737c112ecde
-ppython:S1481Ú"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8ã°µ¸2J$70ca1ccb-e158-4d83-b5c7-a31aff53e682
-xpython:S1172¢"2Remove the unused function parameter "eye_center".(Ç²Çà8ã°µ¸2J$0d9825e2-2521-453e-91ac-a362547b8aa5
-ppython:S1481æ"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8¨¦¹†¹2J$341b3716-398f-4d87-9c03-9bfaadab958f
+kpython:S2208"GImport only needed names or import the module and then use its members.(ŸĞ¯öúÿÿÿÿ8­î½Öº2
+fpython:S2208"GImport only needed names or import the module and then use its members.(íä‚Ó8®î½Öº2
+fpython:S2208"GImport only needed names or import the module and then use its members.(³Âá…8®î½Öº2
+ppython:S1481º"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8¨¦¹†¹2J$9db2ef26-b366-4bf3-8262-1494b42071d7
+Jpython:S1481Å"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8¯î½Öº2
+\python:S1172É"7Remove the unused function parameter "frame_timestamp".(„ Úéúÿÿÿÿ8°î½Öº2
+Jpython:S1481Ò"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8±î½Öº2
+{python:S930‘"WRemove 2 unexpected arguments; 'detect_object_presence' expects 6 positional arguments.(±¤³íûÿÿÿÿ8¹î½Öº2
+xpython:S930“"TRemove 2 unexpected arguments; 'detect_face_absence' expects 7 positional arguments.(ù˜œäøÿÿÿÿ8ºî½Öº2
+rpython:S930£"SRemove 4 unexpected arguments; 'detect_look_around' expects 7 positional arguments.(ãíÉª8ºî½Öº2
+opython:S930¥"QRemove 2 unexpected arguments; 'detect_head_turn' expects 8 positional arguments.(ØÕç=8ºî½Öº2
+ypython:S930ª"URemove 2 unexpected arguments; 'detect_repeated_gaze' expects 8 positional arguments.(Ç›Çåøÿÿÿÿ8½î½Öº2
+ypython:S930¬"URemove 2 unexpected arguments; 'detect_hand_gestures' expects 6 positional arguments.(™àÄÿÿÿÿÿ8Àî½Öº2
+Jpython:S1481Ñ"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8Âî½Öº2

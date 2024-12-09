@@ -1,0 +1,6 @@
+
+Špython:S2208	"GImport only needed names or import the module and then use its members.(ŸĞ¯öúÿÿÿÿJ$4ca57a8a-b75a-4b3a-91ad-eb8a1ee84cc9
+opython:S1481w"2Replace the unused local variable "roll" with "_".(³©›J$6450d747-60d6-4e6a-9ec9-35e72b4d006b
+˜python:S930p"TRemove 2 unexpected arguments; 'detect_face_absence' expects 4 positional arguments.(‚ÛÕå8£Å©ô±2J$d155ade0-d574-4578-8681-5bdad1155a54
+špython:S930}"QRemove 3 unexpected arguments; 'detect_head_turn' expects 4 positional arguments.(îììãüÿÿÿÿ8¨Å©ô±2J$06dea355-2a6e-4c4b-af90-319886c8a982
+python:S930"TRemove 2 unexpected arguments; 'detect_eye_movement' expects 4 positional arguments.(¦É½áıÿÿÿÿ8¬Å©ô±2J$69f9f264-e1e2-4c4f-9e0f-08b3bcaf9f02

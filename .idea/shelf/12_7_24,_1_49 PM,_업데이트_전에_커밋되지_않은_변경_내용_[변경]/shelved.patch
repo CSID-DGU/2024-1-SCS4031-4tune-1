@@ -1,0 +1,126 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"9fb130f4-ff3a-4d08-b9af-31d0460f5b1f\" name=\"변경\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/2024-2-SCS4031-4tune-1.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 4\n}</component>\n  <component name=\"ProjectId\" id=\"2o641f8TQ1Srqz0IeYtTkBZ8Eba\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"git-widget-placeholder\": \"ai/feature/initial-setup\",\n    \"last_opened_file_path\": \"/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/ai/4tune_AI\" />\n      <recent name=\"$PROJECT_DIR$/src/ai\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"애플리케이션 수준\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"디폴트 작업\">\n      <changelist id=\"9fb130f4-ff3a-4d08-b9af-31d0460f5b1f\" name=\"변경\" comment=\"\" />\n      <created>1730176478192</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1730176478192</updated>\n      <workItem from=\"1730176479713\" duration=\"1676000\" />\n      <workItem from=\"1730375878008\" duration=\"124000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,16 +5,23 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="9fb130f4-ff3a-4d08-b9af-31d0460f5b1f" name="변경" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/2024-2-SCS4031-4tune-1.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/constants.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/custom_utils.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/detectors.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/main.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2/yolov5s.pt" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -24,7 +31,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="main" />
++        <entry key="$PROJECT_DIR$" value="ai/detect" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -46,16 +53,18 @@
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "WebServerToolWindowFactoryState": "false",
+     "git-widget-placeholder": "ai/feature/initial-setup",
+-    "last_opened_file_path": "/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI",
++    "last_opened_file_path": "/Users/chun/Desktop/2024-2-SCS4031-4tune-1/src/ai/4tune_AI/gaze_ver2",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
++    "ts.external.directory.path": "/Applications/PyCharm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
+       <recent name="$PROJECT_DIR$/src/ai/4tune_AI" />
+       <recent name="$PROJECT_DIR$/src/ai" />
+     </key>
+@@ -69,11 +78,22 @@
+       <option name="presentableId" value="Default" />
+       <updated>1730176478192</updated>
+       <workItem from="1730176479713" duration="1676000" />
+-      <workItem from="1730375878008" duration="124000" />
++      <workItem from="1730375878008" duration="899000" />
++      <workItem from="1730629095871" duration="599000" />
++      <workItem from="1730702578423" duration="599000" />
++      <workItem from="1730706956076" duration="599000" />
++      <workItem from="1730720619064" duration="1626000" />
++      <workItem from="1731154427257" duration="600000" />
++      <workItem from="1731384196719" duration="1206000" />
++      <workItem from="1731564970150" duration="258000" />
+     </task>
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
+   </component>
++  <component name="com.intellij.coverage.CoverageDataManagerImpl">
++    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$main.coverage" NAME="main 커버리지 결과" MODIFIED="1731994680825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/gaze_ver2" />
++    <SUITE FILE_PATH="coverage/2024_2_SCS4031_4tune_1$te.coverage" NAME="te 커버리지 결과" MODIFIED="1732438646027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ai/4tune_AI/test_gaze" />
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"Black\">\n    <option name=\"sdkName\" value=\"Python 3.7 (Optimal_Classification_Trees)\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.7 (Optimal_Classification_Trees)\" project-jdk-type=\"Python SDK\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.7 (Optimal_Classification_Trees)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7 (Optimal_Classification_Trees)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+diff --git a/.idea/sonarlint/issuestore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087 b/.idea/sonarlint/issuestore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+new file mode 100644
+diff --git a/.idea/sonarlint/securityhotspotstore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087 b/.idea/sonarlint/securityhotspotstore/b/f/bf708a643db2ad11ba0f446c8def2b82584dd087
+new file mode 100644
+diff --git a/.idea/sonarlint/securityhotspotstore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82 b/.idea/sonarlint/securityhotspotstore/a/7/a70493e17a32b9711265c1284ac59eb6e5671d82
+new file mode 100644
+diff --git a/.idea/sonarlint/securityhotspotstore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5 b/.idea/sonarlint/securityhotspotstore/6/c/6cab8a4365ae784aa4f202efee07f97f341353c5
+new file mode 100644
+diff --git a/.idea/sonarlint/securityhotspotstore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080 b/.idea/sonarlint/securityhotspotstore/9/1/910cd19debf0f1bc66164aaa9e87c0ebd1344080
+new file mode 100644

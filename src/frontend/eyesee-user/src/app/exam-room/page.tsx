@@ -105,8 +105,12 @@ const RealTimeVideoPage = () => {
         console.error("부정행위 시작 시간이 없습니다.");
         return;
       }
+      // const endTime = new Date().toISOString();
+      const now = new Date();
+      const offset = 9 * 60 * 60 * 1000; // 한국 시간은 UTC+9
+      const kstTime = new Date(now.getTime() + offset);
+      const endTime = kstTime.toISOString().replace("Z", "+09:00");
 
-      const endTime = new Date().toISOString();
       const result = await videoPost(
         Number(userId),
         cheatingStartTimeRef.current,
@@ -157,14 +161,14 @@ const RealTimeVideoPage = () => {
         uploadVideo(file);
 
         // 로컬 다운로드 (테스트용)
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `cheating_${new Date().toISOString()}.mov`;
-        a.click();
+        // const url = URL.createObjectURL(blob);
+        // const a = document.createElement("a");
+        // a.href = url;
+        // a.download = `cheating_${new Date().toISOString()}.mov`;
+        // a.click();
 
-        console.log(`비디오 크기: ${blob.size / 1024} KB`);
-        console.log("부정행위 비디오 저장 완료");
+        // console.log(`비디오 크기: ${blob.size / 1024} KB`);
+        // console.log("부정행위 비디오 저장 완료");
       }
     };
 

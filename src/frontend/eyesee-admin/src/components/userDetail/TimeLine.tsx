@@ -19,7 +19,7 @@ const TimeLine = ({ timeLineData, setVideoNum }: TimeLineProps) => {
   return (
     <div className="py-8 px-2.5 w-[342px] h-screen overflow-scroll bg-white">
       <div className="text-[#0E1D3C] text-[20px] font-bold mb-12">
-        <span onClick={handleClick} className="pl-3 pr-5">
+        <span onClick={handleClick} className="pl-3 pr-5 cursor-pointer">
           〈
         </span>
         {timeLineData.userName}님 Time Line
@@ -27,7 +27,7 @@ const TimeLine = ({ timeLineData, setVideoNum }: TimeLineProps) => {
       <div className="flex flex-col gap-16 border-l-2 border-l-[#0E1D3C] min-h-[80vh] ml-12">
         {timeLineData.cheatingStatistics.map((cheating, index) => (
           <div
-            key={cheating.cheatingStatisticsId}
+            key={index}
             onClick={() => setVideoNum(index)}
             className="relative flex items-center gap-10 cursor-pointer"
             style={{ left: -9 }}

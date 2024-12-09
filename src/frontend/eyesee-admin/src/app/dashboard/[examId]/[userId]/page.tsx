@@ -25,7 +25,9 @@ const UserDetailPage = () => {
     <>
       {userDetailData ? (
         <div className="flex w-screen h-screen bg-[#0E1D3C]">
-          <TimeLine timeLineData={userDetailData} setVideoNum={setVideoNum} />
+          <div className="w-[30vw]">
+            <TimeLine timeLineData={userDetailData} setVideoNum={setVideoNum} />
+          </div>
           <div className="grow text-white p-10">
             <TestInfo
               examName={userDetailData.examName}
@@ -46,12 +48,12 @@ const UserDetailPage = () => {
                     : 0
                 }
               />
-              <div className="flex gap-5 py-5">
+              <div className="w-[70vw] flex gap-5 py-5 overflow-x-auto">
                 {userDetailData.cheatingVideos.map((video, index) => (
                   <div
                     key={index}
                     onClick={() => setVideoNum(index)}
-                    className="h-28 max-w-48 rounded-sm overflow-hidden"
+                    className="h-28 w-48 rounded-sm overflow-hidden shrink-0"
                   >
                     <video src={video.filepath} />
                   </div>

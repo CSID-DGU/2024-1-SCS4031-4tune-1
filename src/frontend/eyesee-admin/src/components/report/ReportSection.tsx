@@ -63,8 +63,8 @@ const ReportSection = ({ reportData }: ReportSectionType) => {
           <div>부정행위 유형별 통계</div>
           <div className="flex flex-col gap-2">
             {Object.entries(reportData.cheatingTypeStatistics).map(
-              ([type, count]) => (
-                <span key={type} className="border-b border-gray-500 px-3">
+              ([type, count], index) => (
+                <span key={index} className="border-b border-gray-500 px-3">
                   {type}: {count}건
                 </span>
               )

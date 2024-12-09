@@ -1,4 +1,5 @@
 export type testSesstion = {
+  examCode: string;
   examName: string;
   examStudentNumber: number;
   examDuration: number;
@@ -14,6 +15,7 @@ export type user = {
 };
 
 export const testSesstionData: testSesstion = {
+  examCode: "",
   examName: "융합캡스톤디자인 중간시험",
   examStudentNumber: 20,
   examDuration: 120,

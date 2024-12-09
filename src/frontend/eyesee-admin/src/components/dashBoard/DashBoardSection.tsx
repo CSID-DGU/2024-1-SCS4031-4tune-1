@@ -40,7 +40,10 @@ const DashBoardSection = ({
         />
       )}
       {codeModalOpen && (
-        <TestCodeModal setCodeModalOpen={setCodeModalOpen} code={"12345"} />
+        <TestCodeModal
+          setCodeModalOpen={setCodeModalOpen}
+          code={sesstionData.examCode}
+        />
       )}
       <div className="grow bg-[#0E1D3C] text-white p-10 h-screen overflow-scroll">
         <TestInfo

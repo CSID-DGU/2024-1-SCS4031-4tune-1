@@ -31,27 +31,29 @@ public class VideoController {
             @RequestParam("endOffset") String endOffset, // ISO 8601 형식 문자열
             @RequestPart("video") MultipartFile videoFile) {
         try {
-            System.out.println("컨트롤러 호출됨 - userId: " + userId);
-            System.out.println("파일 크기: " + videoFile.getSize());
+            log.info("컨트롤러 호출됨 - userId: {}, 파일 크기: {}", userId, videoFile.getSize());
 
             // ISO 8601 문자열을 LocalDateTime으로 변환
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME; // ISO 8601 형식 지원
             LocalDateTime startDateTime = LocalDateTime.parse(startOffset, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(endOffset, formatter);
 
-            System.out.println("시작 시간: " + startDateTime);
-            System.out.println("종료 시간: " + endDateTime);
+            log.info("시작 시간: {}, 종료 시간: {}", startDateTime, endDateTime);
 
             String videoUrl = videoService.saveVideo(userId, startDateTime, endDateTime, videoFile);
 
             return ResponseEntity.ok(videoUrl);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
-            log.error("날짜 형식 변환 오류: ", e);
+            log.error("날짜 형식 변환 오류 - startOffset: {}, endOffset: {}", startOffset, endOffset, e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 날짜 형식입니다.");
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            log.error("Failed to upload video", e);
+            log.error("비디오 업로드 오류 - 파일명: {}, 파일 크기: {}", videoFile.getOriginalFilename(), videoFile.getSize(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload video");
+        }   catch (Exception e) {
+            e.printStackTrace();
+            log.error("예상치 못한 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload video");
         }
     }

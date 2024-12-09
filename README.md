@@ -95,7 +95,9 @@
 <br>
 
 ## 4. 시스템 아키텍처
-<img width="912" alt="아키텍쳐" src="https://github.com/user-attachments/assets/e12629fb-eb3a-4d20-83ed-51c8aebed1e0">
+<img width="912" alt="아키텍쳐" src="https://github.com/user-attachments/assets/56390b53-3205-41f3-bc73-f9bb912a5cb2">
+
+
 
 
 <br><br>

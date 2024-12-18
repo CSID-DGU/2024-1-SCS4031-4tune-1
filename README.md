@@ -256,7 +256,7 @@ cd 2024-2-SCS4031-4tune-1/src/backend/Eyesee
 <br><br>
 
 # 🎬 시연 영상
-(링크)
+[시연영상 재생목록 바로가기🔗](https://www.youtube.com/watch?v=8RqMpJyir2c&list=PLyO3PgYXtUw9eYupEZ2P_5uqpYoCWhjXe&index=1)
 
 <br><br>
 

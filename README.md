@@ -4,9 +4,144 @@
 | **관리자**    | **수험자**        |
 |-------------|---------------------|
 | ![대시보드목업](https://github.com/user-attachments/assets/8110567a-1d4e-4b61-b5fe-4d968f14324d)     | ![모바일](https://github.com/user-attachments/assets/24ee359d-f08c-4bdf-b627-bf3cc1a97223)
+
+---
+## 로컬 환경 실행 방법
+
+### 프로젝트 clone
+```
+git clone https://github.com/CSID-DGU/2024-2-SCS4031-4tune-1.git
+```
+
+### 프론트엔드 로컬 환경 실행방법
+    
+**(1) 프론트엔드 env 파일 추가**
+
+```
+# frontend/eyesee-user/.env.local
+
+NEXT_PUBLIC_API_KEY= "http://localhost:8080"
+NEXT_PUBLIC_WEBSOCKET_KEY= "ws://localhost:8000/ws"
+```
+
+```
+# frontend/eyesee-admin/.env.local
+
+NEXT_PUBLIC_API_KEY= "http://localhost:8080"
+```
+
+**(2) 수험자 페이지 실행**
+
+```
+cd 2024-2-SCS4031-4tune-1/src/frontend/eyesee-user
+pnpm install
+pnpm dev
+```
+
+**(3) 관리자 페이지 실행**
+
+```
+cd 2024-2-SCS4031-4tune-1/src/frontend/eyesee-admin
+pnpm install
+pnpm dev
+```
+
+
+### AI 로컬 환경 실행방법
+
+- Python 3.10 환경에서 AI 서버 실행
+- requirements.txt 파일을 사용하여 필요한 라이브러리를 설치 및 uvicorn을 사용하여 서버 실행
+
+```
+python 3.10
+cd 2024-2-SCS4031-4tune-1/src/ai
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+
+### 백엔드 로컬 환경 실행방법
+    
+**- 필수 요구사항**
+
+- Java 17 이상
+- Gradle 7.6+
+- MySQL 데이터베이스
+
+<br />
+
+**- 설정 방법**
+
+(1) 데이터베이스 설정
+
+- MySQL 데이터베이스 생성
+- `application.properties` 파일에 데이터베이스 정보 설정
+
+```
+# MySQL
+spring.datasource.url=jdbc:mysql://localhost:3306/[데이터베이스 이름]?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.username="username"
+spring.datasource.password="password"
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+spring.jpa.show-sql=true
+```
+          
+(2) 환경 변수 설정
+
+```
+# application.properties
+
+# JWT
+jwt.secret=""
+jwt.expiration=360000
+jwt.refreshExpiration=604800000
+jwt.studentExpiration=7200
+
+# AWS
+aws.bucketName="bucket name"
+aws.region=ap-northeast-2
+aws.accessKey="access key"
+aws.secretKey="secret key"
+```
+ 
   
+(3) 필요한 의존성 설치
+- 프로젝트 루트 디렉터리에서 다음 명령어를 실행하여 의존성 설치
 
+```
+  ./gradlew build
+```
 
+<br />
+    
+**- 애플리케이션 실행 방법**
+
+(1) Gradle로 실행 
+- 프로젝트 디렉터리로 이동
+
+```
+cd 2024-2-SCS4031-4tune-1/src/backend/Eyesee
+```
+- Gradle 명령어로 애플리케이션 실행
+
+```
+./gradlew bootRun
+```
+
+(2) IDE로 실행
+1. IDE에서 프로젝트 열기
+2. `src/backend/Eyesee/src/main/java/com/fortune/eyesee` 디렉터리의 `EyeseeApplication.java` 파일 찾기
+3. 해당 파일의 `main` 메서드를 실행하여 애플리케이션 시작
+
+<br />
+
+---
+
+<br />
+<br />
 
 ## 1. 개발 동기 및 목표
 
@@ -105,12 +240,17 @@
 # ⚙️ 파트별 핵심 기술 
 
 ## 1. AI
+![image](https://github.com/user-attachments/assets/247d18f1-912d-480c-a39a-0d1df2aa9c45)
+![image](https://github.com/user-attachments/assets/affd4ec3-29d4-48f8-88ee-b024970639f4)
+
 
 
 ## 2. 프론트엔드
+![image](https://github.com/user-attachments/assets/efecb96c-673c-4dce-bcfd-bc0607cd36a8)
 
 
 ## 3. 백엔드
+![image](https://github.com/user-attachments/assets/80f7efc5-45d7-44b3-8b8a-c0ba4578fbd7)
 
 
 <br><br>

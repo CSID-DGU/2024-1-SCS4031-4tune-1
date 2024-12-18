@@ -1,9 +1,9 @@
 
-…python:S2208"GImport only needed names or import the module and then use its members.(³Âá…J$c6b3969f-5efd-4731-a9f5-0cf1a5fb16ee
-…python:S2208"GImport only needed names or import the module and then use its members.(íä‚ÓJ$508decab-1ef2-4975-bdcf-3a97a1bd9ab1
-™python:S3776"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(ÊËŠî8í¸„”¸2J$44cfa238-7822-4091-80a0-69abe57085ac
-}python:S11726"3Remove the unused function parameter "image_shape".(È°Çµøÿÿÿÿ8í¸„”¸2J$4fff8784-58f5-43c0-b590-a27ef0fa0c4e
-žpython:S3776D"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(÷”¯…ÿÿÿÿÿ8í¸„”¸2J$d9448521-e21e-49dd-a225-dff11f8ddbc3
-žpython:S3776^"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(…é€¬þÿÿÿÿ8í¸„”¸2J$cfb5d018-58e2-4fca-842a-027c9e89c8bb
-wpython:S1172v"-Remove the unused function parameter "pitch".(ƒ«Ýïúÿÿÿÿ8í¸„”¸2J$3a117867-bab9-4f83-84fc-861eb994e92a
-žpython:S3776v"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ƒ«Ýïúÿÿÿÿ8í¸„”¸2J$48c436e3-94ba-4da7-a970-68dd039ad1b2
+fpython:S2208"GImport only needed names or import the module and then use its members.(³Âá…8‚Û†×º2
+fpython:S2208"GImport only needed names or import the module and then use its members.(íä‚Ó8‚Û†×º2
+spython:S3776"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(ÊËŠî8ƒÛ†×º2
+Wpython:S11726"3Remove the unused function parameter "image_shape".(È°Çµøÿÿÿÿ8„Û†×º2
+xpython:S3776D"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(÷”¯…ÿÿÿÿÿ8„Û†×º2
+xpython:S3776^"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(…é€¬þÿÿÿÿ8„Û†×º2
+Qpython:S1172v"-Remove the unused function parameter "pitch".(ƒ«Ýïúÿÿÿÿ8…Û†×º2
+xpython:S3776v"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ƒ«Ýïúÿÿÿÿ8…Û†×º2

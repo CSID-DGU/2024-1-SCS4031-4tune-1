@@ -293,7 +293,7 @@ def update_cheating(user_id, exam_id, detections, face_present, head_pose, eye_c
     # 동적으로 탐지 로직 활성화
     if cheating_settings.get('OBJECT'):
         detect_object_presence(user_id, detections, cheating_flags, cheating_counts, cheating_messages, image_shape)
-    if cheating_settings.get('FACE_ABSENCE_LONG') or cheating_settings.get('FACE_ABSNCE_REPEAT'):
+    if cheating_settings.get('FACE_ABSENCE_LONG') or cheating_settings.get('FACE_ABSENCE_REPEAT'):
         detect_face_absence(user_id, face_present, start_times, cheating_flags, cheating_counts, face_absence_history, cheating_messages)
     if head_pose:
         pitch = head_pose['pitch']
